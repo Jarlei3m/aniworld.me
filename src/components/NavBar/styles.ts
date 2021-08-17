@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-export const NavbarContainer = styled.div`
+export const NavbarContainer = styled.aside`
   padding: 3.5rem 0;
-  max-width: 15rem;
+  max-width: 16rem;
   height: 100vh;
   border-right: 2px solid var(--gray-100);
 

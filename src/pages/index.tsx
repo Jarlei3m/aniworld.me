@@ -1,14 +1,14 @@
 import React from 'react';
-import { CenterSession } from '../components/CenterSession';
-import { MostPopular } from '../components/MostPopular';
+import { Hero } from '../components/Hero';
+import { RightAside } from '../components/RightAside';
 import { NavBar } from '../components/NavBar';
 
 export default function Home() {
   return (
     <>
       <NavBar />
-      <CenterSession />
-      <MostPopular />
+      <Hero />
+      <RightAside />
     </>
   );
 }
