@@ -43,5 +43,7 @@ export const Container = styled.div`
 
     border-radius: 50%;
     margin-left: auto;
+    object-fit: cover;
+    object-position: center;
   }
 `;

@@ -9,7 +9,7 @@ export const Container = styled.aside`
 `;
 
 export const Content = styled.div`
-  height: 100%;
   width: 19rem;
+  height: 100%;
   margin: 0 auto;
 `;

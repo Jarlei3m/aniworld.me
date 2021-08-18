@@ -4,25 +4,34 @@ export const Container = styled.section`
   margin-top: 3rem;
 
   ul {
-    margin: 2rem 0;
+    margin: 2.2rem 0;
 
     li {
       display: flex;
       align-items: center;
+      cursor: pointer;
 
       & + li {
         margin-top: 2rem;
       }
 
       img {
-        height: 5.2rem;
-        /* width: 5.2rem; */
+        /* max-height: 5.6rem; */
+        /* max-width: 5.2rem; */
         /* width: auto; */
+        /* width: 100%;
+          height: auto; */
+        max-width: 4.2rem;
+        height: 5.8rem;
         border-radius: 6px;
+
+        object-fit: cover;
+        object-position: center;
+        box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.2);
       }
 
       article {
-        height: 5.6rem;
+        height: 5.8rem;
         margin-left: 1.2rem;
         display: flex;
         flex-direction: column;
