@@ -2,9 +2,59 @@ import { useState } from 'react';
 import ReactPlayer from 'react-player';
 import { Container } from './styles';
 import { BsFillPlayFill } from 'react-icons/bs';
+import axios from 'axios';
 
 export function OnGoing() {
   const [isPlaying, setIsPlaying] = useState(false);
+
+  // let query = `
+  //   query ($id: Int) {
+  //     Media (id: $id, type: ANIME) {
+  //       id
+  //       title {
+  //         english
+  //       }
+  //     }
+  //   }
+  // `;
+
+  // let variables = {
+  //   id: 20,
+  // };
+
+  // let API_URL = 'https://graphql.anilist.co',
+  //   options = {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-type': 'application/json',
+  //       Accept: 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       query: query,
+  //       variables: variables,
+  //     }),
+  //   };
+
+  // http api request
+  // fetch(API_URL, options)
+  //   .then(handleResponse)
+  //   .then(handleData)
+  //   .catch(handleError);
+
+  // function handleResponse(response) {
+  //   return response.json().then(function (json) {
+  //     return response.ok ? json : Promise.reject(json);
+  //   });
+  // }
+
+  // function handleData(data) {
+  //   console.log('dados recebidos:', data);
+  // }
+
+  // function handleError(data) {
+  //   alert('Error, check console');
+  //   console.error(Error);
+  // }
 
   return (
     <Container>
