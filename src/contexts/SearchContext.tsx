@@ -10,25 +10,30 @@ interface PageInfo {
 }
 
 interface Animes {
+  id: number;
+  title: {
+    english: string;
+    romanji: string;
+  };
+  trailer: {
+    id: number;
+    site: string;
+    thumbnail: string;
+  };
   averageScore: number;
   coverImage: {
     large: string;
   };
   description: string;
   genres: Array<string>;
-  id: number;
-  title: {
-    english: string;
-    romanji: string;
-  };
 }
 
 interface SearchContextData {
   searchedAnime: Animes[];
   pageInfo: PageInfo;
-  isLoading: boolean;
+  isSearchLoading: boolean;
   getAnimeOnSearch: (animeTitle: string) => Promise<void>;
-  handleLoadMoreData: () => void;
+  handleLoadMoreSearchedAnimeData: () => void;
 }
 
 interface SearchProviderProps {
@@ -45,7 +50,7 @@ export function SearchProvider({ children }: SearchProviderProps) {
   const [pageInfo, setPageInfo] = useState();
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSearchLoading, setIsSearchLoading] = useState(false);
 
   function handleResponse(response) {
     return response.json().then(function (json) {
@@ -56,18 +61,18 @@ export function SearchProvider({ children }: SearchProviderProps) {
   function handleData(data) {
     setSearchedAnime(data.data.Page.media);
     setPageInfo(data.data.Page.pageInfo);
-    setIsLoading(false);
+    setIsSearchLoading(false);
     console.log(data.data);
   }
 
   function handleError(data) {
     // alert('Error, check console');
     console.error(Error);
-    setIsLoading(false);
+    setIsSearchLoading(false);
   }
 
   const getAnimeOnSearch = async (animeInput: string) => {
-    setIsLoading(true);
+    setIsSearchLoading(true);
     try {
       if (animeInput.length > 0) {
         setAnimeTitle(animeInput);
@@ -86,6 +91,11 @@ export function SearchProvider({ children }: SearchProviderProps) {
                 title {
                   english
                   romaji
+                }
+                trailer {
+                  id
+                  site
+                  thumbnail
                 }
                 averageScore
                 description
@@ -135,7 +145,7 @@ export function SearchProvider({ children }: SearchProviderProps) {
     getAnimeOnSearch(animeTitle);
   }, [perPage]);
 
-  function handleLoadMoreData() {
+  function handleLoadMoreSearchedAnimeData() {
     const newLimit = perPage + 5;
     setPerPage(newLimit);
   }
@@ -146,8 +156,8 @@ export function SearchProvider({ children }: SearchProviderProps) {
         getAnimeOnSearch,
         searchedAnime,
         pageInfo,
-        handleLoadMoreData,
-        isLoading,
+        handleLoadMoreSearchedAnimeData,
+        isSearchLoading,
       }}
     >
       {children}

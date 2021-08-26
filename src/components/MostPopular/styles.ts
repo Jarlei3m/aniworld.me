@@ -21,8 +21,8 @@ export const Container = styled.section`
         /* width: auto; */
         /* width: 100%;
           height: auto; */
-        max-width: 4.2rem;
-        height: 6rem;
+        width: 5rem;
+        height: 7rem;
         border-radius: 6px;
 
         object-fit: cover;
@@ -31,7 +31,7 @@ export const Container = styled.section`
       }
 
       article {
-        height: 6rem;
+        height: 7rem;
         margin-left: 1.2rem;
         display: flex;
         flex-direction: column;
