@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { createContext, ReactNode, useState } from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 
 interface PageInfo {
   total: number;
@@ -26,7 +26,9 @@ interface Animes {
 interface SearchContextData {
   searchedAnime: Animes[];
   pageInfo: PageInfo;
+  isLoading: boolean;
   getAnimeOnSearch: (animeTitle: string) => Promise<void>;
+  handleLoadMoreData: () => void;
 }
 
 interface SearchProviderProps {
@@ -39,9 +41,11 @@ export const SearchContext = createContext<SearchContextData>(
 
 export function SearchProvider({ children }: SearchProviderProps) {
   const [searchedAnime, setSearchedAnime] = useState<Animes[]>([]);
+  const [animeTitle, setAnimeTitle] = useState('');
   const [pageInfo, setPageInfo] = useState();
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleResponse(response) {
     return response.json().then(function (json) {
@@ -50,34 +54,23 @@ export function SearchProvider({ children }: SearchProviderProps) {
   }
 
   function handleData(data) {
-    console.log('dados recebidos:', data.data.Page);
-    // const { averageScore, coverImage, description, genres, id, title } = data.data.Media
-
-    // const { averageScore, coverImage, description, genres, id, title } =
-    //   data.data.Media;
-
-    // const formattedData {
-    //   score: averageScore,
-    //   coverImage,
-    //   description,
-    //   allGenres: genres.toString(),
-    //   id,
-    //   title
-    // }
-
     setSearchedAnime(data.data.Page.media);
     setPageInfo(data.data.Page.pageInfo);
-    // console.log('dado recebido:', data.data.Media);
+    setIsLoading(false);
+    console.log(data.data);
   }
 
   function handleError(data) {
     // alert('Error, check console');
     console.error(Error);
+    setIsLoading(false);
   }
 
-  const getAnimeOnSearch = async (animeTitle: string) => {
+  const getAnimeOnSearch = async (animeInput: string) => {
+    setIsLoading(true);
     try {
-      if (animeTitle.length > 1) {
+      if (animeInput.length > 0) {
+        setAnimeTitle(animeInput);
         let query = `
           query ($search: String, $page: Int, $perPage: Int) {
             Page (page: $page, perPage: $perPage) {
@@ -106,7 +99,7 @@ export function SearchProvider({ children }: SearchProviderProps) {
         `;
 
         let variables = {
-          search: animeTitle,
+          search: animeInput,
           page: page,
           perPage: perPage,
         };
@@ -131,17 +124,31 @@ export function SearchProvider({ children }: SearchProviderProps) {
           .catch(handleError);
       } else {
         setSearchedAnime([]);
+        setAnimeTitle('');
       }
     } catch (err) {
       console.log(err);
     }
   };
 
-  console.log('SA on context:', searchedAnime);
+  useEffect(() => {
+    getAnimeOnSearch(animeTitle);
+  }, [perPage]);
+
+  function handleLoadMoreData() {
+    const newLimit = perPage + 5;
+    setPerPage(newLimit);
+  }
 
   return (
     <SearchContext.Provider
-      value={{ getAnimeOnSearch, searchedAnime, pageInfo }}
+      value={{
+        getAnimeOnSearch,
+        searchedAnime,
+        pageInfo,
+        handleLoadMoreData,
+        isLoading,
+      }}
     >
       {children}
     </SearchContext.Provider>

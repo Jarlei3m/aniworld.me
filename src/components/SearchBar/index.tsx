@@ -10,28 +10,9 @@ export function SearchBar() {
   const { getAnimeOnSearch } = useContext(SearchContext);
   const [animeTitle, setAnimeTitle] = useState('');
 
-  // async function handleSearch(title: string) {
-  //   setAnimeTitle(title);
-  //   getAnimeOnSearch(animeTitle);
-  //   console.log(title);
-  // }
-
-  // useEffect(() => {
-  //   getAnimeOnSearch(animeTitle);
-  // }, [animeTitle]);
-
-  // const searchAnime = async (title: string) => {
-  //   try {
-  //     const response = await axios.get(
-  //       `https://api.jikan.moe/v3/search/anime?q=${title}&order_by=member&sort=desc&limit=5`,
-  //     );
-  //     const data = response.data.results;
-
-  //     console.log(data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  useEffect(() => {
+    getAnimeOnSearch(animeTitle);
+  }, [animeTitle]);
 
   return (
     <Container>
@@ -43,8 +24,8 @@ export function SearchBar() {
           id="search"
           type="text"
           placeholder="Search..."
-          // value={animeTitle}
-          onChange={(e) => getAnimeOnSearch(e.target.value)}
+          value={animeTitle}
+          onChange={(e) => setAnimeTitle(e.target.value)}
         />
       </div>
 

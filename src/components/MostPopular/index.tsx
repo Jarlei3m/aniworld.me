@@ -8,30 +8,29 @@ import { SearchContext } from '../../contexts/SearchContext';
 export function MostPopular() {
   const [popularThisWeek, setPopularThisWeek] = useState([]);
   const [limit, setLimit] = useState(5);
-  const [isLoading, setIsLoading] = useState(false);
 
-  const { searchedAnime } = useContext(SearchContext);
+  const { searchedAnime, pageInfo, handleLoadMoreData, isLoading } =
+    useContext(SearchContext);
   console.log('teste:', searchedAnime);
 
   useEffect(() => {
-    setIsLoading(true);
     try {
       axios
         .get(
           `https://api.jikan.moe/v3/search/anime?q=&order_by=members&sort=desc&limit=${limit}`,
         )
         .then((data) => setPopularThisWeek(data.data.results));
-
-      setIsLoading(false);
     } catch (err) {
       console.log(err);
     }
   }, [limit]);
 
-  function loadMore() {
+  function loadMoreData() {
     const newLimit = limit + 5;
     setLimit(newLimit);
   }
+
+  console.log(searchedAnime.length);
 
   return (
     <Container>
@@ -69,6 +68,11 @@ export function MostPopular() {
               );
             })}
           </ul>
+          {pageInfo?.hasNextPage && (
+            <button type="button" onClick={() => handleLoadMoreData()}>
+              {isLoading ? 'Loading...' : 'See More'}
+            </button>
+          )}
         </>
       ) : (
         <>
@@ -98,8 +102,8 @@ export function MostPopular() {
             })}
           </ul>
 
-          <button type="button" onClick={() => loadMore()}>
-            {isLoading ? 'Loading...' : 'See More'}
+          <button type="button" onClick={() => loadMoreData()}>
+            See More
           </button>
         </>
       )}
