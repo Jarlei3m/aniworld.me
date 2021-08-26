@@ -5,10 +5,9 @@ import axios from 'axios';
 import { useState } from 'react';
 import { SearchContext } from '../../contexts/SearchContext';
 import { MostPopularContext } from '../../contexts/MostPopularContext';
+import { Loading } from '../Loading';
 
 export function MostPopular() {
-  const [limit, setLimit] = useState(5);
-
   // SEARCH CONTEXT
   const {
     searchedAnime,
@@ -45,7 +44,7 @@ export function MostPopular() {
                   <img src={coverImage.large} alt={title.english} />
                   <article>
                     <div>
-                      <h4>{title.english}</h4>
+                      <h4>{title.english ? title.english : title.romanji}</h4>
                       <p>{genres.toString().replaceAll(',', ', ') + '.'}</p>
                     </div>
                     <span>
@@ -60,14 +59,7 @@ export function MostPopular() {
               );
             })}
           </ul>
-          {pageInfo?.hasNextPage && (
-            <button
-              type="button"
-              onClick={() => handleLoadMoreSearchedAnimeData()}
-            >
-              {isSearchLoading ? 'Loading...' : 'See More'}
-            </button>
-          )}
+          {pageInfo?.hasNextPage && <Loading />}
         </>
       ) : (
         <>
@@ -88,7 +80,7 @@ export function MostPopular() {
                   <img src={coverImage.large} alt={title.english} />
                   <article>
                     <div>
-                      <h4>{title.english}</h4>
+                      <h4>{title.english ? title.english : title.romanji}</h4>
                       <p>{genres.toString().replaceAll(',', ', ') + '.'}</p>
                     </div>
                     <span>
@@ -103,10 +95,7 @@ export function MostPopular() {
               );
             })}
           </ul>
-
-          <button type="button" onClick={() => handleLoadMoreMostPopularData()}>
-            {isMostPopularLoading ? 'Loading...' : 'See More'}
-          </button>
+          {isMostPopularLoading && <Loading />}
         </>
       )}
     </Container>

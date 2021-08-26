@@ -7,16 +7,16 @@ import { SearchContext } from '../../contexts/SearchContext';
 import { useEffect } from 'react';
 
 export function SearchBar() {
-  const { getAnimeOnSearch } = useContext(SearchContext);
+  const { fetchAnimeOnSearch } = useContext(SearchContext);
   const [animeTitle, setAnimeTitle] = useState('');
 
   useEffect(() => {
-    getAnimeOnSearch(animeTitle);
+    fetchAnimeOnSearch(animeTitle);
   }, [animeTitle]);
 
   return (
     <Container>
-      <div>
+      <form>
         <label htmlFor="search">
           <FiSearch />
         </label>
@@ -27,7 +27,7 @@ export function SearchBar() {
           value={animeTitle}
           onChange={(e) => setAnimeTitle(e.target.value)}
         />
-      </div>
+      </form>
 
       <img
         src="https://xesque.rocketseat.dev/users/avatar/profile-029ff02b-a8cb-4868-aafc-8556229c6c9f-1616845350093.jpg"

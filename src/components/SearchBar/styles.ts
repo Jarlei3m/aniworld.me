@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const Container = styled.form`
   display: flex;
   align-items: center;
 
-  div {
+  form {
     background: var(--gray-100);
     border-radius: 20px;
 

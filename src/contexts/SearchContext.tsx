@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { createContext, ReactNode, useEffect, useState } from 'react';
 
 interface PageInfo {
@@ -32,7 +31,7 @@ interface SearchContextData {
   searchedAnime: Animes[];
   pageInfo: PageInfo;
   isSearchLoading: boolean;
-  getAnimeOnSearch: (animeTitle: string) => Promise<void>;
+  fetchAnimeOnSearch: (animeTitle: string) => Promise<void>;
   handleLoadMoreSearchedAnimeData: () => void;
 }
 
@@ -52,6 +51,18 @@ export function SearchProvider({ children }: SearchProviderProps) {
   const [perPage, setPerPage] = useState(5);
   const [isSearchLoading, setIsSearchLoading] = useState(false);
 
+  useEffect(() => {
+    const event = window.addEventListener('scroll', () => {
+      if (
+        !isSearchLoading &&
+        window.innerHeight + window.scrollY >= document.body.scrollHeight - 10
+      ) {
+        handleLoadMoreSearchedAnimeData();
+      }
+    });
+    return () => window.removeEventListener('scroll', event);
+  }, []);
+
   function handleResponse(response) {
     return response.json().then(function (json) {
       return response.ok ? json : Promise.reject(json);
@@ -62,7 +73,6 @@ export function SearchProvider({ children }: SearchProviderProps) {
     setSearchedAnime(data.data.Page.media);
     setPageInfo(data.data.Page.pageInfo);
     setIsSearchLoading(false);
-    console.log(data.data);
   }
 
   function handleError(data) {
@@ -71,7 +81,7 @@ export function SearchProvider({ children }: SearchProviderProps) {
     setIsSearchLoading(false);
   }
 
-  const getAnimeOnSearch = async (animeInput: string) => {
+  const fetchAnimeOnSearch = async (animeInput: string) => {
     setIsSearchLoading(true);
     try {
       if (animeInput.length > 0) {
@@ -135,6 +145,7 @@ export function SearchProvider({ children }: SearchProviderProps) {
       } else {
         setSearchedAnime([]);
         setAnimeTitle('');
+        setPerPage(5);
       }
     } catch (err) {
       console.log(err);
@@ -142,18 +153,19 @@ export function SearchProvider({ children }: SearchProviderProps) {
   };
 
   useEffect(() => {
-    getAnimeOnSearch(animeTitle);
+    fetchAnimeOnSearch(animeTitle);
   }, [perPage]);
 
   function handleLoadMoreSearchedAnimeData() {
-    const newLimit = perPage + 5;
-    setPerPage(newLimit);
+    setPerPage((oldPerPage) => {
+      return oldPerPage + 5;
+    });
   }
 
   return (
     <SearchContext.Provider
       value={{
-        getAnimeOnSearch,
+        fetchAnimeOnSearch,
         searchedAnime,
         pageInfo,
         handleLoadMoreSearchedAnimeData,

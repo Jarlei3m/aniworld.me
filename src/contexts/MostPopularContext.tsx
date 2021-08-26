@@ -50,8 +50,19 @@ export function MostPopularProvider({ children }: MostPopularProviderProps) {
   const [mostPouplarAnimes, setMostPopularAnimes] = useState<Animes[]>([]);
 
   useEffect(() => {
-    console.log('calling function');
-    getMostPopularAnimes();
+    fetchMostPopularAnimes();
+  }, []);
+
+  useEffect(() => {
+    const event = window.addEventListener('scroll', () => {
+      if (
+        !isMostPopularLoading &&
+        window.innerHeight + window.scrollY >= document.body.scrollHeight - 10
+      ) {
+        handleLoadMoreMostPopularData();
+      }
+    });
+    return () => window.removeEventListener('scroll', event);
   }, []);
 
   function handleResponse(response) {
@@ -64,7 +75,7 @@ export function MostPopularProvider({ children }: MostPopularProviderProps) {
     setMostPopularAnimes(data.data.Page.media);
     setPageInfo(data.data.Page.pageInfo);
     setIsMostPopularLoading(false);
-    console.log('most popular:', data.data);
+    console.log('most popular:', page);
   }
 
   function handleError(data) {
@@ -73,7 +84,7 @@ export function MostPopularProvider({ children }: MostPopularProviderProps) {
     setIsMostPopularLoading(false);
   }
 
-  const getMostPopularAnimes = () => {
+  const fetchMostPopularAnimes = () => {
     setIsMostPopularLoading(true);
     try {
       let query = `
@@ -137,12 +148,13 @@ export function MostPopularProvider({ children }: MostPopularProviderProps) {
   };
 
   useEffect(() => {
-    getMostPopularAnimes();
+    fetchMostPopularAnimes();
   }, [perPage]);
 
   function handleLoadMoreMostPopularData() {
-    const newLimit = perPage + 5;
-    setPerPage(newLimit);
+    setPerPage((oldPerPage) => {
+      return oldPerPage + 5;
+    });
   }
 
   return (
