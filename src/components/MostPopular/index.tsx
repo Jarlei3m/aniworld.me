@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { SearchContext } from '../../contexts/SearchContext';
 import { MostPopularContext } from '../../contexts/MostPopularContext';
 import { Loading } from '../Loading';
+import { Stars } from '../Stars';
 
 export function MostPopular() {
   // SEARCH CONTEXT
@@ -47,13 +48,7 @@ export function MostPopular() {
                       <h4>{title.english ? title.english : title.romanji}</h4>
                       <p>{genres.toString().replaceAll(',', ', ') + '.'}</p>
                     </div>
-                    <span>
-                      <BsStarFill />
-                      <BsStarFill />
-                      <BsStarFill />
-                      <BsStarHalf />
-                      <BsStar />
-                    </span>
+                    <Stars averageScore={averageScore} />
                   </article>
                 </li>
               );
@@ -83,13 +78,7 @@ export function MostPopular() {
                       <h4>{title.english ? title.english : title.romanji}</h4>
                       <p>{genres.toString().replaceAll(',', ', ') + '.'}</p>
                     </div>
-                    <span>
-                      <BsStarFill />
-                      <BsStarFill />
-                      <BsStarFill />
-                      <BsStarHalf />
-                      <BsStar />
-                    </span>
+                    <Stars averageScore={averageScore} />
                   </article>
                 </li>
               );

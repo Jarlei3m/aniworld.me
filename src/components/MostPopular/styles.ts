@@ -50,7 +50,7 @@ export const Container = styled.section`
           }
         }
 
-        span {
+        /* span {
           svg {
             color: var(--yellow-500);
             height: 1.1rem;
@@ -59,7 +59,7 @@ export const Container = styled.section`
               margin-left: 0.4rem;
             }
           }
-        }
+        } */
       }
     }
   }
