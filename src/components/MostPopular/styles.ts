@@ -21,8 +21,8 @@ export const Container = styled.section`
         /* width: auto; */
         /* width: 100%;
           height: auto; */
-        width: 5rem;
-        height: 7rem;
+        width: 4.2rem;
+        height: 5.8rem;
         border-radius: 6px;
 
         object-fit: cover;
@@ -31,7 +31,7 @@ export const Container = styled.section`
       }
 
       article {
-        height: 7rem;
+        height: 5.8rem;
         margin-left: 1.2rem;
         display: flex;
         flex-direction: column;
@@ -49,17 +49,6 @@ export const Container = styled.section`
             line-height: 1.125rem;
           }
         }
-
-        /* span {
-          svg {
-            color: var(--yellow-500);
-            height: 1.1rem;
-            width: 1.1rem;
-            & + svg {
-              margin-left: 0.4rem;
-            }
-          }
-        } */
       }
     }
   }

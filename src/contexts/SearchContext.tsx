@@ -96,7 +96,7 @@ export function SearchProvider({ children }: SearchProviderProps) {
                 lastPage
                 hasNextPage
               }
-              media (type: ANIME, search: $search) {
+              media (type: ANIME, search: $search, isAdult: false) {
                 id
                 title {
                   english

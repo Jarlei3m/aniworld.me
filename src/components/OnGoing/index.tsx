@@ -2,59 +2,23 @@ import { useState } from 'react';
 import ReactPlayer from 'react-player';
 import { Container } from './styles';
 import { BsFillPlayFill } from 'react-icons/bs';
-import axios from 'axios';
 
 export function OnGoing() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
 
-  // let query = `
-  //   query ($id: Int) {
-  //     Media (id: $id, type: ANIME) {
-  //       id
-  //       title {
-  //         english
-  //       }
-  //     }
-  //   }
-  // `;
+  function handleOnMouseHover() {
+    setIsPlaying(true);
+    setIsMuted(false);
+  }
 
-  // let variables = {
-  //   id: 20,
-  // };
+  function handleOnMouseLeave() {
+    setIsPlaying(false);
+    setIsMuted(true);
+  }
 
-  // let API_URL = 'https://graphql.anilist.co',
-  //   options = {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-type': 'application/json',
-  //       Accept: 'application/json',
-  //     },
-  //     body: JSON.stringify({
-  //       query: query,
-  //       variables: variables,
-  //     }),
-  //   };
-
-  // http api request
-  // fetch(API_URL, options)
-  //   .then(handleResponse)
-  //   .then(handleData)
-  //   .catch(handleError);
-
-  // function handleResponse(response) {
-  //   return response.json().then(function (json) {
-  //     return response.ok ? json : Promise.reject(json);
-  //   });
-  // }
-
-  // function handleData(data) {
-  //   console.log('dados recebidos:', data);
-  // }
-
-  // function handleError(data) {
-  //   alert('Error, check console');
-  //   console.error(Error);
-  // }
+  console.log('mouse enter');
+  console.log(isPlaying);
 
   return (
     <Container>
@@ -64,11 +28,17 @@ export function OnGoing() {
         <div>
           <ReactPlayer
             controls={true}
+            onMouseEnter={() => handleOnMouseHover()}
+            onMouseLeave={() => handleOnMouseLeave()}
             onClickPreview={() => setIsPlaying(true)}
-            light="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRwR3ZmKiXXNTkfYhDkHh2kdAH1TkPn9wqQw&usqp=CAU"
-            playing={isPlaying}
+            light={
+              !isPlaying &&
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRwR3ZmKiXXNTkfYhDkHh2kdAH1TkPn9wqQw&usqp=CAU'
+            }
             playIcon={<BsFillPlayFill />}
-            url="https://imdb-video.media-imdb.com/vi515506457/1434659607842-pgv4ql-1564525021695.mp4?Expires=1629325365&Signature=ZMK2~qQJHKRppR7G~3z9gBVVpTQ0mjoBxnTS4889uPZ5tnciCkbIxjif~NqKqZ61QTEy3plik4TSLe3Pnvhq8O8374dTYZTOiD4nK19qpeV0hITIXinXGbYixm8~SXMg1i3Qx~v-64vgPlC5gEZ8w9jZByKsZPOMkuhjVTMGbBxIJ9yfiM9yz1CR8kN5cXnaSggiXfATS3nfo27h0v1s2ZfmfJaSRO8ybFiabvVf89ZI7H~VPNKhbKi-pKwKKfR4TzL-~ITAFNlXIHURc5tJ40m-uceqpieJztxKpgnJ8c2Q2U~S8ZihTScPhrGIHkVcKbDZR7md~joIwNVlBlAANw__&Key-Pair-Id=APKAIFLZBVQZ24NQH3KA"
+            playing={isPlaying}
+            muted={isMuted}
+            url="https://www.youtube.com/watch?v=dVPzv9qwKl0"
           />
 
           <h4>Berserk</h4>

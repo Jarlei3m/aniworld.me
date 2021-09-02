@@ -21,49 +21,49 @@ interface Animes {
   };
   averageScore: number;
   coverImage: {
-    large: string;
+    extraLarge: string;
   };
   description: string;
   genres: Array<string>;
 }
 
-interface MostPopularContextData {
+interface TrendingContextData {
   pageInfo: PageInfo;
-  isMostPopularLoading: boolean;
-  mostPouplarAnimes: Animes[];
-  handleLoadMoreMostPopularData: () => void;
+  isTrendingLoading: boolean;
+  trendingAnimes: Animes[];
+  // handleLoadMoreTrendingData: () => void;
 }
 
-interface MostPopularProviderProps {
+interface TrendingProviderProps {
   children: ReactNode;
 }
 
-export const MostPopularContext = createContext<MostPopularContextData>(
-  {} as MostPopularContextData,
+export const TrendingContext = createContext<TrendingContextData>(
+  {} as TrendingContextData,
 );
 
-export function MostPopularProvider({ children }: MostPopularProviderProps) {
+export function TrendingProvider({ children }: TrendingProviderProps) {
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(6);
+  const [perPage, setPerPage] = useState(5);
   const [pageInfo, setPageInfo] = useState();
-  const [isMostPopularLoading, setIsMostPopularLoading] = useState(false);
-  const [mostPouplarAnimes, setMostPopularAnimes] = useState<Animes[]>([]);
+  const [isTrendingLoading, setIsTrendingLoading] = useState(false);
+  const [trendingAnimes, setTrendingAnimes] = useState<Animes[]>([]);
 
   useEffect(() => {
-    fetchMostPopularAnimes();
+    fetchTrendingAnimes();
   }, []);
 
-  useEffect(() => {
-    const event = window.addEventListener('scroll', () => {
-      if (
-        !isMostPopularLoading &&
-        window.innerHeight + window.scrollY >= document.body.scrollHeight - 10
-      ) {
-        handleLoadMoreMostPopularData();
-      }
-    });
-    return () => window.removeEventListener('scroll', event);
-  }, []);
+  // useEffect(() => {
+  //   const event = window.addEventListener('scroll', () => {
+  //     if (
+  //       !isTrendingLoading &&
+  //       window.innerHeight + window.scrollY >= document.body.scrollHeight - 10
+  //     ) {
+  //       handleLoadMoreTrendingData();
+  //     }
+  //   });
+  //   return () => window.removeEventListener('scroll', event);
+  // }, []);
 
   function handleResponse(response) {
     return response.json().then(function (json) {
@@ -72,20 +72,28 @@ export function MostPopularProvider({ children }: MostPopularProviderProps) {
   }
 
   function handleData(data) {
-    setMostPopularAnimes(data.data.Page.media);
+    const filteredTrendingAnimes = data.data.Page.media.filter(
+      (anime) => anime.trailer !== null,
+    );
+
+    if (filteredTrendingAnimes.length < 5) {
+      const acc = 5 - filteredTrendingAnimes.length;
+      setPerPage(perPage + acc);
+    }
+
+    setTrendingAnimes(filteredTrendingAnimes);
     setPageInfo(data.data.Page.pageInfo);
-    setIsMostPopularLoading(false);
-    console.log('most popular:', page);
+    setIsTrendingLoading(false);
   }
 
   function handleError(data) {
     // alert('Error, check console');
     console.error(Error);
-    setIsMostPopularLoading(false);
+    setIsTrendingLoading(false);
   }
 
-  const fetchMostPopularAnimes = () => {
-    setIsMostPopularLoading(true);
+  const fetchTrendingAnimes = () => {
+    setIsTrendingLoading(true);
     try {
       let query = `
         query ($page: Int, $perPage: Int) {
@@ -97,7 +105,7 @@ export function MostPopularProvider({ children }: MostPopularProviderProps) {
               lastPage
               hasNextPage
             }
-            media (type: ANIME, sort: POPULARITY_DESC, isAdult: false) {
+            media (type: ANIME, sort: TRENDING_DESC, isAdult: false) {
               id
               title {
                 english
@@ -112,7 +120,7 @@ export function MostPopularProvider({ children }: MostPopularProviderProps) {
               description
               genres
               coverImage {
-                large
+                extraLarge
               }
             }
           }
@@ -148,25 +156,25 @@ export function MostPopularProvider({ children }: MostPopularProviderProps) {
   };
 
   useEffect(() => {
-    fetchMostPopularAnimes();
+    fetchTrendingAnimes();
   }, [perPage]);
 
-  function handleLoadMoreMostPopularData() {
-    setPerPage((oldPerPage) => {
-      return oldPerPage + 5;
-    });
-  }
+  // function handleLoadMoreTrendingData() {
+  //   setPerPage((oldPerPage) => {
+  //     return oldPerPage + 5;
+  //   });
+  // }
 
   return (
-    <MostPopularContext.Provider
+    <TrendingContext.Provider
       value={{
         pageInfo,
-        isMostPopularLoading,
-        mostPouplarAnimes,
-        handleLoadMoreMostPopularData,
+        isTrendingLoading,
+        trendingAnimes,
+        // handleLoadMoreTrendingData,
       }}
     >
       {children}
-    </MostPopularContext.Provider>
+    </TrendingContext.Provider>
   );
 }
