@@ -1,4 +1,5 @@
 import { useState, useContext } from 'react';
+import Link from 'next/link';
 import ReactPlayer from 'react-player';
 import { Container, InfoContainer } from './styles';
 import { BsFillPlayFill } from 'react-icons/bs';
@@ -49,7 +50,12 @@ export function Trending() {
 
   return (
     <Container id="trending">
-      <h2>Trending</h2>
+      <h2>
+        Trending{' '}
+        <span title="See more trending topics animes">
+          <Link href="/trending"> see more </Link>
+        </span>
+      </h2>
 
       <div>
         {slideCounter > 0 && (
@@ -91,8 +97,9 @@ export function Trending() {
                   }
                 />
 
-                <h4>{title.english ? title.english : title.romanji}</h4>
-                <span>Trailer</span>
+                <Link href="/">
+                  {title.english ? title.english : title.romanji}
+                </Link>
               </li>
             );
           })}

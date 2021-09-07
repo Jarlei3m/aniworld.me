@@ -6,7 +6,23 @@ export const Container = styled.section`
   margin-top: 1.5rem;
   padding-bottom: 1.6rem;
   overflow: hidden;
-  /* position: relative; */
+
+  h2 {
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+
+    span {
+      font-size: 0.8rem;
+      color: var(--gray-300);
+      margin-left: 0.5rem;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: var(--green-500);
+      }
+    }
+  }
 
   div {
     display: flex;
@@ -42,12 +58,6 @@ export const Container = styled.section`
         color: var(--white);
       }
     }
-  }
-
-  h2 {
-    font-size: 1.1rem;
-    font-weight: 400;
-    margin-bottom: 1rem;
   }
 
   ul {
@@ -94,12 +104,12 @@ export const Container = styled.section`
 
       iframe,
       video {
-        width: 17.2rem;
+        width: 19.5rem;
         height: 18rem;
         border-radius: 12px;
         cursor: pointer;
         position: absolute;
-        /* transform: translate3d(-1rem, -1rem, 0); */
+        transform: translate3d(-1.15rem, 0, 0);
         z-index: 5;
       }
 
@@ -108,14 +118,17 @@ export const Container = styled.section`
         height: 2.6rem;
       }
 
-      h4 {
+      a {
         font-size: 0.925rem;
+        font-weight: bold;
         margin-top: 0.5rem;
-      }
+        cursor: pointer;
+        display: inline-block;
+        transition: color 0.2s ease;
 
-      span {
-        font-size: 0.8rem;
-        color: var(--gray-300);
+        &:hover {
+          color: var(--green-500);
+        }
       }
     }
   }
