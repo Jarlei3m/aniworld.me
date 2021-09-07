@@ -31,7 +31,7 @@ interface TrendingContextData {
   pageInfo: PageInfo;
   isTrendingLoading: boolean;
   trendingAnimes: Animes[];
-  // handleLoadMoreTrendingData: () => void;
+  handleLoadMoreTrendingData: (fetchCounter: number) => void;
 }
 
 interface TrendingProviderProps {
@@ -53,17 +53,9 @@ export function TrendingProvider({ children }: TrendingProviderProps) {
     fetchTrendingAnimes();
   }, []);
 
-  // useEffect(() => {
-  //   const event = window.addEventListener('scroll', () => {
-  //     if (
-  //       !isTrendingLoading &&
-  //       window.innerHeight + window.scrollY >= document.body.scrollHeight - 10
-  //     ) {
-  //       handleLoadMoreTrendingData();
-  //     }
-  //   });
-  //   return () => window.removeEventListener('scroll', event);
-  // }, []);
+  useEffect(() => {
+    fetchTrendingAnimes();
+  }, [perPage]);
 
   function handleResponse(response) {
     return response.json().then(function (json) {
@@ -159,19 +151,20 @@ export function TrendingProvider({ children }: TrendingProviderProps) {
     fetchTrendingAnimes();
   }, [perPage]);
 
-  // function handleLoadMoreTrendingData() {
-  //   setPerPage((oldPerPage) => {
-  //     return oldPerPage + 5;
-  //   });
-  // }
+  function handleLoadMoreTrendingData(fetchCounter: number) {
+    setPerPage((oldPerPage) => {
+      return oldPerPage * fetchCounter;
+    });
+  }
 
+  console.log(trendingAnimes);
   return (
     <TrendingContext.Provider
       value={{
         pageInfo,
         isTrendingLoading,
         trendingAnimes,
-        // handleLoadMoreTrendingData,
+        handleLoadMoreTrendingData,
       }}
     >
       {children}

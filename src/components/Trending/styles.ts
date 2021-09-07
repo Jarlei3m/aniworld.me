@@ -1,10 +1,48 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const Container = styled.section`
   max-width: 100%;
-  height: 16.5rem;
+  height: auto;
   margin-top: 1.5rem;
+  padding-bottom: 1.6rem;
   overflow: hidden;
+  /* position: relative; */
+
+  div {
+    display: flex;
+    align-items: center;
+
+    position: relative;
+
+    button {
+      position: absolute;
+      height: 100%;
+      width: 2.24rem;
+      z-index: 3;
+      border: none;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px 0 0 12px;
+      transition: background 0.2s;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.6);
+      }
+
+      &:last-child {
+        right: 0;
+      }
+
+      &:first-child {
+        left: 0;
+      }
+
+      svg {
+        font-size: 2.5rem;
+        z-index: 3;
+        color: var(--white);
+      }
+    }
+  }
 
   h2 {
     font-size: 1.1rem;
@@ -12,27 +50,57 @@ export const Container = styled.div`
     margin-bottom: 1rem;
   }
 
-  section {
+  ul {
     display: flex;
-    align-items: center;
+    align-items: top;
     /* justify-content: center; */
+    transition: transform 1s ease;
+
+    &.translate {
+      /* transform: translateX(-74.8rem); */
+    }
 
     div {
-      max-width: 17.75rem;
-      max-height: 10rem;
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 12px;
+    }
+
+    /* div, */
+    li {
+      width: 17.2rem;
+      max-height: 18rem;
       border-radius: 12px;
       box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s;
 
-      & + div {
+      /* hover effect */
+      /* &:hover {
+        max-width: 20rem;
+        max-height: 15rem;
+        background-color: var(--gray-500);
+
+        iframe,
+        video {
+          width: 20rem;
+          height: 10rem;
+          border-radius: 12px 12px 0 0;
+        }
+      } */
+
+      & + li {
         margin-left: 1.5rem;
       }
 
       iframe,
       video {
-        width: 17.75rem;
-        height: 10rem;
+        width: 17.2rem;
+        height: 18rem;
         border-radius: 12px;
         cursor: pointer;
+        position: absolute;
+        /* transform: translate3d(-1rem, -1rem, 0); */
+        z-index: 5;
       }
 
       svg {
@@ -51,4 +119,10 @@ export const Container = styled.div`
       }
     }
   }
+`;
+
+export const InfoContainer = styled.div`
+  width: 100%;
+  height: auto;
+  padding: 0.5rem 1rem;
 `;
