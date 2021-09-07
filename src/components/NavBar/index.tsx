@@ -1,4 +1,5 @@
 import { NavbarContainer } from './styles';
+import Link from 'next/link';
 import {
   AiFillHome,
   AiOutlineUnorderedList,
@@ -19,56 +20,56 @@ export function NavBar() {
         <ul>
           <li className="active">
             <AiFillHome />
-            <a href="#">Home</a>
+            <Link href="#">Home</Link>
           </li>
           <li>
             <BiTrendingUp />
-            <a href="#">Trending</a>
+            <Link href="#trending">Trending</Link>
           </li>
           <li>
             <RiCompassDiscoverFill />
-            <a href="#">Discover</a>
+            <Link href="#">Discover</Link>
           </li>
         </ul>
 
         <ul>
           <li>
             <AiFillHome />
-            <a href="#">Recent</a>
+            <Link href="#">Recent</Link>
           </li>
           <li>
             <AiOutlineUnorderedList />
-            <a href="#">Anime List</a>
+            <Link href="#">Anime List</Link>
           </li>
         </ul>
 
         <ul>
           <li>
             <TiArrowRepeat />
-            <a href="#">On Going</a>
+            <Link href="#">On Going</Link>
           </li>
           <li>
             <AiFillCheckCircle />
-            <a href="#">Completed</a>
+            <Link href="#">Completed</Link>
           </li>
           <li>
             <MdLocalMovies />
-            <a href="#">Movies</a>
+            <Link href="#">Movies</Link>
           </li>
           <li>
             <GiNinjaHeroicStance />
-            <a href="#">Live Action</a>
+            <Link href="#">Live Action</Link>
           </li>
         </ul>
 
         <ul>
           <li>
             <MdSettings />
-            <a href="#">Settings</a>
+            <Link href="#">Settings</Link>
           </li>
           <li>
             <GiExitDoor />
-            <a href="#">Log Out</a>
+            <Link href="#">Log Out</Link>
           </li>
         </ul>
       </nav>

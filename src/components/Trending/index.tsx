@@ -48,7 +48,7 @@ export function Trending() {
   console.log('slideCounter:', slideCounter);
 
   return (
-    <Container>
+    <Container id="trending">
       <h2>Trending</h2>
 
       <div>

@@ -12,7 +12,7 @@ export const GlobalStyle = createGlobalStyle`
     justify-content: space-between;
   }
 
-  :root {
+    :root {
     --white: #FFFFFF;
 
     --gray-100: #60606634;
@@ -25,6 +25,10 @@ export const GlobalStyle = createGlobalStyle`
     --green-500: #84f8b8;
 
     --yellow-500: #f3ef0b;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
