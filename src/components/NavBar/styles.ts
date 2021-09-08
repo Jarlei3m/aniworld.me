@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const NavbarContainer = styled.aside`
   padding: 3.5rem 0;
   max-width: 16rem;
-  height: 100%;
+  /* height: 100%; */
   border-right: 2px solid var(--gray-100);
 
   /* display: flex;

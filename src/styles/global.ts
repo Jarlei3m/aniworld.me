@@ -8,8 +8,8 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   #__next {
-    display: flex;
-    justify-content: space-between;
+    /* display: flex; */
+    /* justify-content: space-between; */
   }
 
     :root {

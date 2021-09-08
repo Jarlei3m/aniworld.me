@@ -20,56 +20,78 @@ export function NavBar() {
         <ul>
           <li className="active">
             <AiFillHome />
-            <Link href="#">Home</Link>
+            <Link href="/">
+              <a>Home</a>
+            </Link>
           </li>
           <li>
             <BiTrendingUp />
-            <Link href="#trending">Trending</Link>
+            <Link href="/trending">
+              <a>Trending</a>
+            </Link>
           </li>
           <li>
             <RiCompassDiscoverFill />
-            <Link href="#">Discover</Link>
+            <Link href="#">
+              <a>Discover</a>
+            </Link>
           </li>
         </ul>
 
         <ul>
           <li>
             <AiFillHome />
-            <Link href="#">Recent</Link>
+            <Link href="#">
+              <a>Recent</a>
+            </Link>
           </li>
           <li>
             <AiOutlineUnorderedList />
-            <Link href="#">Anime List</Link>
+            <Link href="#">
+              <a>Anime List</a>
+            </Link>
           </li>
         </ul>
 
         <ul>
           <li>
             <TiArrowRepeat />
-            <Link href="#">On Going</Link>
+            <Link href="#">
+              <a>On Going</a>
+            </Link>
           </li>
           <li>
             <AiFillCheckCircle />
-            <Link href="#">Completed</Link>
+            <Link href="#">
+              <a>Completed</a>
+            </Link>
           </li>
           <li>
             <MdLocalMovies />
-            <Link href="#">Movies</Link>
+            <Link href="#">
+              <a>Movies</a>
+            </Link>
           </li>
           <li>
             <GiNinjaHeroicStance />
-            <Link href="#">Live Action</Link>
+            <Link href="#">
+              <a>Live Action</a>
+            </Link>
           </li>
         </ul>
 
         <ul>
           <li>
             <MdSettings />
-            <Link href="#">Settings</Link>
+            <Link href="#">
+              <a>Settings</a>
+            </Link>
           </li>
           <li>
             <GiExitDoor />
-            <Link href="#">Log Out</Link>
+            <Link href="#">
+              <a>Log Out</a>
+            </Link>
           </li>
         </ul>
       </nav>
