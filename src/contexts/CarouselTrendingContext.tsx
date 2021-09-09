@@ -25,54 +25,41 @@ interface Animes {
   };
   description: string;
   genres: Array<string>;
-  startDate: {
-    year: number;
-  };
 }
 
-interface TrendingContextData {
+interface CarouselTrendingContextData {
   pageInfo: PageInfo;
-  isTrendingLoading: boolean;
-  trendingAnimes: Animes[];
-  // handleLoadMoreTrendingData: () => void;
+  isCarouselTrendingLoading: boolean;
+  carouselTrendingAnimes: Animes[];
+  handleLoadMoreTrendingData: (fetchCounter: number) => void;
 }
 
-interface TrendingProvider {
+interface CarouselTrendingProviderProps {
   children: ReactNode;
 }
 
-export const TrendingContext = createContext<TrendingContextData>(
-  {} as TrendingContextData,
-);
+export const CarouselTrendingContext =
+  createContext<CarouselTrendingContextData>({} as CarouselTrendingContextData);
 
-export function TrendingProvider({ children }: TrendingProvider) {
+export function CarouselTrendingProvider({
+  children,
+}: CarouselTrendingProviderProps) {
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(20);
+  const [perPage, setPerPage] = useState(5);
   const [pageInfo, setPageInfo] = useState();
-  const [isTrendingLoading, setIsTrendingLoading] = useState(false);
-  const [trendingAnimes, setTrendingAnimes] = useState<Animes[]>([]);
+  const [isCarouselTrendingLoading, setIsCarouselTrendingLoading] =
+    useState(false);
+  const [carouselTrendingAnimes, setCarouselTrendingAnimes] = useState<
+    Animes[]
+  >([]);
 
   useEffect(() => {
-    fetchTrendingAnimes();
+    fetchCarouselTrendingAnimes();
   }, []);
 
-  //  useEffect(() => {
-  //    const event = window.addEventListener('scroll', () => {
-  //      if (
-  //        !isTrendingLoading &&
-  //        window.innerHeight + window.scrollY >= document.body.scrollHeight - 10
-  //      ) {
-  //        handleLoadMoreTrendingData();
-  //      }
-  //    });
-  //    return () => window.removeEventListener('scroll', event);
-  //  }, []);
-
-  // function handleLoadMoreTrendingData() {
-  //   setPerPage((oldPerPage) => {
-  //     return oldPerPage + 5;
-  //   });
-  // }
+  useEffect(() => {
+    fetchCarouselTrendingAnimes();
+  }, [perPage]);
 
   function handleResponse(response) {
     return response.json().then(function (json) {
@@ -81,30 +68,28 @@ export function TrendingProvider({ children }: TrendingProvider) {
   }
 
   function handleData(data) {
-    console.log('start fetching');
-    // const filteredTrendingAnimes = data.data.Page.media.filter(
-    //   (anime) => anime.trailer !== null,
-    // );
+    const filteredTrendingAnimes = data.data.Page.media.filter(
+      (anime) => anime.trailer !== null,
+    );
 
-    console.log('fetch: result:', data.data.Page.media);
+    if (filteredTrendingAnimes.length < 5) {
+      const acc = 5 - filteredTrendingAnimes.length;
+      setPerPage(perPage + acc);
+    }
 
-    // if (filteredTrendingAnimes.length < 20) {
-    //   const acc = 20 - filteredTrendingAnimes.length;
-    //   setPerPage(perPage + acc);
-    //   fetchTrendingAnimes();
-    // }
-
-    setTrendingAnimes(data.data.Page.media);
+    setCarouselTrendingAnimes(filteredTrendingAnimes);
     setPageInfo(data.data.Page.pageInfo);
-    setIsTrendingLoading(false);
+    setIsCarouselTrendingLoading(false);
   }
 
   function handleError(data) {
+    // alert('Error, check console');
     console.error(Error);
-    setIsTrendingLoading(false);
+    setIsCarouselTrendingLoading(false);
   }
 
-  const fetchTrendingAnimes = () => {
+  const fetchCarouselTrendingAnimes = () => {
+    setIsCarouselTrendingLoading(true);
     try {
       let query = `
         query ($page: Int, $perPage: Int) {
@@ -132,9 +117,6 @@ export function TrendingProvider({ children }: TrendingProvider) {
               genres
               coverImage {
                 extraLarge
-              }
-              startDate {
-                year
               }
             }
           }
@@ -164,21 +146,31 @@ export function TrendingProvider({ children }: TrendingProvider) {
         .then(handleResponse)
         .then(handleData)
         .catch(handleError);
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     }
   };
 
+  useEffect(() => {
+    fetchCarouselTrendingAnimes();
+  }, [perPage]);
+
+  function handleLoadMoreTrendingData(fetchCounter: number) {
+    setPerPage((oldPerPage) => {
+      return oldPerPage * fetchCounter;
+    });
+  }
+
   return (
-    <TrendingContext.Provider
+    <CarouselTrendingContext.Provider
       value={{
-        trendingAnimes,
-        // handleLoadMoreTrendingData,
-        isTrendingLoading,
         pageInfo,
+        isCarouselTrendingLoading,
+        carouselTrendingAnimes,
+        handleLoadMoreTrendingData,
       }}
     >
       {children}
-    </TrendingContext.Provider>
+    </CarouselTrendingContext.Provider>
   );
 }

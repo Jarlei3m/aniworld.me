@@ -1,6 +1,6 @@
 import { Hero } from '../Hero';
 import { OnGoing } from '../OnGoing';
-import { Trending } from '../Trending';
+import { TrendingCarousel } from '../TrendingCarousel';
 import { Container, Content } from './styles';
 
 export function MainHome() {
@@ -9,7 +9,7 @@ export function MainHome() {
       <Content>
         <Hero />
         <OnGoing />
-        <Trending />
+        <TrendingCarousel />
       </Content>
     </Container>
   );
