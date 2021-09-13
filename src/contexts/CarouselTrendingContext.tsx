@@ -27,11 +27,26 @@ interface Animes {
   genres: Array<string>;
 }
 
+interface Mangas {
+  id: number;
+  title: {
+    english: string;
+    romanji: string;
+  };
+  averageScore: number;
+  coverImage: {
+    extraLarge: string;
+  };
+  description: string;
+  genres: Array<string>;
+  type: string;
+}
+
 interface CarouselTrendingContextData {
   pageInfo: PageInfo;
   isCarouselTrendingLoading: boolean;
   carouselTrendingAnimes: Animes[];
-  handleLoadMoreTrendingData: (fetchCounter: number) => void;
+  carouselTrendingMangas: Mangas[];
 }
 
 interface CarouselTrendingProviderProps {
@@ -45,20 +60,23 @@ export function CarouselTrendingProvider({
   children,
 }: CarouselTrendingProviderProps) {
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(16);
   const [pageInfo, setPageInfo] = useState();
   const [isCarouselTrendingLoading, setIsCarouselTrendingLoading] =
     useState(false);
   const [carouselTrendingAnimes, setCarouselTrendingAnimes] = useState<
     Animes[]
   >([]);
+  const [carouselTrendingMangas, setCarouselTrendingMangas] = useState<
+    Mangas[]
+  >([]);
 
   useEffect(() => {
-    fetchCarouselTrendingAnimes();
+    fetchCarouselTrending();
   }, []);
 
   useEffect(() => {
-    fetchCarouselTrendingAnimes();
+    fetchCarouselTrending();
   }, [perPage]);
 
   function handleResponse(response) {
@@ -68,32 +86,25 @@ export function CarouselTrendingProvider({
   }
 
   function handleData(data) {
-    const filteredTrendingAnimes = data.data.Page.media.filter(
-      (anime) => anime.trailer !== null,
-    );
+    console.log('animes:', data.data.AnimePage.animes);
+    console.log('mangas:', data.data.MangaPage.mangas);
 
-    if (filteredTrendingAnimes.length < 5) {
-      const acc = 5 - filteredTrendingAnimes.length;
-      setPerPage(perPage + acc);
-    }
-
-    setCarouselTrendingAnimes(filteredTrendingAnimes);
-    setPageInfo(data.data.Page.pageInfo);
+    setCarouselTrendingAnimes(data.data.AnimePage.animes);
+    setCarouselTrendingMangas(data.data.MangaPage.mangas);
     setIsCarouselTrendingLoading(false);
   }
 
   function handleError(data) {
-    // alert('Error, check console');
     console.error(Error);
     setIsCarouselTrendingLoading(false);
   }
 
-  const fetchCarouselTrendingAnimes = () => {
+  const fetchCarouselTrending = () => {
     setIsCarouselTrendingLoading(true);
     try {
       let query = `
         query ($page: Int, $perPage: Int) {
-          Page (page: $page, perPage: $perPage) {
+          AnimePage: Page(page: $page, perPage: $perPage) {
             pageInfo {
               total
               perPage
@@ -101,8 +112,9 @@ export function CarouselTrendingProvider({
               lastPage
               hasNextPage
             }
-            media (type: ANIME, sort: TRENDING_DESC, isAdult: false) {
+            animes: media(type: ANIME, sort: TRENDING_DESC, isAdult: false) {
               id
+              type
               title {
                 english
                 romaji
@@ -111,6 +123,29 @@ export function CarouselTrendingProvider({
                 id
                 site
                 thumbnail
+              }
+              averageScore
+              description
+              genres
+              coverImage {
+                extraLarge
+              }
+            }
+          }
+          MangaPage: Page(page: $page, perPage: $perPage) {
+            pageInfo {
+              total
+              perPage
+              currentPage
+              lastPage
+              hasNextPage
+            }
+            mangas: media(type: MANGA, sort: TRENDING_DESC, isAdult: false) {
+              id
+              type
+              title {
+                english
+                romaji
               }
               averageScore
               description
@@ -151,23 +186,13 @@ export function CarouselTrendingProvider({
     }
   };
 
-  useEffect(() => {
-    fetchCarouselTrendingAnimes();
-  }, [perPage]);
-
-  function handleLoadMoreTrendingData(fetchCounter: number) {
-    setPerPage((oldPerPage) => {
-      return oldPerPage * fetchCounter;
-    });
-  }
-
   return (
     <CarouselTrendingContext.Provider
       value={{
         pageInfo,
         isCarouselTrendingLoading,
         carouselTrendingAnimes,
-        handleLoadMoreTrendingData,
+        carouselTrendingMangas,
       }}
     >
       {children}

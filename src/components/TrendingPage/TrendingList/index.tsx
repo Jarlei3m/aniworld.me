@@ -15,8 +15,15 @@ export function TrendingList() {
     <TrendingListContainer>
       <ul>
         {trendingAnimes.map((anime) => {
-          const { averageScore, startDate, coverImage, id, title, trailer } =
-            anime;
+          const {
+            averageScore,
+            type,
+            startDate,
+            coverImage,
+            id,
+            title,
+            trailer,
+          } = anime;
           return (
             <li key={id}>
               {trailer ? (
@@ -49,6 +56,8 @@ export function TrendingList() {
                   <span>{startDate.year}</span>
                 </article>
               </div>
+
+              <small>{type.toLocaleLowerCase()}</small>
             </li>
           );
         })}

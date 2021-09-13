@@ -28,6 +28,7 @@ interface Animes {
   startDate: {
     year: number;
   };
+  type: string;
 }
 
 interface TrendingContextData {
@@ -116,8 +117,9 @@ export function TrendingProvider({ children }: TrendingProvider) {
               lastPage
               hasNextPage
             }
-            media (type: ANIME, sort: TRENDING_DESC, isAdult: false) {
+            media (sort: TRENDING_DESC, isAdult: false) {
               id
+              type
               title {
                 english
                 romaji

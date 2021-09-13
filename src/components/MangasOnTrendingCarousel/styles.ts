@@ -102,20 +102,18 @@ export const Container = styled.section`
         margin-left: 1.5rem;
       }
 
-      iframe,
-      video {
-        width: 19.5rem;
-        height: 18rem;
-        border-radius: 12px;
-        cursor: pointer;
-        position: absolute;
-        transform: translate3d(-1.15rem, 0, 0);
-        z-index: 5;
-      }
+      div:first-child {
+        width: 100% !important;
+        height: 18rem !important;
 
-      svg {
-        width: 2.6rem;
-        height: 2.6rem;
+        img {
+          width: 17.2rem;
+          height: 18rem;
+          object-fit: cover;
+          object-position: center;
+          display: block;
+          border-radius: 12px;
+        }
       }
 
       a {

@@ -1,7 +1,8 @@
 import { Hero } from '../Hero';
 import { OnGoing } from '../OnGoing';
-import { TrendingCarousel } from '../TrendingCarousel';
+import { AnimesOnTrendingCarousel } from '../AnimesOnTrendingCarousel';
 import { Container, Content } from './styles';
+import { MangasOnTrendingCarousel } from '../MangasOnTrendingCarousel';
 
 export function MainHome() {
   return (
@@ -9,7 +10,8 @@ export function MainHome() {
       <Content>
         <Hero />
         <OnGoing />
-        <TrendingCarousel />
+        <AnimesOnTrendingCarousel />
+        <MangasOnTrendingCarousel />
       </Content>
     </Container>
   );

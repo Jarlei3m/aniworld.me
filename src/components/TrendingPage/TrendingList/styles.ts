@@ -17,13 +17,27 @@ export const TrendingListContainer = styled.section`
       border-radius: 12px;
       overflow: hidden;
       background-color: var(--gray-100);
+      position: relative;
+
+      small {
+        position: absolute;
+        font-weight: bold;
+        font-size: 0.7rem;
+        top: 0;
+        left: 0;
+        background-color: var(--gray-500);
+        padding: 0.5rem;
+        border-radius: 12px 0px 12px 0px;
+        /* z-index: 9999; */
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        color: var(--green-500);
+      }
 
       img {
         width: 18rem;
         height: 14rem;
         object-fit: cover;
         object-position: center;
-        cursor: pointer;
         display: block;
       }
 
@@ -31,15 +45,15 @@ export const TrendingListContainer = styled.section`
       video {
         width: 18rem;
         height: 14rem;
+
+        svg {
+          font-size: 2.6rem;
+        }
       }
 
       div:first-child {
         width: 100% !important;
         height: 14rem !important;
-
-        svg {
-          font-size: 2.5rem;
-        }
       }
 
       div:nth-child(2) {

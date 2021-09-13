@@ -1,38 +1,17 @@
 import { useState, useContext } from 'react';
 import Link from 'next/link';
-import ReactPlayer from 'react-player';
 import { Container, InfoContainer } from './styles';
-import { BsFillPlayFill } from 'react-icons/bs';
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from 'react-icons/md';
 import { CarouselTrendingContext } from '../../contexts/CarouselTrendingContext';
 
-export function TrendingCarousel() {
-  const [animePlaying, setAnimePlaying] = useState(0);
-  const [isMuted, setIsMuted] = useState(true);
-  const [showInfo, setShowInfo] = useState(false);
-
+export function MangasOnTrendingCarousel() {
   const [translateAction, setTranslateAction] = useState('');
   const [slideCounter, setSlideCounter] = useState(0);
 
-  const { carouselTrendingAnimes, handleLoadMoreTrendingData } = useContext(
-    CarouselTrendingContext,
-  );
-
-  function handleOnMouseHover(animeId: number) {
-    setAnimePlaying(animeId);
-    setIsMuted(false);
-    setShowInfo(true);
-  }
-
-  function handleOnMouseLeave() {
-    setAnimePlaying(0);
-    setIsMuted(true);
-    setShowInfo(false);
-  }
+  const { carouselTrendingMangas } = useContext(CarouselTrendingContext);
 
   function handleCarouselButton(action: string) {
     if (action === 'next' && slideCounter < 4) {
-      handleLoadMoreTrendingData(slideCounter);
       setTranslateAction(action);
       setSlideCounter((oldSlideCounter) => {
         return oldSlideCounter + 1;
@@ -47,12 +26,10 @@ export function TrendingCarousel() {
     }
   }
 
-  console.log('slideCounter:', slideCounter);
-
   return (
-    <Container id="trending">
+    <Container>
       <h2>
-        Trending{' '}
+        Mangas on Trending
         <span title="See more trending topics animes">
           <Link href="/trending"> see more </Link>
         </span>
@@ -79,27 +56,19 @@ export function TrendingCarousel() {
             }`,
           }}
         >
-          {carouselTrendingAnimes.map((anime) => {
-            const { id, title, trailer, description, coverImage } = anime;
+          {carouselTrendingMangas.map((manga) => {
+            const { id, title, description, coverImage } = manga;
             return (
               <li key={id}>
-                <ReactPlayer
-                  controls={true}
-                  onMouseEnter={() => handleOnMouseHover(id)}
-                  onMouseLeave={handleOnMouseLeave}
-                  light={animePlaying !== id && `${coverImage.extraLarge}`}
-                  playIcon={<BsFillPlayFill />}
-                  playing={animePlaying === id ? true : false}
-                  muted={animePlaying === id ? true : false}
-                  url={
-                    trailer
-                      ? `https://www.youtube.com/watch?v=${trailer?.id}`
-                      : null
-                  }
-                />
+                <div>
+                  <img
+                    src={coverImage.extraLarge}
+                    alt={title.english || title.romanji}
+                  />
+                </div>
 
                 <Link href="/">
-                  {title.english ? title.english : title.romanji}
+                  <a>{title.english ? title.english : title.romanji}</a>
                 </Link>
               </li>
             );
