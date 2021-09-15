@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 
-interface PageInfo {
+interface PageInfoProps {
   total: number;
   perPage: number;
   currentPage: number;
@@ -8,7 +8,7 @@ interface PageInfo {
   hasNextPage: boolean;
 }
 
-interface Animes {
+interface AnimesProps {
   id: number;
   title: {
     english: string;
@@ -28,8 +28,8 @@ interface Animes {
 }
 
 interface SearchContextData {
-  searchedAnime: Animes[];
-  pageInfo: PageInfo;
+  searchedAnime: AnimesProps[];
+  pageInfo: PageInfoProps;
   isSearchLoading: boolean;
   fetchAnimeOnSearch: (animeTitle: string) => Promise<void>;
   handleLoadMoreSearchedAnimeData: () => void;
@@ -44,9 +44,9 @@ export const SearchContext = createContext<SearchContextData>(
 );
 
 export function SearchProvider({ children }: SearchProviderProps) {
-  const [searchedAnime, setSearchedAnime] = useState<Animes[]>([]);
+  const [searchedAnime, setSearchedAnime] = useState<AnimesProps[]>([]);
   const [animeTitle, setAnimeTitle] = useState('');
-  const [pageInfo, setPageInfo] = useState();
+  const [pageInfo, setPageInfo] = useState<PageInfoProps>();
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
   const [isSearchLoading, setIsSearchLoading] = useState(false);

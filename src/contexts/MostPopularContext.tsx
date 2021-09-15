@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 
-interface PageInfo {
+interface PageInfoProps {
   total: number;
   perPage: number;
   currentPage: number;
@@ -8,7 +8,7 @@ interface PageInfo {
   hasNextPage: boolean;
 }
 
-interface Animes {
+interface AnimesProps {
   id: number;
   title: {
     english: string;
@@ -28,9 +28,9 @@ interface Animes {
 }
 
 interface MostPopularContextData {
-  pageInfo: PageInfo;
+  pageInfo: PageInfoProps;
   isMostPopularLoading: boolean;
-  mostPouplarAnimes: Animes[];
+  mostPouplarAnimes: AnimesProps[];
   handleLoadMoreMostPopularData: () => void;
 }
 
@@ -45,9 +45,9 @@ export const MostPopularContext = createContext<MostPopularContextData>(
 export function MostPopularProvider({ children }: MostPopularProviderProps) {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(6);
-  const [pageInfo, setPageInfo] = useState();
+  const [pageInfo, setPageInfo] = useState<PageInfoProps>();
   const [isMostPopularLoading, setIsMostPopularLoading] = useState(false);
-  const [mostPouplarAnimes, setMostPopularAnimes] = useState<Animes[]>([]);
+  const [mostPouplarAnimes, setMostPopularAnimes] = useState<AnimesProps[]>([]);
 
   useEffect(() => {
     fetchMostPopularAnimes();

@@ -30,8 +30,10 @@ export function MangasOnTrendingCarousel() {
     <Container>
       <h2>
         Mangas on Trending
-        <span title="See more trending topics animes">
-          <Link href="/trending"> see more </Link>
+        <span title="See more trending topics mangas">
+          <Link href="/trending">
+            <a>see more</a>
+          </Link>
         </span>
       </h2>
 
@@ -63,12 +65,12 @@ export function MangasOnTrendingCarousel() {
                 <div>
                   <img
                     src={coverImage.extraLarge}
-                    alt={title.english || title.romanji}
+                    alt={title.english || title.romanji || title.native}
                   />
                 </div>
 
                 <Link href="/">
-                  <a>{title.english ? title.english : title.romanji}</a>
+                  <a>{title.english || title.romanji || title.native}</a>
                 </Link>
               </li>
             );

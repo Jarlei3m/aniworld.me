@@ -7,11 +7,6 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
-  #__next {
-    /* display: flex; */
-    /* justify-content: space-between; */
-  }
-
     :root {
     --white: #FFFFFF;
 
@@ -29,9 +24,18 @@ export const GlobalStyle = createGlobalStyle`
 
   html {
     scroll-behavior: smooth;
+
+    @media(max-width: 1080px) {
+    font-size: 93.75%;
+    }
+
+    @media(max-width: 720px) {
+    font-size: 87.5%;
+    }
   }
 
   body {
+    -webkit-font-smoothing: antialiased;
     background: var(--gray-850);
     color: var(--white);
   }

@@ -1,18 +1,11 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 
-interface PageInfo {
-  total: number;
-  perPage: number;
-  currentPage: number;
-  lastPage: number;
-  hasNextPage: boolean;
-}
-
-interface Animes {
+interface AnimesProps {
   id: number;
   title: {
     english: string;
     romanji: string;
+    native: string;
   };
   trailer: {
     id: number;
@@ -27,11 +20,12 @@ interface Animes {
   genres: Array<string>;
 }
 
-interface Mangas {
+interface MangasProps {
   id: number;
   title: {
     english: string;
     romanji: string;
+    native: string;
   };
   averageScore: number;
   coverImage: {
@@ -43,10 +37,9 @@ interface Mangas {
 }
 
 interface CarouselTrendingContextData {
-  pageInfo: PageInfo;
   isCarouselTrendingLoading: boolean;
-  carouselTrendingAnimes: Animes[];
-  carouselTrendingMangas: Mangas[];
+  carouselTrendingAnimes: AnimesProps[];
+  carouselTrendingMangas: MangasProps[];
 }
 
 interface CarouselTrendingProviderProps {
@@ -61,23 +54,18 @@ export function CarouselTrendingProvider({
 }: CarouselTrendingProviderProps) {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(16);
-  const [pageInfo, setPageInfo] = useState();
   const [isCarouselTrendingLoading, setIsCarouselTrendingLoading] =
     useState(false);
   const [carouselTrendingAnimes, setCarouselTrendingAnimes] = useState<
-    Animes[]
+    AnimesProps[]
   >([]);
   const [carouselTrendingMangas, setCarouselTrendingMangas] = useState<
-    Mangas[]
+    MangasProps[]
   >([]);
 
   useEffect(() => {
     fetchCarouselTrending();
   }, []);
-
-  useEffect(() => {
-    fetchCarouselTrending();
-  }, [perPage]);
 
   function handleResponse(response) {
     return response.json().then(function (json) {
@@ -105,19 +93,13 @@ export function CarouselTrendingProvider({
       let query = `
         query ($page: Int, $perPage: Int) {
           AnimePage: Page(page: $page, perPage: $perPage) {
-            pageInfo {
-              total
-              perPage
-              currentPage
-              lastPage
-              hasNextPage
-            }
             animes: media(type: ANIME, sort: TRENDING_DESC, isAdult: false) {
               id
               type
               title {
                 english
                 romaji
+                native
               }
               trailer {
                 id
@@ -133,19 +115,13 @@ export function CarouselTrendingProvider({
             }
           }
           MangaPage: Page(page: $page, perPage: $perPage) {
-            pageInfo {
-              total
-              perPage
-              currentPage
-              lastPage
-              hasNextPage
-            }
             mangas: media(type: MANGA, sort: TRENDING_DESC, isAdult: false) {
               id
               type
               title {
                 english
                 romaji
+                native
               }
               averageScore
               description
@@ -189,7 +165,6 @@ export function CarouselTrendingProvider({
   return (
     <CarouselTrendingContext.Provider
       value={{
-        pageInfo,
         isCarouselTrendingLoading,
         carouselTrendingAnimes,
         carouselTrendingMangas,

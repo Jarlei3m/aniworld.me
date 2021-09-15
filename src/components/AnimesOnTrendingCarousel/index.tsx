@@ -51,7 +51,9 @@ export function AnimesOnTrendingCarousel() {
       <h2>
         Animes on Trending
         <span title="See more trending topics animes">
-          <Link href="/trending"> see more </Link>
+          <Link href="/trending">
+            <a>see more</a>
+          </Link>
         </span>
       </h2>
 
@@ -95,13 +97,13 @@ export function AnimesOnTrendingCarousel() {
                   <div>
                     <img
                       src={coverImage.extraLarge}
-                      alt={title.english || title.romanji}
+                      alt={title.english || title.romanji || title.native}
                     />
                   </div>
                 )}
 
                 <Link href="/">
-                  <a>{title.english ? title.english : title.romanji}</a>
+                  <a>{title.english || title.romanji || title.native}</a>
                 </Link>
               </li>
             );

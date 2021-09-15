@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 
-interface PageInfo {
+interface PageInfoProps {
   total: number;
   perPage: number;
   currentPage: number;
@@ -8,7 +8,7 @@ interface PageInfo {
   hasNextPage: boolean;
 }
 
-interface Animes {
+interface AnimesProps {
   id: number;
   title: {
     english: string;
@@ -32,9 +32,9 @@ interface Animes {
 }
 
 interface TrendingContextData {
-  pageInfo: PageInfo;
+  pageInfo: PageInfoProps;
   isTrendingLoading: boolean;
-  trendingAnimes: Animes[];
+  trendingAnimes: AnimesProps[];
   // handleLoadMoreTrendingData: () => void;
 }
 
@@ -49,9 +49,9 @@ export const TrendingContext = createContext<TrendingContextData>(
 export function TrendingProvider({ children }: TrendingProvider) {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(20);
-  const [pageInfo, setPageInfo] = useState();
+  const [pageInfo, setPageInfo] = useState<PageInfoProps>();
   const [isTrendingLoading, setIsTrendingLoading] = useState(false);
-  const [trendingAnimes, setTrendingAnimes] = useState<Animes[]>([]);
+  const [trendingAnimes, setTrendingAnimes] = useState<AnimesProps[]>([]);
 
   useEffect(() => {
     fetchTrendingAnimes();
