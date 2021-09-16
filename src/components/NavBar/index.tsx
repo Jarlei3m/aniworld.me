@@ -89,7 +89,7 @@ export function NavBar() {
           </li>
           <li>
             <GiExitDoor />
-            <Link href="#">
+            <Link href="/login">
               <a>Log Out</a>
             </Link>
           </li>

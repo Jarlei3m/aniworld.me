@@ -7,15 +7,19 @@ import { GlobalStyle } from '../styles/global';
 import { PageContainer } from '../styles/Pages/styles';
 import React from 'react';
 import { TrendingProvider } from '../contexts/TrendingContext';
+import { useRouter } from 'next/dist/client/router';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+  console.log('router:', router);
+
   return (
     <TrendingProvider>
       <CarouselTrendingProvider>
         <MostPopularProvider>
           <SearchProvider>
             <PageContainer>
-              <NavBar />
+              {router.asPath !== '/login' && <NavBar />}
               <GlobalStyle />
               <Component {...pageProps} />
             </PageContainer>
