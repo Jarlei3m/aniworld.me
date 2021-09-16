@@ -4,9 +4,9 @@ import ReactPlayer from 'react-player';
 import { Container, InfoContainer } from './styles';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from 'react-icons/md';
-import { CarouselTrendingContext } from '../../contexts/CarouselTrendingContext';
+import { TrendingContext } from '../../../contexts/TrendingContext';
 
-export function AnimesOnTrendingCarousel() {
+export function AnimesTrending() {
   const [animePlaying, setAnimePlaying] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
   const [showInfo, setShowInfo] = useState(false);
@@ -14,7 +14,7 @@ export function AnimesOnTrendingCarousel() {
   const [translateAction, setTranslateAction] = useState('');
   const [slideCounter, setSlideCounter] = useState(0);
 
-  const { carouselTrendingAnimes } = useContext(CarouselTrendingContext);
+  const { trendingAnimes } = useContext(TrendingContext);
 
   function handleOnMouseHover(animeId: number) {
     setAnimePlaying(animeId);
@@ -78,7 +78,7 @@ export function AnimesOnTrendingCarousel() {
             }`,
           }}
         >
-          {carouselTrendingAnimes.map((anime) => {
+          {trendingAnimes.map((anime) => {
             const { id, title, trailer, description, coverImage } = anime;
             return (
               <li key={id}>

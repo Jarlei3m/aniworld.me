@@ -2,13 +2,13 @@ import { useState, useContext } from 'react';
 import Link from 'next/link';
 import { Container, InfoContainer } from './styles';
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from 'react-icons/md';
-import { CarouselTrendingContext } from '../../contexts/CarouselTrendingContext';
+import { TrendingContext } from '../../../contexts/TrendingContext';
 
-export function MangasOnTrendingCarousel() {
+export function MangasTrending() {
   const [translateAction, setTranslateAction] = useState('');
   const [slideCounter, setSlideCounter] = useState(0);
 
-  const { carouselTrendingMangas } = useContext(CarouselTrendingContext);
+  const { trendingMangas } = useContext(TrendingContext);
 
   function handleCarouselButton(action: string) {
     if (action === 'next' && slideCounter < 4) {
@@ -58,7 +58,7 @@ export function MangasOnTrendingCarousel() {
             }`,
           }}
         >
-          {carouselTrendingMangas.map((manga) => {
+          {trendingMangas.map((manga) => {
             const { id, title, description, coverImage } = manga;
             return (
               <li key={id}>

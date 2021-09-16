@@ -5,16 +5,17 @@ import React, { useContext } from 'react';
 import { TrendingContext } from '../../../contexts/TrendingContext';
 
 export function TrendingList() {
-  const { trendingAnimes, isTrendingLoading } = useContext(TrendingContext);
+  const { trendingAnimesAndMangas, isTrendingLoading } =
+    useContext(TrendingContext);
 
   if (isTrendingLoading) {
     return <h1>Loading....</h1>;
   }
-  console.log(trendingAnimes);
+
   return (
     <TrendingListContainer>
       <ul>
-        {trendingAnimes.map((anime) => {
+        {trendingAnimesAndMangas.map((anime) => {
           const {
             averageScore,
             type,

@@ -1,16 +1,13 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  /* display: flex;
-  flex-direction: column; */
+export const Container = styled.form`
   width: 30rem;
   height: 36rem;
   background-color: var(--gray-500);
   padding: 3rem 3.5rem;
   border-radius: 12px;
   position: absolute;
-  box-shadow: 1px 1px 16px 6px rgba(0, 0, 0, 0.3);
-  /* opacity: 0.99; */
+  box-shadow: 2px 2px 16px 6px rgba(0, 0, 0, 0.3);
 
   h1 {
     color: var(--green-500);
@@ -18,104 +15,115 @@ export const Container = styled.div`
     margin-bottom: 2rem;
   }
 
-  form {
+  div {
     display: flex;
     flex-direction: column;
 
-    div {
-      display: flex;
-      flex-direction: column;
+    & + div {
+      margin-top: 1.6rem;
+    }
 
-      & + div {
-        margin-top: 1.6rem;
+    label {
+      margin-bottom: 0.5rem;
+    }
+
+    input {
+      border-radius: 0.5rem;
+      border: none;
+      outline: transparent;
+      height: 3rem;
+      padding: 0.5rem 1rem;
+      width: 100%;
+      color: var(--gray-500);
+      font-size: 1rem;
+
+      &:focus,
+      &:valid {
+        border-bottom: 3px solid var(--green-500);
+      }
+    }
+
+    &:nth-child(3) {
+      position: relative;
+
+      svg {
+        position: absolute;
+        right: 1rem;
+        top: 54%;
+        font-size: 1.25rem;
+        /* top: 2.2rem; */
+        color: var(--gray-300);
+        cursor: pointer;
+      }
+    }
+
+    &:nth-child(5) {
+      margin-top: 0.3rem;
+      font-size: 0.8rem;
+      display: inline-block;
+
+      span {
+        color: var(--gray-300);
       }
 
-      label {
-        margin-bottom: 0.5rem;
-      }
-
-      input {
-        border-radius: 8px;
-        border: none;
-        outline: none;
-        height: 3rem;
-        padding: 0.5rem 1rem;
-
-        &:focus {
-          border-bottom: 3px solid var(--green-500);
-        }
-
-        &:checked {
-          border-bottom: 3px solid var(--green-500);
-        }
-      }
-
-      button {
-        height: 4rem;
-        margin-top: 2rem;
-        border-radius: 0.5rem;
-        border: none;
-        background: var(--green-500);
+      a {
+        margin-left: 0.5rem;
         color: var(--white);
-        font-size: 1.4rem;
         font-weight: bold;
-        transition: filter 0.2s;
+        transition: all 0.1s;
 
         &:hover {
-          filter: brightness(0.9);
+          color: var(--green-500);
+          text-decoration: underline;
         }
       }
+    }
 
-      &:nth-child(4) {
-        margin-top: 0.5rem;
-        font-size: 0.8rem;
-        display: inline;
+    &:last-child {
+      width: 100%;
+      text-align: center;
+      margin-top: 1.6rem;
 
-        span {
-          color: var(--gray-300);
-        }
+      strong {
+        font-size: 1.2rem;
+      }
 
-        a {
-          margin-left: 0.5rem;
-          color: var(--white);
-          font-weight: bold;
-          transition: filter 0.2s;
+      div {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: center;
+        gap: 0.8rem;
+        margin-top: 1.6rem;
+
+        svg {
+          font-size: 2.4rem;
+          cursor: pointer;
+          transition: all 0.2s;
 
           &:hover {
             color: var(--green-500);
-            text-decoration: underline;
           }
         }
       }
+    }
+  }
 
-      &:last-child {
-        width: 100%;
-        text-align: center;
-        margin-top: 1rem;
+  button[type='submit'] {
+    height: 4rem;
+    margin-top: 2rem;
+    padding: 0 1.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    background: var(--green-500);
+    color: var(--white);
+    font-size: 1.4rem;
+    font-weight: bold;
+    width: 100%;
+    transition: filter 0.2s;
 
-        strong {
-          font-size: 1.2rem;
-        }
-
-        div {
-          display: flex;
-          align-items: center;
-          flex-direction: row;
-          justify-content: center;
-          gap: 0.8rem;
-          margin-top: 1rem;
-
-          svg {
-            font-size: 2.4rem;
-            cursor: pointer;
-            transition: all 0.2s;
-
-            &:hover {
-              color: var(--green-500);
-            }
-          }
-        }
-      }
+    &:hover {
+      filter: brightness(0.9);
     }
   }
 `;

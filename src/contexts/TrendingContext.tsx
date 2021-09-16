@@ -10,9 +10,11 @@ interface PageInfoProps {
 
 interface AnimesProps {
   id: number;
+  type: string;
   title: {
     english: string;
     romanji: string;
+    native: string;
   };
   trailer: {
     id: number;
@@ -28,13 +30,17 @@ interface AnimesProps {
   startDate: {
     year: number;
   };
-  type: string;
 }
+
+type MangasProps = Omit<AnimesProps, 'trailer'>;
 
 interface TrendingContextData {
   pageInfo: PageInfoProps;
   isTrendingLoading: boolean;
   trendingAnimes: AnimesProps[];
+  trendingMangas: MangasProps[];
+  trendingAnimesAndMangas: AnimesProps[];
+
   // handleLoadMoreTrendingData: () => void;
 }
 
@@ -52,6 +58,10 @@ export function TrendingProvider({ children }: TrendingProvider) {
   const [pageInfo, setPageInfo] = useState<PageInfoProps>();
   const [isTrendingLoading, setIsTrendingLoading] = useState(false);
   const [trendingAnimes, setTrendingAnimes] = useState<AnimesProps[]>([]);
+  const [trendingMangas, setTrendingMangas] = useState<MangasProps[]>([]);
+  const [trendingAnimesAndMangas, setTrendingAnimesAndMangas] = useState<
+    AnimesProps[]
+  >([]);
 
   useEffect(() => {
     fetchTrendingAnimes();
@@ -82,12 +92,13 @@ export function TrendingProvider({ children }: TrendingProvider) {
   }
 
   function handleData(data) {
-    console.log('start fetching');
     // const filteredTrendingAnimes = data.data.Page.media.filter(
-    //   (anime) => anime.trailer !== null,
+    //   (anime) => anime.type === 'ANIME',
     // );
 
-    console.log('fetch: result:', data.data.Page.media);
+    // const filteredTrendingMangas = data.data.Page.media.filter(
+    //   (anime) => anime.type === 'MANGA',
+    // );
 
     // if (filteredTrendingAnimes.length < 20) {
     //   const acc = 20 - filteredTrendingAnimes.length;
@@ -95,7 +106,19 @@ export function TrendingProvider({ children }: TrendingProvider) {
     //   fetchTrendingAnimes();
     // }
 
-    setTrendingAnimes(data.data.Page.media);
+    // if (filteredTrendingMangas.length < 20) {
+    //   const acc = 20 - filteredTrendingMangas.length;
+    //   setPerPage(perPage + acc);
+    //   fetchTrendingAnimes();
+    // }
+
+    console.log('ANIME MEDIA:', data.data.AnimePage.media);
+    console.log('MANGA MEDIA:', data.data.MangaPage.media);
+    console.log('ALL MEDIA:', data.data.AllMediasPage.media);
+
+    setTrendingAnimes(data.data.AnimePage.media);
+    setTrendingMangas(data.data.MangaPage.media);
+    setTrendingAnimesAndMangas(data.data.AllMediasPage.media);
     setPageInfo(data.data.Page.pageInfo);
     setIsTrendingLoading(false);
   }
@@ -109,7 +132,66 @@ export function TrendingProvider({ children }: TrendingProvider) {
     try {
       let query = `
         query ($page: Int, $perPage: Int) {
-          Page (page: $page, perPage: $perPage) {
+          AnimePage: Page (page: 1, perPage: 16) {
+            pageInfo {
+              total
+              perPage
+              currentPage
+              lastPage
+              hasNextPage
+            }
+            media (type: ANIME, sort: TRENDING_DESC, isAdult: false) {
+              id
+              type
+              title {
+                english
+                romaji
+                native
+              }
+              trailer {
+                id
+                site
+                thumbnail
+              }
+              averageScore
+              description
+              genres
+              coverImage {
+                extraLarge
+              }
+              startDate {
+                year
+              }
+            }
+          }
+          MangaPage: Page (page: 1, perPage: 16) {
+            pageInfo {
+              total
+              perPage
+              currentPage
+              lastPage
+              hasNextPage
+            }
+            media (type: MANGA, sort: TRENDING_DESC, isAdult: false) {
+              id
+              type
+              title {
+                english
+                romaji
+                native
+              }
+              averageScore
+              description
+              genres
+              coverImage {
+                extraLarge
+              }
+              startDate {
+                year
+              }
+            }
+          }
+           AllMediasPage: Page (page: $page, perPage: $perPage) {
             pageInfo {
               total
               perPage
@@ -123,6 +205,7 @@ export function TrendingProvider({ children }: TrendingProvider) {
               title {
                 english
                 romaji
+                native
               }
               trailer {
                 id
@@ -175,6 +258,8 @@ export function TrendingProvider({ children }: TrendingProvider) {
     <TrendingContext.Provider
       value={{
         trendingAnimes,
+        trendingMangas,
+        trendingAnimesAndMangas,
         // handleLoadMoreTrendingData,
         isTrendingLoading,
         pageInfo,

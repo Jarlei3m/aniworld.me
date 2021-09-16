@@ -6,65 +6,81 @@ import {
   AiFillTwitterCircle,
   AiOutlineLogin,
   AiFillGithub,
+  AiFillEyeInvisible,
+  AiFillEye,
 } from 'react-icons/ai';
 import { RiFacebookCircleFill } from 'react-icons/ri';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 export function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isPasswordHidden, setPasswordHidden] = useState(true);
 
-  function handleLogin(e: Event) {
+  function handleLogin(e: FormEvent) {
     e.preventDefault();
-    console.log(email, password);
+
+    const userData = {
+      email,
+      password,
+    };
+    setPassword('');
+    setEmail('');
+    setPasswordHidden(true);
+    console.log(userData);
   }
 
   return (
-    <Container>
+    <Container onSubmit={(e) => handleLogin(e)}>
       <h1>Login</h1>
 
-      <form action="">
-        <div>
-          <label htmlFor="email">E-mail</label>
-          <input
-            value={email}
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
+      <div>
+        <label htmlFor="email">E-mail</label>
+        <input
+          name="email"
+          value={email}
+          required
+          type="email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
 
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            value={password}
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+      <div>
+        <label htmlFor="password">Password</label>
+        <input
+          name="password"
+          required
+          value={password}
+          type={isPasswordHidden ? 'password' : 'text'}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        {isPasswordHidden ? (
+          <AiFillEyeInvisible onClick={() => setPasswordHidden(false)} />
+        ) : (
+          <AiFillEye onClick={() => setPasswordHidden(true)} />
+        )}
+      </div>
 
-        <div>
-          <button type="submit" onClick={(e) => handleLogin(e)}>
-            Login
-          </button>
-        </div>
+      <button type="submit" onClick={(e) => handleLogin(e)}>
+        Login
+      </button>
 
-        <div>
-          <span>Don´t have an account?</span>
-          <Link href="/register">
-            <a>Register now!</a>
-          </Link>
-        </div>
+      <div>
+        <span>Don´t have an account?</span>
+        <Link href="/register">
+          <a>Register now!</a>
+        </Link>
+      </div>
 
+      <div>
+        <strong>Or</strong>
         <div>
-          <strong>Or</strong>
-          <div>
-            <AiFillGithub />
-            <AiFillTwitterCircle />
-            <RiFacebookCircleFill />
-            <AiFillGoogleCircle />
-          </div>
+          <AiFillGithub />
+          <AiFillTwitterCircle />
+          <RiFacebookCircleFill />
+          <AiFillGoogleCircle />
         </div>
-      </form>
+      </div>
     </Container>
   );
 }
