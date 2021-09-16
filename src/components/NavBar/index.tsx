@@ -10,16 +10,10 @@ import { RiCompassDiscoverFill } from 'react-icons/ri';
 import { TiArrowRepeat } from 'react-icons/ti';
 import { MdLocalMovies, MdSettings } from 'react-icons/md';
 import { GiNinjaHeroicStance, GiExitDoor } from 'react-icons/gi';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 export function NavBar() {
-  const [currentMenu, setCurrentMenu] = useState('Home');
-
-  function handleCurrentMenu(navMenu: string) {
-    if (navMenu !== currentMenu) {
-      setCurrentMenu(navMenu);
-    }
-  }
+  const currentMenu = useRouter();
 
   return (
     <NavbarContainer>
@@ -28,30 +22,21 @@ export function NavBar() {
       <nav>
         <ul>
           <Link href="/">
-            <NavMenuItem
-              isActive={currentMenu === 'Home'}
-              onClick={() => handleCurrentMenu('Home')}
-            >
+            <NavMenuItem isActive={currentMenu.route === '/'}>
               <AiFillHome />
               <a>Home</a>
             </NavMenuItem>
           </Link>
 
           <Link href="/trending">
-            <NavMenuItem
-              isActive={currentMenu === 'Trending'}
-              onClick={() => handleCurrentMenu('Trending')}
-            >
+            <NavMenuItem isActive={currentMenu.route === '/trending'}>
               <BiTrendingUp />
               <a>Trending</a>
             </NavMenuItem>
           </Link>
 
           <Link href="#">
-            <NavMenuItem
-              isActive={currentMenu === 'Discover'}
-              onClick={() => handleCurrentMenu('Discover')}
-            >
+            <NavMenuItem isActive={currentMenu.route === '/discover'}>
               <RiCompassDiscoverFill />
               <a>Discover</a>
             </NavMenuItem>
@@ -60,20 +45,14 @@ export function NavBar() {
 
         <ul>
           <Link href="#">
-            <NavMenuItem
-              isActive={currentMenu === 'Recent'}
-              onClick={() => handleCurrentMenu('Recent')}
-            >
+            <NavMenuItem isActive={currentMenu.route === '/recent'}>
               <AiFillHome />
               <a>Recent</a>
             </NavMenuItem>
           </Link>
 
           <Link href="#">
-            <NavMenuItem
-              isActive={currentMenu === 'Anime List'}
-              onClick={() => handleCurrentMenu('Anime List')}
-            >
+            <NavMenuItem isActive={currentMenu.route === '/anime-list'}>
               <AiOutlineUnorderedList />
               <a>Anime List</a>
             </NavMenuItem>
@@ -82,40 +61,28 @@ export function NavBar() {
 
         <ul>
           <Link href="#">
-            <NavMenuItem
-              isActive={currentMenu === 'On Going'}
-              onClick={() => handleCurrentMenu('On Going')}
-            >
+            <NavMenuItem isActive={currentMenu.route === '/on-going'}>
               <TiArrowRepeat />
               <a>On Going</a>
             </NavMenuItem>
           </Link>
 
           <Link href="#">
-            <NavMenuItem
-              isActive={currentMenu === 'Completed'}
-              onClick={() => handleCurrentMenu('Completed')}
-            >
+            <NavMenuItem isActive={currentMenu.route === '/completed'}>
               <AiFillCheckCircle />
               <a>Completed</a>
             </NavMenuItem>
           </Link>
 
           <Link href="#">
-            <NavMenuItem
-              isActive={currentMenu === 'Movies'}
-              onClick={() => handleCurrentMenu('Movies')}
-            >
+            <NavMenuItem isActive={currentMenu.route === '/movies'}>
               <MdLocalMovies />
               <a>Movies</a>
             </NavMenuItem>
           </Link>
 
           <Link href="#">
-            <NavMenuItem
-              isActive={currentMenu === 'Live Action'}
-              onClick={() => handleCurrentMenu('Live Action')}
-            >
+            <NavMenuItem isActive={currentMenu.route === '/live-action'}>
               <GiNinjaHeroicStance />
               <a>Live Action</a>
             </NavMenuItem>
@@ -124,20 +91,14 @@ export function NavBar() {
 
         <ul>
           <Link href="#">
-            <NavMenuItem
-              isActive={currentMenu === 'Settings'}
-              onClick={() => handleCurrentMenu('Settings')}
-            >
+            <NavMenuItem isActive={currentMenu.route === '/settings'}>
               <MdSettings />
               <a>Settings</a>
             </NavMenuItem>
           </Link>
 
           <Link href="/login">
-            <NavMenuItem
-              isActive={currentMenu === 'Log out'}
-              onClick={() => handleCurrentMenu('Log out')}
-            >
+            <NavMenuItem isActive={currentMenu.route === '/log-out'}>
               <GiExitDoor />
               <a>Log Out</a>
             </NavMenuItem>
