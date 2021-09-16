@@ -1,4 +1,4 @@
-import { NavbarContainer } from './styles';
+import { NavbarContainer, NavMenuItem } from './styles';
 import Link from 'next/link';
 import {
   AiFillHome,
@@ -10,89 +10,138 @@ import { RiCompassDiscoverFill } from 'react-icons/ri';
 import { TiArrowRepeat } from 'react-icons/ti';
 import { MdLocalMovies, MdSettings } from 'react-icons/md';
 import { GiNinjaHeroicStance, GiExitDoor } from 'react-icons/gi';
+import { useState } from 'react';
 
 export function NavBar() {
+  const [currentMenu, setCurrentMenu] = useState('Home');
+
+  function handleCurrentMenu(navMenu: string) {
+    if (navMenu !== currentMenu) {
+      setCurrentMenu(navMenu);
+    }
+  }
+
   return (
     <NavbarContainer>
       <h1>stream.me</h1>
 
       <nav>
         <ul>
-          <li className="active">
-            <AiFillHome />
-            <Link href="/">
+          <Link href="/">
+            <NavMenuItem
+              isActive={currentMenu === 'Home'}
+              onClick={() => handleCurrentMenu('Home')}
+            >
+              <AiFillHome />
               <a>Home</a>
-            </Link>
-          </li>
-          <li>
-            <BiTrendingUp />
-            <Link href="/trending">
+            </NavMenuItem>
+          </Link>
+
+          <Link href="/trending">
+            <NavMenuItem
+              isActive={currentMenu === 'Trending'}
+              onClick={() => handleCurrentMenu('Trending')}
+            >
+              <BiTrendingUp />
               <a>Trending</a>
-            </Link>
-          </li>
-          <li>
-            <RiCompassDiscoverFill />
-            <Link href="#">
+            </NavMenuItem>
+          </Link>
+
+          <Link href="#">
+            <NavMenuItem
+              isActive={currentMenu === 'Discover'}
+              onClick={() => handleCurrentMenu('Discover')}
+            >
+              <RiCompassDiscoverFill />
               <a>Discover</a>
-            </Link>
-          </li>
+            </NavMenuItem>
+          </Link>
         </ul>
 
         <ul>
-          <li>
-            <AiFillHome />
-            <Link href="#">
+          <Link href="#">
+            <NavMenuItem
+              isActive={currentMenu === 'Recent'}
+              onClick={() => handleCurrentMenu('Recent')}
+            >
+              <AiFillHome />
               <a>Recent</a>
-            </Link>
-          </li>
-          <li>
-            <AiOutlineUnorderedList />
-            <Link href="#">
+            </NavMenuItem>
+          </Link>
+
+          <Link href="#">
+            <NavMenuItem
+              isActive={currentMenu === 'Anime List'}
+              onClick={() => handleCurrentMenu('Anime List')}
+            >
+              <AiOutlineUnorderedList />
               <a>Anime List</a>
-            </Link>
-          </li>
+            </NavMenuItem>
+          </Link>
         </ul>
 
         <ul>
-          <li>
-            <TiArrowRepeat />
-            <Link href="#">
+          <Link href="#">
+            <NavMenuItem
+              isActive={currentMenu === 'On Going'}
+              onClick={() => handleCurrentMenu('On Going')}
+            >
+              <TiArrowRepeat />
               <a>On Going</a>
-            </Link>
-          </li>
-          <li>
-            <AiFillCheckCircle />
-            <Link href="#">
+            </NavMenuItem>
+          </Link>
+
+          <Link href="#">
+            <NavMenuItem
+              isActive={currentMenu === 'Completed'}
+              onClick={() => handleCurrentMenu('Completed')}
+            >
+              <AiFillCheckCircle />
               <a>Completed</a>
-            </Link>
-          </li>
-          <li>
-            <MdLocalMovies />
-            <Link href="#">
+            </NavMenuItem>
+          </Link>
+
+          <Link href="#">
+            <NavMenuItem
+              isActive={currentMenu === 'Movies'}
+              onClick={() => handleCurrentMenu('Movies')}
+            >
+              <MdLocalMovies />
               <a>Movies</a>
-            </Link>
-          </li>
-          <li>
-            <GiNinjaHeroicStance />
-            <Link href="#">
+            </NavMenuItem>
+          </Link>
+
+          <Link href="#">
+            <NavMenuItem
+              isActive={currentMenu === 'Live Action'}
+              onClick={() => handleCurrentMenu('Live Action')}
+            >
+              <GiNinjaHeroicStance />
               <a>Live Action</a>
-            </Link>
-          </li>
+            </NavMenuItem>
+          </Link>
         </ul>
 
         <ul>
-          <li>
-            <MdSettings />
-            <Link href="#">
+          <Link href="#">
+            <NavMenuItem
+              isActive={currentMenu === 'Settings'}
+              onClick={() => handleCurrentMenu('Settings')}
+            >
+              <MdSettings />
               <a>Settings</a>
-            </Link>
-          </li>
-          <li>
-            <GiExitDoor />
-            <Link href="/login">
+            </NavMenuItem>
+          </Link>
+
+          <Link href="/login">
+            <NavMenuItem
+              isActive={currentMenu === 'Log out'}
+              onClick={() => handleCurrentMenu('Log out')}
+            >
+              <GiExitDoor />
               <a>Log Out</a>
-            </Link>
-          </li>
+            </NavMenuItem>
+          </Link>
         </ul>
       </nav>
     </NavbarContainer>
