@@ -4,11 +4,18 @@ export const Container = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100vh;
-  position: relative;
+  position: relative; */
 
-  img {
+  /* img {
     object-fit: cover;
     object-position: center;
     width: 100vw;
@@ -16,5 +23,5 @@ export const Container = styled.section`
 
     filter: brightness(0.7) grayscale(70%);
     -webkit-filter: brightness(0.7) grayscale(70%);
-  }
+  } */
 `;

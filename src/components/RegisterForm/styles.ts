@@ -6,7 +6,7 @@ interface ContainerProps {
 
 export const Container = styled.form<ContainerProps>`
   width: 30rem;
-  height: 36rem;
+  height: 42rem;
   background-color: var(--gray-500);
   padding: 3rem 3.5rem;
   border-radius: 12px;
@@ -47,7 +47,8 @@ export const Container = styled.form<ContainerProps>`
       }
     }
 
-    &:nth-child(3) {
+    &:nth-child(4),
+    &:nth-child(5) {
       position: relative;
 
       svg {
@@ -61,7 +62,7 @@ export const Container = styled.form<ContainerProps>`
       }
     }
 
-    &:nth-child(5) {
+    &:nth-child(7) {
       margin-top: 0.3rem;
       font-size: 0.8rem;
       display: inline-block;
@@ -83,7 +84,7 @@ export const Container = styled.form<ContainerProps>`
       }
     }
 
-    &:last-child {
+    /* &:last-child {
       width: 100%;
       text-align: center;
       margin-top: 1.6rem;
@@ -110,7 +111,7 @@ export const Container = styled.form<ContainerProps>`
           }
         }
       }
-    }
+    } */
   }
 
   button[type='submit'] {

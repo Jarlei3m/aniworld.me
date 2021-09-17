@@ -7,6 +7,8 @@ import { PageContainer } from '../styles/Pages/styles';
 import React from 'react';
 import { TrendingProvider } from '../contexts/TrendingContext';
 import { useRouter } from 'next/dist/client/router';
+import { LoginBgImage } from '../components/LoginBgImage';
+import { LoginProvider } from '../contexts/LoginContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -17,9 +19,17 @@ function MyApp({ Component, pageProps }: AppProps) {
       <MostPopularProvider>
         <SearchProvider>
           <PageContainer>
-            {router.asPath !== '/login' && <NavBar />}
-            <GlobalStyle />
-            <Component {...pageProps} />
+            <LoginProvider>
+              {router.asPath === '/login' ? (
+                <LoginBgImage />
+              ) : router.asPath === '/register' ? (
+                <LoginBgImage />
+              ) : (
+                <NavBar />
+              )}
+              <GlobalStyle />
+              <Component {...pageProps} />
+            </LoginProvider>
           </PageContainer>
         </SearchProvider>
       </MostPopularProvider>

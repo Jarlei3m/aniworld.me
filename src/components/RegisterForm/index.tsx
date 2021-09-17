@@ -13,10 +13,11 @@ import { RiFacebookCircleFill } from 'react-icons/ri';
 import { FormEvent, useContext, useState } from 'react';
 import { LoginContext } from '../../contexts/LoginContext';
 
-export function LoginForm() {
+export function RegisterForm() {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const [translate, setTranslate] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isPasswordHidden, setPasswordHidden] = useState(true);
 
   const { handleTranslateChange, translate } = useContext(LoginContext);
@@ -24,19 +25,38 @@ export function LoginForm() {
   function handleLogin(e: FormEvent) {
     e.preventDefault();
 
-    const userData = {
-      email,
-      password,
-    };
-    setPassword('');
-    setEmail('');
-    setPasswordHidden(true);
-    console.log(userData);
+    if (password === confirmPassword) {
+      const newUserData = {
+        name,
+        email,
+        password,
+        confirmPassword,
+      };
+      setName('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+      setPasswordHidden(true);
+      console.log('newUser:', newUserData);
+    } else {
+      alert('Error password');
+    }
   }
 
   return (
     <Container onSubmit={(e) => handleLogin(e)} translateX={translate}>
-      <h1>Login</h1>
+      <h1>Register</h1>
+
+      <div>
+        <label htmlFor="name">Name</label>
+        <input
+          name="name"
+          value={name}
+          required
+          type="text"
+          onChange={(e) => setName(e.target.value)}
+        />
+      </div>
 
       <div>
         <label htmlFor="email">E-mail</label>
@@ -65,25 +85,31 @@ export function LoginForm() {
         )}
       </div>
 
+      <div>
+        <label htmlFor="confirmPassword">Confirm Password</label>
+        <input
+          name="confirmPassword"
+          required
+          value={confirmPassword}
+          type={confirmPassword ? 'password' : 'text'}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+        {isPasswordHidden ? (
+          <AiFillEyeInvisible onClick={() => setPasswordHidden(false)} />
+        ) : (
+          <AiFillEye onClick={() => setPasswordHidden(true)} />
+        )}
+      </div>
+
       <button type="submit" onClick={(e) => handleLogin(e)}>
-        Login
+        Register
       </button>
 
       <div>
-        <span>Don´t have an account?</span>
-        <Link href="/register">
-          <a onClick={() => handleTranslateChange('register')}>Register now!</a>
+        <span>Already have an account?</span>
+        <Link href="/login">
+          <a onClick={() => handleTranslateChange('login')}>Login.</a>
         </Link>
-      </div>
-
-      <div>
-        <strong>Or</strong>
-        <div>
-          <AiFillGithub />
-          <AiFillTwitterCircle />
-          <RiFacebookCircleFill />
-          <AiFillGoogleCircle />
-        </div>
       </div>
     </Container>
   );
