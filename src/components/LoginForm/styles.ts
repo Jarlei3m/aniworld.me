@@ -6,7 +6,7 @@ interface ContainerProps {
 
 export const Container = styled.form<ContainerProps>`
   width: 30rem;
-  height: 36rem;
+  height: 38rem;
   background-color: var(--gray-500);
   padding: 3rem 3.5rem;
   border-radius: 12px;
@@ -53,11 +53,25 @@ export const Container = styled.form<ContainerProps>`
       svg {
         position: absolute;
         right: 1rem;
-        top: 54%;
+        bottom: 0rem;
+        height: 5.2rem;
         font-size: 1.25rem;
-        /* top: 2.2rem; */
         color: var(--gray-300);
         cursor: pointer;
+      }
+
+      a {
+        margin-top: 0.3rem;
+        font-size: 0.8rem;
+        /* color: var(--white); */
+        color: var(--green-300);
+        font-weight: bold;
+        transition: color 0.2s;
+        display: contents;
+
+        &:hover {
+          color: var(--green-500);
+        }
       }
     }
 

@@ -22,6 +22,10 @@ export const GlobalStyle = createGlobalStyle`
     --yellow-500: #f3ef0b;
   }
 
+  #__next {
+    display: flex;
+  }
+
   html {
     scroll-behavior: smooth;
 

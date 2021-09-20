@@ -63,6 +63,9 @@ export function LoginForm() {
         ) : (
           <AiFillEye onClick={() => setPasswordHidden(true)} />
         )}
+        <Link href="/forgot">
+          <a>I forgot my password</a>
+        </Link>
       </div>
 
       <button type="submit" onClick={(e) => handleLogin(e)}>

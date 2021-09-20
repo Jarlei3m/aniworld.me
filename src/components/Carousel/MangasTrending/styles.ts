@@ -33,7 +33,7 @@ export const Container = styled.section`
     button {
       position: absolute;
       height: 100%;
-      width: 2.24rem;
+      width: 1.94rem;
       z-index: 3;
       border: none;
       background: rgba(0, 0, 0, 0.3);

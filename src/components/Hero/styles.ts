@@ -4,18 +4,18 @@ export const Container = styled.div`
   max-width: 100%;
   height: 32rem;
   margin: 0 auto;
-  border-radius: 32px;
+  border-radius: 2rem;
   overflow: hidden;
   position: relative;
 
   box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.4);
 
   .carousel-root {
-    max-height: 32rem;
+    height: 100%;
 
     .carousel {
       position: absolute;
-      max-height: 100%;
+      height: 100%;
 
       .thumbs-wrapper,
       .control-arrow {

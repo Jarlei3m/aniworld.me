@@ -54,7 +54,8 @@ export const Container = styled.form<ContainerProps>`
       svg {
         position: absolute;
         right: 1rem;
-        top: 54%;
+        bottom: 0rem;
+        height: 3rem;
         font-size: 1.25rem;
         /* top: 2.2rem; */
         color: var(--gray-300);

@@ -1,16 +1,15 @@
-import { LoginForm } from '../components/LoginForm';
-import { LoginBgImage } from '../components/LoginBgImage';
-
-import { Container } from '../styles/Pages/Login/styles';
+import Head from 'next/head';
 import { RegisterForm } from '../components/RegisterForm';
 
-// import Image from 'next/image';
-// import bg_image from '../../public/assets/login_bg.jpg';
+import { Container } from '../styles/Pages/Login/styles';
 
 export default function Register() {
   return (
     <Container>
-      {/* <LoginBgImage /> */}
+      <Head>
+        <title> Register | Stream.me</title>
+      </Head>
+
       <RegisterForm />
     </Container>
   );
