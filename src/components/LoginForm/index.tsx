@@ -1,23 +1,35 @@
 import { Container } from './styles';
 import Link from 'next/link';
+import { signIn, useSession } from 'next-auth/client';
 
 import {
   AiFillGoogleCircle,
   AiFillTwitterCircle,
-  AiOutlineLogin,
   AiFillGithub,
   AiFillEyeInvisible,
   AiFillEye,
 } from 'react-icons/ai';
-import { RiFacebookCircleFill } from 'react-icons/ri';
-import { FormEvent, useContext, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 import { LoginContext } from '../../contexts/LoginContext';
+import { useRouter } from 'next/router';
+
+function Redirect({ to }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push(to);
+  }, [to]);
+
+  return null;
+}
 
 export function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   // const [translate, setTranslate] = useState(false);
   const [isPasswordHidden, setPasswordHidden] = useState(true);
+
+  const [session] = useSession();
 
   const { handleTranslateChange, translate } = useContext(LoginContext);
 
@@ -33,6 +45,19 @@ export function LoginForm() {
     setPasswordHidden(true);
     console.log(userData);
   }
+
+  function handleSignIn(provider: string) {
+    signIn(provider, {
+      callbackUrl: 'http://localhost:3000',
+    });
+  }
+
+  // check if user is logged in
+  if (session) {
+    return <Redirect to="/" />;
+  }
+
+  console.log('session login:', session);
 
   return (
     <Container onSubmit={(e) => handleLogin(e)} translateX={translate}>
@@ -82,10 +107,9 @@ export function LoginForm() {
       <div>
         <strong>Or</strong>
         <div>
-          <AiFillGithub />
-          <AiFillTwitterCircle />
-          <RiFacebookCircleFill />
-          <AiFillGoogleCircle />
+          <AiFillGithub onClick={() => handleSignIn('github')} />
+          <AiFillTwitterCircle onClick={() => handleSignIn('twitter')} />
+          <AiFillGoogleCircle onClick={() => handleSignIn('google')} />
         </div>
       </div>
     </Container>

@@ -1,10 +1,9 @@
-import { useContext, useState } from 'react';
-import { FiSearch } from 'react-icons/fi';
-import { Container } from './styles';
-
-import axios from 'axios';
+import { useContext, useState, useEffect } from 'react';
 import { SearchContext } from '../../contexts/SearchContext';
-import { useEffect } from 'react';
+import { useSession } from 'next-auth/client';
+import { FiSearch } from 'react-icons/fi';
+
+import { Container } from './styles';
 
 export function SearchBar() {
   const { fetchAnimeOnSearch } = useContext(SearchContext);
@@ -13,6 +12,11 @@ export function SearchBar() {
   useEffect(() => {
     fetchAnimeOnSearch(animeTitle);
   }, [animeTitle]);
+
+  // session data
+  const [session] = useSession();
+
+  console.log('session:', session);
 
   return (
     <Container>
@@ -30,8 +34,9 @@ export function SearchBar() {
       </form>
 
       <img
-        src="https://xesque.rocketseat.dev/users/avatar/profile-029ff02b-a8cb-4868-aafc-8556229c6c9f-1616845350093.jpg"
-        alt="name"
+        title={`${session?.user.name}'s Picture`}
+        src={session?.user.image}
+        alt={`${session?.user.name}'s Picture`}
       />
     </Container>
   );

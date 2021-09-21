@@ -1,4 +1,3 @@
-import { NavbarContainer, NavMenuItem } from './styles';
 import Link from 'next/link';
 import {
   AiFillHome,
@@ -11,9 +10,16 @@ import { TiArrowRepeat } from 'react-icons/ti';
 import { MdLocalMovies, MdSettings } from 'react-icons/md';
 import { GiNinjaHeroicStance, GiExitDoor } from 'react-icons/gi';
 import { useRouter } from 'next/router';
+import { signOut, useSession } from 'next-auth/client';
+
+import { NavbarContainer, NavMenuItem } from './styles';
 
 export function NavBar() {
   const currentMenu = useRouter();
+
+  const [session] = useSession();
+
+  console.log('session:', session);
 
   return (
     <NavbarContainer>
@@ -97,8 +103,11 @@ export function NavBar() {
             </NavMenuItem>
           </Link>
 
-          <Link href="/login">
-            <NavMenuItem isActive={currentMenu.route === '/log-out'}>
+          <Link href="#">
+            <NavMenuItem
+              onClick={() => signOut()}
+              isActive={currentMenu.route === '/log-out'}
+            >
               <GiExitDoor />
               <a>Log Out</a>
             </NavMenuItem>
