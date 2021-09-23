@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const GlobalStyle = createGlobalStyle`
   * {
@@ -59,5 +60,25 @@ export const GlobalStyle = createGlobalStyle`
 
   li {
     list-style: none;
+  }
+
+  
+.Toastify__toast-container {
+    right: 0;
+    left: unset;
+    width: 18vw;
+    @media(max-width: 425px) {
+      width: 50vw;
+    }
+  }
+  .Toastify__toast--sucess {
+    background-color: var(--green-500);
+  }
+  .Toastify__toast {
+    min-height: 2.8125rem;
+     @media(max-width: 425px) {
+      margin: 1rem .5rem;
+      border-radius: 4px;
+    }
   }
 `;

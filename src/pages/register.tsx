@@ -1,5 +1,7 @@
 import Head from 'next/head';
 import { RegisterForm } from '../components/RegisterForm';
+import { SubscribeProvider } from '../contexts/SubscribeContext';
+import { ToastContainer } from 'react-toastify';
 
 import { Container } from '../styles/Pages/Login/styles';
 
@@ -10,7 +12,11 @@ export default function Register() {
         <title> Register | Stream.me</title>
       </Head>
 
-      <RegisterForm />
+      {/* <ToastContainer> */}
+      <SubscribeProvider>
+        <RegisterForm />
+      </SubscribeProvider>
+      {/* </ToastContainer> */}
     </Container>
   );
 }

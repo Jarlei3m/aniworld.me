@@ -63,7 +63,7 @@ export const Container = styled.form<ContainerProps>`
       }
     }
 
-    &:nth-child(7) {
+    &:last-child {
       margin-top: 0.3rem;
       font-size: 0.8rem;
       display: inline-block;

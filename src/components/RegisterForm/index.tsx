@@ -1,60 +1,37 @@
 import { Container } from './styles';
 import Link from 'next/link';
 
-import {
-  AiFillGoogleCircle,
-  AiFillTwitterCircle,
-  AiOutlineLogin,
-  AiFillGithub,
-  AiFillEyeInvisible,
-  AiFillEye,
-} from 'react-icons/ai';
-import { RiFacebookCircleFill } from 'react-icons/ri';
+import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import { FormEvent, useContext, useState } from 'react';
 import { LoginContext } from '../../contexts/LoginContext';
+import { SubscribeContext } from '../../contexts/SubscribeContext';
 
 export function RegisterForm() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [isPasswordHidden, setPasswordHidden] = useState(true);
 
+  // CONTEXT
   const { handleTranslateChange, translate } = useContext(LoginContext);
-
-  function handleLogin(e: FormEvent) {
-    e.preventDefault();
-
-    if (password === confirmPassword) {
-      const newUserData = {
-        name,
-        email,
-        password,
-        confirmPassword,
-      };
-      setName('');
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
-      setPasswordHidden(true);
-      console.log('newUser:', newUserData);
-    } else {
-      alert('Error password');
-    }
-  }
+  const {
+    handleSubscribeForm,
+    handleChange,
+    handleKeyUp,
+    newUser,
+    isPasswordsMatch,
+    isEmailValid,
+  } = useContext(SubscribeContext);
 
   return (
-    <Container onSubmit={(e) => handleLogin(e)} translateX={translate}>
+    <Container onSubmit={handleSubscribeForm} translateX={translate}>
       <h1>Register</h1>
 
       <div>
         <label htmlFor="name">Name</label>
         <input
           name="name"
-          value={name}
+          value={newUser?.name ? newUser.name : ''}
           required
           type="text"
-          onChange={(e) => setName(e.target.value)}
+          onChange={handleChange}
         />
       </div>
 
@@ -62,10 +39,11 @@ export function RegisterForm() {
         <label htmlFor="email">E-mail</label>
         <input
           name="email"
-          value={email}
+          value={newUser?.email ? newUser.email : ''}
           required
-          type="email"
-          onChange={(e) => setEmail(e.target.value)}
+          type="text"
+          onChange={handleChange}
+          onKeyUp={handleKeyUp}
         />
       </div>
 
@@ -74,9 +52,9 @@ export function RegisterForm() {
         <input
           name="password"
           required
-          value={password}
+          value={newUser?.password ? newUser.password : ''}
           type={isPasswordHidden ? 'password' : 'text'}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handleChange}
         />
         {isPasswordHidden ? (
           <AiFillEyeInvisible onClick={() => setPasswordHidden(false)} />
@@ -87,12 +65,14 @@ export function RegisterForm() {
 
       <div>
         <label htmlFor="confirmPassword">Confirm Password</label>
+
         <input
           name="confirmPassword"
           required
-          value={confirmPassword}
-          type={confirmPassword ? 'password' : 'text'}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          value={newUser?.confirmPassword ? newUser.confirmPassword : ''}
+          type={isPasswordHidden ? 'password' : 'text'}
+          onChange={handleChange}
+          onKeyUp={handleKeyUp}
         />
         {isPasswordHidden ? (
           <AiFillEyeInvisible onClick={() => setPasswordHidden(false)} />
@@ -100,10 +80,9 @@ export function RegisterForm() {
           <AiFillEye onClick={() => setPasswordHidden(true)} />
         )}
       </div>
+      {isPasswordsMatch ? null : <small>not match</small>}
 
-      <button type="submit" onClick={(e) => handleLogin(e)}>
-        Register
-      </button>
+      <button type="submit">Register</button>
 
       <div>
         <span>Already have an account?</span>
