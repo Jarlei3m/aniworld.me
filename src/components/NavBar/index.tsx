@@ -23,7 +23,7 @@ export function NavBar() {
 
   return (
     <NavbarContainer>
-      <h1>stream.me</h1>
+      <h1>Aniworld.me</h1>
 
       <nav>
         <ul>
