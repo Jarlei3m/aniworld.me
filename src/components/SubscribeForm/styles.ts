@@ -22,6 +22,7 @@ export const Container = styled.form<ContainerProps>`
   div {
     display: flex;
     flex-direction: column;
+    position: relative;
 
     & + div {
       margin-top: 1.6rem;
@@ -31,7 +32,7 @@ export const Container = styled.form<ContainerProps>`
       margin-bottom: 0.5rem;
     }
 
-    input {
+    /* input {
       border-radius: 0.5rem;
       border: none;
       outline: transparent;
@@ -45,11 +46,24 @@ export const Container = styled.form<ContainerProps>`
       &:valid {
         border-bottom: 3px solid var(--green-500);
       }
-    }
+    } */
+
+    /* small {
+      position: absolute;
+      left: 0.4rem;
+      bottom: 0;
+      color: red;
+      transform: translateY(1rem);
+      transition: all 0.3s ease;
+
+      &.valid {
+        transform: translateY(0);
+      }
+    } */
 
     &:nth-child(4),
     &:nth-child(5) {
-      position: relative;
+      /* position: relative; */
 
       svg {
         position: absolute;
@@ -84,35 +98,6 @@ export const Container = styled.form<ContainerProps>`
         }
       }
     }
-
-    /* &:last-child {
-      width: 100%;
-      text-align: center;
-      margin-top: 1.6rem;
-
-      strong {
-        font-size: 1.2rem;
-      }
-
-      div {
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        justify-content: center;
-        gap: 0.8rem;
-        margin-top: 1.6rem;
-
-        svg {
-          font-size: 2.4rem;
-          cursor: pointer;
-          transition: all 0.2s;
-
-          &:hover {
-            color: var(--green-500);
-          }
-        }
-      }
-    } */
   }
 
   button[type='submit'] {
@@ -132,4 +117,49 @@ export const Container = styled.form<ContainerProps>`
       filter: brightness(0.9);
     }
   }
+`;
+
+interface ValidProps {
+  isValid: boolean;
+}
+
+export const InputBox = styled.input<ValidProps>`
+  border-radius: 0.5rem;
+  border: none;
+  outline: transparent;
+  height: 3rem;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  color: var(--gray-500);
+  font-size: 1rem;
+
+  &:focus,
+  &:valid {
+    /* border-bottom: 3px solid var(--green-500); */
+    border-bottom: 3px solid
+      ${(props) => (props.isValid ? '#84f8b8' : '#cc5662')};
+  }
+`;
+
+export const WarningMessage = styled.small<ValidProps>`
+  position: absolute;
+  left: 0.4rem;
+  bottom: -0.5rem;
+  color: var(--red-500);
+  font-size: 0.8rem;
+
+  transition: all 0.5s ease;
+
+  ${(props) =>
+    props.isValid
+      ? `
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(0rem)
+    `
+      : `
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(.6rem)
+    `}
 `;

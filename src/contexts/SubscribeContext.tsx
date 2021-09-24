@@ -25,6 +25,7 @@ interface userExists {
 interface SubscribeContextData {
   newUser: NewUserProps;
   isEmailValid: boolean;
+  isPasswordValid: boolean;
   isPasswordsMatch: boolean;
   isLoading: boolean;
   handleSubscribeForm: (e: FormEvent) => Promise<void>;
@@ -45,6 +46,7 @@ export const SubscribeContext = createContext<SubscribeContextData>(
 export function SubscribeProvider({ children }: SubscribeProvider) {
   const [newUser, setNewUser] = useState<NewUserProps>();
 
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [isPasswordsMatch, setIsPasswordsMatch] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -77,18 +79,28 @@ export function SubscribeProvider({ children }: SubscribeProvider) {
         }
       }
 
+      // Check Password length
+      if (e.currentTarget.name === 'password') {
+        if (e.currentTarget.value === '') {
+          setIsPasswordValid(true);
+        } else {
+          e.currentTarget.value.length > 5
+            ? setIsPasswordValid(true)
+            : setIsPasswordValid(false);
+        }
+      }
+
       // Check Confirm Password
       if (e.currentTarget.name === 'confirmPassword') {
         if (e.currentTarget.value === '') {
           setIsPasswordsMatch(true);
         } else {
-          e.currentTarget.value === newUser.password
+          e.currentTarget.value === newUser.password &&
+          e.currentTarget.value.length > 5
             ? setIsPasswordsMatch(true)
             : setIsPasswordsMatch(false);
         }
       }
-      console.log('key up:', newUser);
-      console.log(isPasswordsMatch);
     },
     [newUser],
   );
@@ -97,7 +109,7 @@ export function SubscribeProvider({ children }: SubscribeProvider) {
     e.preventDefault();
     setIsLoading(true);
 
-    if (isEmailValid && isPasswordsMatch) {
+    if (isEmailValid && isPasswordsMatch && isPasswordValid) {
       try {
         await fetch('api/subscribe', {
           method: 'POST',
@@ -139,6 +151,7 @@ export function SubscribeProvider({ children }: SubscribeProvider) {
     <SubscribeContext.Provider
       value={{
         handleSubscribeForm,
+        isPasswordValid,
         isEmailValid,
         isPasswordsMatch,
         isLoading,

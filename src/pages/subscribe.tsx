@@ -1,20 +1,20 @@
 import Head from 'next/head';
-import { RegisterForm } from '../components/RegisterForm';
+import { SubscribeForm } from '../components/SubscribeForm';
 import { SubscribeProvider } from '../contexts/SubscribeContext';
 import { ToastContainer } from 'react-toastify';
 
 import { Container } from '../styles/Pages/Login/styles';
 
-export default function Register() {
+export default function Subscribe() {
   return (
     <Container>
       <Head>
-        <title> Register | Stream.me</title>
+        <title> Subscribe | Stream.me</title>
       </Head>
 
       {/* <ToastContainer> */}
       <SubscribeProvider>
-        <RegisterForm />
+        <SubscribeForm />
       </SubscribeProvider>
       {/* </ToastContainer> */}
     </Container>

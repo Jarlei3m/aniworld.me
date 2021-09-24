@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <LoginProvider>
         {router.asPath === '/login' ? (
           <LoginBgImage />
-        ) : router.asPath === '/register' ? (
+        ) : router.asPath === '/subscribe' ? (
           <LoginBgImage />
         ) : (
           <NavBar />

@@ -1,12 +1,11 @@
-import { Container } from './styles';
+import { Container, InputBox, WarningMessage } from './styles';
 import Link from 'next/link';
 
-import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import { FormEvent, useContext, useState } from 'react';
 import { LoginContext } from '../../contexts/LoginContext';
 import { SubscribeContext } from '../../contexts/SubscribeContext';
 
-export function RegisterForm() {
+export function SubscribeForm() {
   const [isPasswordHidden, setPasswordHidden] = useState(true);
 
   // CONTEXT
@@ -16,73 +15,85 @@ export function RegisterForm() {
     handleChange,
     handleKeyUp,
     newUser,
-    isPasswordsMatch,
     isEmailValid,
+    isPasswordValid,
+    isPasswordsMatch,
   } = useContext(SubscribeContext);
+
+  console.log('email valid:', isEmailValid);
+
+  const warnings = {
+    passwordLength: 'Minimum of 6 characteres',
+    passwordMatchs: "Passwords don't match",
+    emailInvalid: 'Email invalid',
+  };
 
   return (
     <Container onSubmit={handleSubscribeForm} translateX={translate}>
-      <h1>Register</h1>
+      <h1>Subscribe</h1>
 
       <div>
         <label htmlFor="name">Name</label>
-        <input
+        <InputBox
           name="name"
           value={newUser?.name ? newUser.name : ''}
           required
           type="text"
           onChange={handleChange}
+          isValid={true}
         />
       </div>
 
       <div>
         <label htmlFor="email">E-mail</label>
-        <input
+        <InputBox
           name="email"
           value={newUser?.email ? newUser.email : ''}
           required
           type="text"
           onChange={handleChange}
           onKeyUp={handleKeyUp}
+          isValid={isEmailValid}
         />
+        <WarningMessage isValid={isEmailValid}>
+          {warnings.emailInvalid}
+        </WarningMessage>
       </div>
 
       <div>
         <label htmlFor="password">Password</label>
-        <input
+        <InputBox
           name="password"
           required
           value={newUser?.password ? newUser.password : ''}
-          type={isPasswordHidden ? 'password' : 'text'}
+          type="password"
           onChange={handleChange}
+          onKeyUp={handleKeyUp}
+          isValid={isPasswordValid}
         />
-        {isPasswordHidden ? (
-          <AiFillEyeInvisible onClick={() => setPasswordHidden(false)} />
-        ) : (
-          <AiFillEye onClick={() => setPasswordHidden(true)} />
-        )}
+        <WarningMessage isValid={isPasswordValid}>
+          {warnings.passwordLength}
+        </WarningMessage>
       </div>
 
       <div>
         <label htmlFor="confirmPassword">Confirm Password</label>
 
-        <input
+        <InputBox
           name="confirmPassword"
           required
           value={newUser?.confirmPassword ? newUser.confirmPassword : ''}
           type={isPasswordHidden ? 'password' : 'text'}
           onChange={handleChange}
           onKeyUp={handleKeyUp}
+          isValid={isPasswordsMatch}
         />
-        {isPasswordHidden ? (
-          <AiFillEyeInvisible onClick={() => setPasswordHidden(false)} />
-        ) : (
-          <AiFillEye onClick={() => setPasswordHidden(true)} />
-        )}
+        <WarningMessage isValid={isPasswordsMatch}>
+          {warnings.passwordMatchs}
+        </WarningMessage>
       </div>
-      {isPasswordsMatch ? null : <small>not match</small>}
 
-      <button type="submit">Register</button>
+      <button type="submit">Subscribe</button>
 
       <div>
         <span>Already have an account?</span>

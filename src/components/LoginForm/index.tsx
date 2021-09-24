@@ -99,8 +99,10 @@ export function LoginForm() {
 
       <div>
         <span>Don´t have an account?</span>
-        <Link href="/register">
-          <a onClick={() => handleTranslateChange('register')}>Register now!</a>
+        <Link href="/subscribe">
+          <a onClick={() => handleTranslateChange('register')}>
+            Subscribe now!
+          </a>
         </Link>
       </div>
 
