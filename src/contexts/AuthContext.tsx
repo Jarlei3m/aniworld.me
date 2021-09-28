@@ -6,10 +6,11 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { setCookie, parseCookies } from 'nookies';
+import { setCookie, parseCookies, destroyCookie } from 'nookies';
 import { toast } from 'react-toastify';
 import Router from 'next/router';
 import { recoverUserInfo } from '../pages/api/recoverUserInfo';
+// import { logOut } from '../pages/api/logout';
 
 interface UserInputsProps {
   email: string;
@@ -38,6 +39,7 @@ interface AuthContextData {
   handleChange: (
     e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
+  handleCredentialsLogout: () => void;
 }
 
 interface AuthProviderProps {
@@ -65,6 +67,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
       });
     }
   }, []);
+
+  const handleCredentialsLogout = async () => {
+    // const { 'aniworld.token': token } = parseCookies();
+
+    destroyCookie(null, 'aniworld.token');
+    Router.push('/login');
+
+    //# Missing function to unvalidate token after logout
+  };
 
   const handleChange = useCallback(
     (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -140,6 +151,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         HandleSignInForm,
         handleChange,
         userInputs,
+        handleCredentialsLogout,
       }}
     >
       {children}

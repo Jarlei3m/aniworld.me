@@ -13,17 +13,30 @@ import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/client';
 
 import { NavbarContainer, NavMenuItem } from './styles';
+import { useContext } from 'react';
+import { AuthContext } from '../../contexts/AuthContext';
 
 export function NavBar() {
   const currentMenu = useRouter();
 
+  const { handleCredentialsLogout } = useContext(AuthContext);
   const [session] = useSession();
 
-  console.log('session:', session);
+  function handleLogOut() {
+    if (session) {
+      // for signed social accounts
+      signOut();
+    } else {
+      console.log('log out apart from session');
+      // for email + pw signed accounts
+      handleCredentialsLogout();
+      // client.query(q.Logout(true));
+    }
+  }
 
   return (
     <NavbarContainer>
-      <h1>Aniworld.me</h1>
+      <h1>aniworld.me</h1>
 
       <nav>
         <ul>
@@ -105,7 +118,7 @@ export function NavBar() {
 
           <Link href="#">
             <NavMenuItem
-              onClick={() => signOut()}
+              onClick={() => handleLogOut()}
               isActive={currentMenu.route === '/log-out'}
             >
               <GiExitDoor />
