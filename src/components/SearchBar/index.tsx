@@ -1,5 +1,6 @@
 import { useContext, useState, useEffect } from 'react';
 import { SearchContext } from '../../contexts/SearchContext';
+import { AuthContext } from '../../contexts/AuthContext';
 import { useSession } from 'next-auth/client';
 import { FiSearch } from 'react-icons/fi';
 
@@ -13,10 +14,11 @@ export function SearchBar() {
     fetchAnimeOnSearch(animeTitle);
   }, [animeTitle]);
 
-  // session data
+  // session data when social login
   const [session] = useSession();
 
-  console.log('session:', session);
+  // new access data by email and pw login
+  const { user } = useContext(AuthContext);
 
   return (
     <Container>
@@ -34,9 +36,9 @@ export function SearchBar() {
       </form>
 
       <img
-        title={`${session?.user.name}'s Picture`}
-        src={session?.user.image}
-        alt={`${session?.user.name}'s Picture`}
+        title={`${session?.user.name || user?.name}'s Picture`}
+        src={session?.user.image || user?.image}
+        alt={`${session?.user.name || user?.name}'s Picture`}
       />
     </Container>
   );

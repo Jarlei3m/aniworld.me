@@ -32,39 +32,8 @@ export const Container = styled.form<ContainerProps>`
       margin-bottom: 0.5rem;
     }
 
-    /* input {
-      border-radius: 0.5rem;
-      border: none;
-      outline: transparent;
-      height: 3rem;
-      padding: 0.5rem 1rem;
-      width: 100%;
-      color: var(--gray-500);
-      font-size: 1rem;
-
-      &:focus,
-      &:valid {
-        border-bottom: 3px solid var(--green-500);
-      }
-    } */
-
-    /* small {
-      position: absolute;
-      left: 0.4rem;
-      bottom: 0;
-      color: red;
-      transform: translateY(1rem);
-      transition: all 0.3s ease;
-
-      &.valid {
-        transform: translateY(0);
-      }
-    } */
-
     &:nth-child(4),
     &:nth-child(5) {
-      /* position: relative; */
-
       svg {
         position: absolute;
         right: 1rem;
@@ -100,7 +69,7 @@ export const Container = styled.form<ContainerProps>`
     }
   }
 
-  button[type='submit'] {
+  /* button[type='submit'] {
     height: 4rem;
     margin-top: 2.6rem;
     padding: 0 1.5rem;
@@ -116,7 +85,7 @@ export const Container = styled.form<ContainerProps>`
     &:hover {
       filter: brightness(0.9);
     }
-  }
+  } */
 `;
 
 interface ValidProps {
@@ -162,4 +131,27 @@ export const WarningMessage = styled.small<ValidProps>`
       opacity: 1;
       transform: translateY(.6rem)
     `}
+`;
+
+export const SubmitButton = styled.button`
+  height: 4rem;
+  margin-top: 2.6rem;
+  padding: 0 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  background: var(--green-500);
+  color: var(--white);
+  font-size: 1.4rem;
+  font-weight: bold;
+  width: 100%;
+  transition: filter 0.2s;
+
+  &:disabled {
+    filter: brightness(0.6);
+    cursor: not-allowed;
+  }
+
+  &:hover {
+    filter: brightness(0.9);
+  }
 `;

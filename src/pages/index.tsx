@@ -7,7 +7,10 @@ import { useSession } from 'next-auth/client';
 
 import { HomeContainer } from '../styles/Pages/Home/styles';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
+import { fauna } from '../services/fauna';
+import { query as q } from 'faunadb';
 
 function Redirect({ to }) {
   const router = useRouter();
@@ -21,13 +24,12 @@ function Redirect({ to }) {
 
 export default function Home() {
   const [session] = useSession();
-
-  console.log('session:', session);
+  const { isAuthenticated } = useContext(AuthContext);
 
   // check if user is logged in
-  if (!session) {
-    return <Redirect to="/login" />;
-  }
+  // if (!session || !isAuthenticated) {
+  //   return <Redirect to="/login" />;
+  // }
 
   return (
     <>

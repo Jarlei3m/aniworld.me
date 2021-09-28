@@ -12,11 +12,10 @@ export default function Subscribe() {
         <title> Subscribe | Stream.me</title>
       </Head>
 
-      {/* <ToastContainer> */}
+      <ToastContainer icon={false} limit={3} />
       <SubscribeProvider>
         <SubscribeForm />
       </SubscribeProvider>
-      {/* </ToastContainer> */}
     </Container>
   );
 }

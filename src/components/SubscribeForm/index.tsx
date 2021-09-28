@@ -1,9 +1,20 @@
-import { Container, InputBox, WarningMessage } from './styles';
+import { Container, InputBox, SubmitButton, WarningMessage } from './styles';
 import Link from 'next/link';
 
-import { FormEvent, useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { LoginContext } from '../../contexts/LoginContext';
 import { SubscribeContext } from '../../contexts/SubscribeContext';
+import { useRouter } from 'next/router';
+
+function Redirect({ to }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push(to);
+  }, [to]);
+
+  return null;
+}
 
 export function SubscribeForm() {
   const [isPasswordHidden, setPasswordHidden] = useState(true);
@@ -18,9 +29,8 @@ export function SubscribeForm() {
     isEmailValid,
     isPasswordValid,
     isPasswordsMatch,
+    isLoading,
   } = useContext(SubscribeContext);
-
-  console.log('email valid:', isEmailValid);
 
   const warnings = {
     passwordLength: 'Minimum of 6 characteres',
@@ -35,6 +45,7 @@ export function SubscribeForm() {
       <div>
         <label htmlFor="name">Name</label>
         <InputBox
+          id="name"
           name="name"
           value={newUser?.name ? newUser.name : ''}
           required
@@ -47,6 +58,7 @@ export function SubscribeForm() {
       <div>
         <label htmlFor="email">E-mail</label>
         <InputBox
+          id="email"
           name="email"
           value={newUser?.email ? newUser.email : ''}
           required
@@ -63,7 +75,9 @@ export function SubscribeForm() {
       <div>
         <label htmlFor="password">Password</label>
         <InputBox
+          id="password"
           name="password"
+          autoComplete="off"
           required
           value={newUser?.password ? newUser.password : ''}
           type="password"
@@ -80,7 +94,9 @@ export function SubscribeForm() {
         <label htmlFor="confirmPassword">Confirm Password</label>
 
         <InputBox
+          id="confirmPassword"
           name="confirmPassword"
+          autoComplete="off"
           required
           value={newUser?.confirmPassword ? newUser.confirmPassword : ''}
           type={isPasswordHidden ? 'password' : 'text'}
@@ -93,7 +109,9 @@ export function SubscribeForm() {
         </WarningMessage>
       </div>
 
-      <button type="submit">Subscribe</button>
+      <SubmitButton type="submit" disabled={isLoading || (!newUser && true)}>
+        Subscribe {isLoading ? '...loading' : ''}
+      </SubmitButton>
 
       <div>
         <span>Already have an account?</span>

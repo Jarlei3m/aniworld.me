@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import {
   createContext,
   FormEvent,
@@ -5,8 +6,6 @@ import {
   useCallback,
   useState,
 } from 'react';
-import { fauna } from '../services/fauna';
-import { query as q } from 'faunadb';
 import { toast } from 'react-toastify';
 
 interface NewUserProps {
@@ -44,12 +43,15 @@ export const SubscribeContext = createContext<SubscribeContextData>(
 );
 
 export function SubscribeProvider({ children }: SubscribeProvider) {
-  const [newUser, setNewUser] = useState<NewUserProps>();
+  const [newUser, setNewUser] = useState<NewUserProps | null>(null);
 
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [isPasswordsMatch, setIsPasswordsMatch] = useState(true);
+
   const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
   const handleChange = useCallback(
     (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -120,26 +122,26 @@ export function SubscribeProvider({ children }: SubscribeProvider) {
           body: JSON.stringify({ ...newUser, createdAt: new Date() }),
         }).then((res) => {
           if (res.status === 201) {
-            setNewUser({
-              ...newUser,
-              name: '',
-              email: '',
-              password: '',
-              confirmPassword: '',
-            });
-            toast.success('Subscribed successfully.');
+            // setNewUser({
+            //   ...newUser,
+            //   name: '',
+            //   email: '',
+            //   password: '',
+            //   confirmPassword: '',
+            // });
+            toast.success('Successfully subscribed! 🎉'), { autoClose: 3000 };
             setIsLoading(false);
-            console.log('Subscribed successfully.');
+            setTimeout(() => {
+              router.push('/');
+            }, 3000);
           } else {
-            toast.error('User arlready subscribed');
+            toast.error('User already subscribed', { autoClose: 3000 });
             setIsLoading(false);
-            console.log('User arlready subscribed');
           }
         });
-
-        console.log('dentro do context?');
       } catch (error) {
         console.log('ERROR', error);
+        setIsLoading(false);
       }
     } else {
       toast.error('Please, fill all fields correctly');

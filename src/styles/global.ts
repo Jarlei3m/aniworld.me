@@ -64,23 +64,33 @@ export const GlobalStyle = createGlobalStyle`
     list-style: none;
   }
 
-  
-.Toastify__toast-container {
-    right: 0;
-    left: unset;
-    width: 18vw;
-    @media(max-width: 425px) {
-      width: 50vw;
-    }
-  }
-  .Toastify__toast--sucess {
-    background-color: var(--green-500);
-  }
   .Toastify__toast {
-    min-height: 2.8125rem;
-     @media(max-width: 425px) {
-      margin: 1rem .5rem;
-      border-radius: 4px;
-    }
+    position: absolute;
+    right: 0;
   }
+
+  .Toastify__toast.Toastify__toast--error {
+    background: var(--red-500);
+    color: var(--white);
+    width: 16rem;
+  }
+
+  .Toastify__toast.Toastify__toast--success {
+    background: var(--gray-500);
+    color: var(--white);
+    width: 20rem;
+    height: 6rem;
+  }
+
+  .Toastify__progress-bar--success {
+    background: var(--green-500);
+    border-top-right-radius: 4px; 
+    height: 4px;
+  }
+  .Toastify__progress-bar--error {
+    background: var(--white);
+    border-top-right-radius: 4px; 
+    height: 4px;
+  }
+
 `;

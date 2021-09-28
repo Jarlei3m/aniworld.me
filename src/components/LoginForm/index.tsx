@@ -12,6 +12,7 @@ import {
 import { FormEvent, useContext, useEffect, useState } from 'react';
 import { LoginContext } from '../../contexts/LoginContext';
 import { useRouter } from 'next/router';
+import { AuthContext } from '../../contexts/AuthContext';
 
 function Redirect({ to }) {
   const router = useRouter();
@@ -24,27 +25,29 @@ function Redirect({ to }) {
 }
 
 export function LoginForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
   // const [translate, setTranslate] = useState(false);
   const [isPasswordHidden, setPasswordHidden] = useState(true);
 
   const [session] = useSession();
 
   const { handleTranslateChange, translate } = useContext(LoginContext);
+  const { handleChange, HandleSignInForm, isLoading, userInputs } =
+    useContext(AuthContext);
 
-  function handleLogin(e: FormEvent) {
-    e.preventDefault();
+  // function handleLogin(e: FormEvent) {
+  //   e.preventDefault();
 
-    const userData = {
-      email,
-      password,
-    };
-    setPassword('');
-    setEmail('');
-    setPasswordHidden(true);
-    console.log(userData);
-  }
+  //   const userData = {
+  //     email,
+  //     password,
+  //   };
+  //   setPassword('');
+  //   setEmail('');
+  //   setPasswordHidden(true);
+  //   console.log(userData);
+  // }
 
   function handleSignIn(provider: string) {
     signIn(provider, {
@@ -60,28 +63,31 @@ export function LoginForm() {
   console.log('session login:', session);
 
   return (
-    <Container onSubmit={(e) => handleLogin(e)} translateX={translate}>
+    <Container onSubmit={HandleSignInForm} translateX={translate}>
       <h1>Login</h1>
 
       <div>
         <label htmlFor="email">E-mail</label>
         <input
+          id="email"
           name="email"
-          value={email}
+          value={userInputs?.email ? userInputs.email : ''}
           required
           type="email"
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={handleChange}
         />
       </div>
 
       <div>
         <label htmlFor="password">Password</label>
         <input
+          id="password"
           name="password"
+          autoComplete="off"
           required
-          value={password}
+          value={userInputs?.password ? userInputs.password : ''}
           type={isPasswordHidden ? 'password' : 'text'}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handleChange}
         />
         {isPasswordHidden ? (
           <AiFillEyeInvisible onClick={() => setPasswordHidden(false)} />
@@ -93,9 +99,7 @@ export function LoginForm() {
         </Link>
       </div>
 
-      <button type="submit" onClick={(e) => handleLogin(e)}>
-        Login
-      </button>
+      <button type="submit">{isLoading ? '...loading' : 'Login'}</button>
 
       <div>
         <span>Don´t have an account?</span>

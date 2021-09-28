@@ -6,17 +6,13 @@ interface UserProps {
   data: {
     name: string;
     email: string;
-    password: string;
-    // confirmPassword: string;
+    // password: string;
     createdAt: string;
   };
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log('aqui');
   if (req.method === 'POST') {
-    console.log('aqui2');
-
     const user = await fauna.query<UserProps>(
       q.If(
         q.Not(
@@ -28,8 +24,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           data: {
             email: req.body.email,
             name: req.body.name,
-            password: req.body.password,
             createdAt: req.body.createdAt,
+          },
+          credentials: {
+            password: req.body.password,
           },
         }),
         q.Get(q.Match(q.Index('user_by_email'), q.Casefold(req.body.email))),
