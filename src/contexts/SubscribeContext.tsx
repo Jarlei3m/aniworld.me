@@ -4,9 +4,11 @@ import {
   FormEvent,
   ReactNode,
   useCallback,
+  useContext,
   useState,
 } from 'react';
 import { toast } from 'react-toastify';
+import { AuthContext } from './AuthContext';
 
 interface NewUserProps {
   name: string;
@@ -15,11 +17,11 @@ interface NewUserProps {
   confirmPassword: string;
 }
 
-interface userExists {
-  ref: {
-    email: string;
-  };
-}
+// interface userExists {
+//   ref: {
+//     email: string;
+//   };
+// }
 
 interface SubscribeContextData {
   newUser: NewUserProps;
@@ -107,6 +109,8 @@ export function SubscribeProvider({ children }: SubscribeProvider) {
     [newUser],
   );
 
+  const { handleSignInResponse } = useContext(AuthContext);
+
   async function handleSubscribeForm(e: FormEvent) {
     e.preventDefault();
     setIsLoading(true);
@@ -130,13 +134,16 @@ export function SubscribeProvider({ children }: SubscribeProvider) {
             //   confirmPassword: '',
             // });
             toast.success('Successfully subscribed! 🎉'), { autoClose: 3000 };
-            setIsLoading(false);
+            handleSignInResponse(res.json());
             setTimeout(() => {
+              setIsLoading(false);
               router.push('/');
             }, 3000);
           } else {
-            toast.error('User already subscribed', { autoClose: 3000 });
-            setIsLoading(false);
+            toast.error('User already subscribed', { autoClose: 2000 });
+            setTimeout(() => {
+              setIsLoading(false);
+            }, 2000);
           }
         });
       } catch (error) {

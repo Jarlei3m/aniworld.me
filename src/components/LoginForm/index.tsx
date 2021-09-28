@@ -30,24 +30,11 @@ export function LoginForm() {
   // const [translate, setTranslate] = useState(false);
   const [isPasswordHidden, setPasswordHidden] = useState(true);
 
-  const [session] = useSession();
+  // const [session] = useSession();
 
   const { handleTranslateChange, translate } = useContext(LoginContext);
   const { handleChange, HandleSignInForm, isLoading, userInputs } =
     useContext(AuthContext);
-
-  // function handleLogin(e: FormEvent) {
-  //   e.preventDefault();
-
-  //   const userData = {
-  //     email,
-  //     password,
-  //   };
-  //   setPassword('');
-  //   setEmail('');
-  //   setPasswordHidden(true);
-  //   console.log(userData);
-  // }
 
   function handleSignIn(provider: string) {
     signIn(provider, {
@@ -56,11 +43,11 @@ export function LoginForm() {
   }
 
   // check if user is logged in
-  if (session) {
-    return <Redirect to="/" />;
-  }
+  // if (session) {
+  //   return <Redirect to="/" />;
+  // }
 
-  console.log('session login:', session);
+  // console.log('session login:', session);
 
   return (
     <Container onSubmit={HandleSignInForm} translateX={translate}>

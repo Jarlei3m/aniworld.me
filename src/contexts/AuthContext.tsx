@@ -17,10 +17,10 @@ interface UserInputsProps {
 }
 
 interface UserProps {
-  name: string;
-  email: string;
+  name?: string;
+  email?: string;
   image?: string;
-  createdAt: string;
+  createdAt?: string;
 }
 
 interface SignInResponseProps {
@@ -33,6 +33,7 @@ interface AuthContextData {
   userInputs: UserInputsProps;
   isLoading: boolean;
   isAuthenticated: boolean;
+  handleSignInResponse: (apiResponse: Promise<SignInResponseProps>) => void;
   HandleSignInForm: (e: FormEvent) => Promise<void>;
   handleChange: (
     e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -60,7 +61,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     if (token) {
       recoverUserInfo(token).then((response) => {
         setUser(response.user);
-        console.log('RECOVERED INFO:', response.user);
+        // Router.push('/');
       });
     }
   }, []);
@@ -89,10 +90,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     setUser(user);
 
-    Router.push('/');
+    // Router.push('/');
   }
 
-  console.log('Tenho user?', user);
   async function HandleSignInForm(e: FormEvent) {
     e.preventDefault();
     setIsLoading(true);
@@ -108,6 +108,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }).then((res) => {
         if (res.status === 200) {
           handleSignInResponse(res.json());
+          Router.push('/');
         } else if (res.status === 500) {
           toast.error('Email or password is incorrect. Please try again!', {
             autoClose: 6000,
@@ -135,6 +136,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         user,
         isAuthenticated,
         isLoading,
+        handleSignInResponse,
         HandleSignInForm,
         handleChange,
         userInputs,

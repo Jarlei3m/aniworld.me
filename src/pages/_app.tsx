@@ -11,8 +11,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   return (
-    <AuthProvider>
-      <NextAuthProvider session={pageProps.session}>
+    <NextAuthProvider session={pageProps.session}>
+      <AuthProvider>
         <LoginProvider>
           {router.asPath === '/login' ? (
             <LoginBgImage />
@@ -24,8 +24,8 @@ function MyApp({ Component, pageProps }: AppProps) {
           <GlobalStyle />
           <Component {...pageProps} />
         </LoginProvider>
-      </NextAuthProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </NextAuthProvider>
   );
 }
 

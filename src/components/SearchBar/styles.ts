@@ -37,13 +37,23 @@ export const Container = styled.form`
     }
   }
 
-  img {
+  div {
     width: 2.6rem;
     height: 2.6rem;
-
+    background-color: var(--white);
     border-radius: 50%;
-    margin-left: auto;
-    object-fit: cover;
-    object-position: center;
+    overflow: hidden;
+    margin-left: 0.5rem;
+
+    img {
+      /* height: 2.6rem;
+      width: 2.6rem; */
+
+      /* border: 1px solid red !important; */
+      /* object-fit: cover;
+      object-position: center; */
+      border-radius: 50%;
+      padding: 1px !important;
+    }
   }
 `;

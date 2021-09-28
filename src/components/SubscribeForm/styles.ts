@@ -149,6 +149,9 @@ export const SubmitButton = styled.button`
   &:disabled {
     filter: brightness(0.6);
     cursor: not-allowed;
+    &:hover {
+      filter: brightness(0.6);
+    }
   }
 
   &:hover {

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { fauna } from '../../services/fauna';
-import { query as q } from 'faunadb';
+import { Now, query as q, TimeAdd } from 'faunadb';
 
 interface UserProps {
   data: {
@@ -11,8 +11,13 @@ interface UserProps {
   };
 }
 
+interface NewAccessProps {
+  secret: string;
+}
+
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
+    // subscribe user on faunadb
     const user = await fauna.query<UserProps>(
       q.If(
         q.Not(
@@ -34,10 +39,35 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       ),
     );
 
-    if (user.data.createdAt !== req.body.createdAt) {
-      return res.status(405).json({ user });
+    if (user.data.createdAt === req.body.createdAt) {
+      // if subscribe was successfull, login
+      // # get user auth token
+      const newAccess = await fauna.query<NewAccessProps>(
+        q.Login(q.Match(q.Index('user_by_email'), q.Casefold(req.body.email)), {
+          password: req.body.password,
+          ttl: TimeAdd(Now(), 7, 'days'),
+        }),
+      );
+
+      // # get secret token plus user info
+      if (newAccess.secret) {
+        const user = await fauna.query<UserProps>(
+          q.Get(q.Match(q.Index('user_by_email'), q.Casefold(req.body.email))),
+        );
+
+        const { name, email, createdAt } = user.data;
+
+        return res.status(201).json({
+          user: {
+            name,
+            email,
+            createdAt,
+          },
+          token: newAccess.secret,
+        });
+      }
     } else {
-      return res.status(201).json({ user });
+      return res.status(405).json({ user });
     }
   } else {
     res.setHeader('Allow', 'POST');

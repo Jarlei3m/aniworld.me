@@ -3,24 +3,24 @@ import { RightSide } from '../components/RightSide';
 import { MainHome } from '../components/MainHome';
 import { SearchProvider } from '../contexts/SearchContext';
 import { MostPopularProvider } from '../contexts/MostPopularContext';
-import { useSession } from 'next-auth/client';
+import { getSession, useSession } from 'next-auth/client';
 
 import { HomeContainer } from '../styles/Pages/Home/styles';
 import { useRouter } from 'next/router';
 import { useContext, useEffect } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
-import { fauna } from '../services/fauna';
-import { query as q } from 'faunadb';
+import { GetServerSideProps } from 'next';
+import { parseCookies } from 'nookies';
 
-function Redirect({ to }) {
-  const router = useRouter();
+// function Redirect({ to }) {
+//   const router = useRouter();
 
-  useEffect(() => {
-    router.push(to);
-  }, [to]);
+//   useEffect(() => {
+//     router.push(to);
+//   }, [to]);
 
-  return null;
-}
+//   return null;
+// }
 
 export default function Home() {
   const [session] = useSession();
@@ -49,3 +49,21 @@ export default function Home() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getSession(ctx);
+  const { ['aniworld.token']: token } = parseCookies(ctx);
+
+  if (!token && !session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};

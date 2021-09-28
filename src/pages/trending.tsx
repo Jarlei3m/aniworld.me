@@ -1,4 +1,7 @@
+import { GetServerSideProps } from 'next';
+import { getSession } from 'next-auth/client';
 import Head from 'next/head';
+import { parseCookies } from 'nookies';
 import { Header } from '../components/TrendingPage/Header';
 import { TrendingList } from '../components/TrendingPage/TrendingList';
 import { TrendingProvider } from '../contexts/TrendingContext';
@@ -19,3 +22,21 @@ export default function Trending() {
     </TrendingContainer>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getSession(ctx);
+  const { ['aniworld.token']: token } = parseCookies(ctx);
+
+  if (!token && !session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};

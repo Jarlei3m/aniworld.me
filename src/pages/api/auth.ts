@@ -1,17 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next-auth/internals/utils';
 import { fauna } from '../../services/fauna';
-import {
-  Now,
-  query as q,
-  TimeAdd,
-  Client,
-  Lambda,
-  Paginate,
-  Documents,
-  Collection,
-  Get,
-  Var,
-} from 'faunadb';
+import { Now, query as q, TimeAdd } from 'faunadb';
 
 interface UserProps {
   data: {
