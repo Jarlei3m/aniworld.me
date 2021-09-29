@@ -1,11 +1,9 @@
-import { AppProps } from 'next/app';
-import { NavBar } from '../components/NavBar';
-import { GlobalStyle } from '../styles/global';
-import { LoginBgImage } from '../components/LoginBgImage';
-import { LoginProvider } from '../contexts/LoginContext';
-import { useRouter } from 'next/router';
 import { Provider as NextAuthProvider } from 'next-auth/client';
-import { AuthProvider } from '../contexts/AuthContext';
+import { AppProps } from 'next/app';
+import { useRouter } from 'next/router';
+import { NavBar } from '../components/NavBar';
+import { AuthProvider } from '../contexts/AuthPages/AuthContext';
+import { GlobalStyle } from '../styles/global';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -13,17 +11,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <NextAuthProvider session={pageProps.session}>
       <AuthProvider>
-        <LoginProvider>
-          {router.asPath === '/login' ? (
-            <LoginBgImage />
-          ) : router.asPath === '/subscribe' ? (
-            <LoginBgImage />
-          ) : (
-            <NavBar />
-          )}
-          <GlobalStyle />
-          <Component {...pageProps} />
-        </LoginProvider>
+        <NavBar />
+        <GlobalStyle />
+        <Component {...pageProps} />
       </AuthProvider>
     </NextAuthProvider>
   );

@@ -26,7 +26,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const userExists = await fauna.query<UserExistsProps>(
       q.Exists(q.Match(q.Index('user_by_email'), q.Casefold(req.body.email))),
     );
-    console.log('user exists:', userExists);
 
     if (userExists) {
       // get user authentication token
@@ -57,12 +56,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           token: newAccess.secret,
         });
       } else {
-        // pw is incorrect
-        return res.status(500).json({});
+        return res.status(500).end();
       }
     } else {
       // user does not exists
-      return res.status(404).json({});
+      return res.status(404).end();
     }
   } else {
     res.setHeader('Allow', 'POST');

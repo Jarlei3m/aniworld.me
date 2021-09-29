@@ -6,7 +6,6 @@ interface UserProps {
   data: {
     name: string;
     email: string;
-    // password: string;
     createdAt: string;
   };
 }
@@ -67,7 +66,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         });
       }
     } else {
-      return res.status(405).json({ user });
+      return res.status(405).end();
     }
   } else {
     res.setHeader('Allow', 'POST');

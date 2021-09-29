@@ -1,13 +1,4 @@
-import {
-  query as q,
-  Client,
-  // Paginate,
-  // Documents,
-  // Collection,
-  // Get,
-  // Var,
-  // Lambda,
-} from 'faunadb';
+import { query as q, Client } from 'faunadb';
 
 interface recoverUserInfoProps {
   data: [{ data: {} }];
@@ -22,10 +13,6 @@ export async function recoverUserInfo(accessToken: string) {
       q.Lambda(['user_by_email'], q.Get(q.Var('user_by_email'))),
     ),
   );
-
-  console.log('teste:', userInfo.data[0].data);
-
-  // const user = userInfo.data[0].data;
 
   return { user: userInfo.data[0].data };
 }

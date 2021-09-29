@@ -1,20 +1,19 @@
+import { signOut, useSession } from 'next-auth/client';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useContext } from 'react';
 import {
+  AiFillCheckCircle,
   AiFillHome,
   AiOutlineUnorderedList,
-  AiFillCheckCircle,
 } from 'react-icons/ai';
 import { BiTrendingUp } from 'react-icons/bi';
+import { GiExitDoor, GiNinjaHeroicStance } from 'react-icons/gi';
+import { MdLocalMovies, MdSettings } from 'react-icons/md';
 import { RiCompassDiscoverFill } from 'react-icons/ri';
 import { TiArrowRepeat } from 'react-icons/ti';
-import { MdLocalMovies, MdSettings } from 'react-icons/md';
-import { GiNinjaHeroicStance, GiExitDoor } from 'react-icons/gi';
-import { useRouter } from 'next/router';
-import { signOut, useSession } from 'next-auth/client';
-
+import { AuthContext } from '../../contexts/AuthPages/AuthContext';
 import { NavbarContainer, NavMenuItem } from './styles';
-import { useContext } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
 
 export function NavBar() {
   const currentMenu = useRouter();
@@ -27,10 +26,8 @@ export function NavBar() {
       // for signed social accounts
       signOut();
     } else {
-      console.log('log out apart from session');
       // for email + pw signed accounts
       handleCredentialsLogout();
-      // client.query(q.Logout(true));
     }
   }
 
