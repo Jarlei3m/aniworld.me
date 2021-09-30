@@ -1,126 +1,100 @@
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
-import { Container } from './styles';
+import {
+  Container,
+  Carousel,
+  CarouselButtonContainer,
+  CarouselContent,
+  Button,
+  AnimeTitle,
+} from './styles';
+import heroData from '../../../../../hero.json';
+import { useEffect, useState } from 'react';
+import { Stars } from '../../../Stars';
 
 export function Hero() {
+  const [heros, setHeros] = useState(heroData);
+
+  const [slideSelected, setSlideSelected] = useState(0);
+  const [translateAction, setTranslateAction] = useState('');
+
+  useEffect(() => {
+    const lastIndex = heros.length - 1;
+
+    if (slideSelected < lastIndex) {
+      setSlideSelected(slideSelected);
+      setTranslateAction('next');
+    }
+
+    if (slideSelected > lastIndex) {
+      setSlideSelected(0);
+      setTranslateAction('');
+    }
+  }, [slideSelected]);
+
+  useEffect(() => {
+    let slider = setInterval(() => {
+      setSlideSelected(slideSelected + 1);
+    }, 5000);
+
+    return () => clearInterval(slider);
+  }, [slideSelected]);
+
   return (
     <Container>
-      <Carousel
-        autoPlay={true}
-        emulateTouch={true}
-        infiniteLoop={true}
-        interval={5000}
-        showStatus={false}
-      >
-        <div>
-          <img
-            src="https://c.wallhere.com/photos/4e/05/Elfen_Lied_Nyu-1351501.jpg!d"
-            alt=""
-          />
-          <article>
-            <h4>
-              Season 1 • <span>2005</span>
-            </h4>
-            <h1>Elfen Lied</h1>
-            <span className="stars">
-              <BsStarFill />
-              <BsStarFill />
-              <BsStarFill />
-              <BsStarHalf />
-              <BsStar />
-            </span>
-            <p>
-              Elfen Lied takes place in Kamakura and Kanagawa, and focuses on
-              the "Diclonius", a newly mutated species. Their appearance is
-              similar to humans, but with several differences, namely horn-like
-              protrusions on the forehead and the presence of telekinetic
-              invisible arms called "Vectors".
-            </p>
-            <button type="button">Watch</button>
-          </article>
-        </div>
+      <Carousel>
+        {heros.map((hero, index) => {
+          const {
+            id,
+            image_src,
+            title,
+            year,
+            season,
+            description,
+            score,
+            trailer_src,
+            color,
+          } = hero;
 
-        <div>
-          <img src="https://wallpaperaccess.com/full/2412896.jpg" alt="" />
-          <article>
-            <h4>
-              Season 1 • <span>2005</span>
-            </h4>
-            <h1>Elfen Lied</h1>
-            <span className="stars">
-              <BsStarFill />
-              <BsStarFill />
-              <BsStarFill />
-              <BsStarHalf />
-              <BsStar />
-            </span>
-            <p>
-              Elfen Lied takes place in Kamakura and Kanagawa, and focuses on
-              the "Diclonius", a newly mutated species. Their appearance is
-              similar to humans, but with several differences, namely horn-like
-              protrusions on the forehead and the presence of telekinetic
-              invisible arms called "Vectors".
-            </p>
-            <button type="button">Watch</button>
-          </article>
-        </div>
-
-        <div>
-          <img
-            src="https://i.pinimg.com/originals/68/2b/13/682b1326d5d1b2c2e05ff2b63e22b3f6.jpg"
-            alt=""
-          />
-          <article>
-            <h4>
-              Season 1 • <span>2005</span>
-            </h4>
-            <h1>Elfen Lied</h1>
-            <span className="stars">
-              <BsStarFill />
-              <BsStarFill />
-              <BsStarFill />
-              <BsStarHalf />
-              <BsStar />
-            </span>
-            <p>
-              Elfen Lied takes place in Kamakura and Kanagawa, and focuses on
-              the "Diclonius", a newly mutated species. Their appearance is
-              similar to humans, but with several differences, namely horn-like
-              protrusions on the forehead and the presence of telekinetic
-              invisible arms called "Vectors".
-            </p>
-            <button type="button">Watch</button>
-          </article>
-        </div>
-        <div>
-          <img
-            src="https://preview.redd.it/lmfry5ppb2bx.png?width=960&crop=smart&auto=webp&s=19dd437cd9002a202c9711ff80702e67171ec56a"
-            alt=""
-          />
-          <article>
-            <h4>
-              Season 1 • <span>2005</span>
-            </h4>
-            <h1>Elfen Lied</h1>
-            <span className="stars">
-              <BsStarFill />
-              <BsStarFill />
-              <BsStarFill />
-              <BsStarHalf />
-              <BsStar />
-            </span>
-            <p>
-              Elfen Lied takes place in Kamakura and Kanagawa, and focuses on
-              the "Diclonius", a newly mutated species. Their appearance is
-              similar to humans, but with several differences, namely horn-like
-              protrusions on the forehead and the presence of telekinetic
-              invisible arms called "Vectors".
-            </p>
-            <button type="button">Watch</button>
-          </article>
-        </div>
+          return (
+            <CarouselContent
+              translateX={index}
+              key={id}
+              style={{
+                transform: `${
+                  translateAction === 'next'
+                    ? `translateX(${(index - slideSelected) * 100}%)`
+                    : `translateX(${index * 100}%)`
+                }`,
+              }}
+            >
+              <>
+                <img src={image_src} alt={title} />
+                <div>
+                  <h4>
+                    {season} • <span>{year}</span>
+                  </h4>
+                  <AnimeTitle color={color}>{title}</AnimeTitle>
+                  <Stars averageScore={score} />
+                  <p>{description}</p>
+                  <button type="button">Watch</button>
+                </div>
+              </>
+            </CarouselContent>
+          );
+        })}
       </Carousel>
+
+      <CarouselButtonContainer>
+        {heros.map((hero, index) => {
+          return (
+            <Button
+              key={hero.id}
+              isActive={slideSelected === index}
+              onClick={() => setSlideSelected(index)}
+            ></Button>
+          );
+        })}
+      </CarouselButtonContainer>
     </Container>
   );
 }

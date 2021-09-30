@@ -1,107 +1,157 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  max-width: 100%;
+export const Container = styled.section`
+  max-width: 100vw;
+  width: 100%;
   height: 32rem;
-  margin: 0 auto;
+  position: relative;
+`;
+
+export const Carousel = styled.div`
+  display: flex;
+
+  height: 32rem;
+  max-width: 77.5rem;
+  width: 100%;
+
   border-radius: 2rem;
   overflow: hidden;
   position: relative;
 
   box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.4);
+`;
 
-  .carousel-root {
-    height: 100%;
+interface CarouselProps {
+  translateX: number;
+}
 
-    .carousel {
-      position: absolute;
-      height: 100%;
+export const CarouselContent = styled.article<CarouselProps>`
+  position: absolute;
+  width: 100%;
+  transition: all 0.9s ease;
 
-      .thumbs-wrapper,
-      .control-arrow {
-        display: none;
+  // background image
+  img {
+    max-width: 77.5rem;
+    width: 100%;
+    height: 32rem;
+
+    object-fit: cover;
+    object-position: center center;
+    filter: brightness(0.7) grayscale(70%);
+    -webkit-filter: brightness(0.7) grayscale(70%);
+  }
+
+  // anime infos
+  div {
+    position: absolute;
+    bottom: 7rem;
+    left: 6rem;
+    max-width: 27.5rem;
+    padding: 0 1.5rem;
+    text-align: left;
+
+    @media (max-width: 1440px) {
+      left: 4rem;
+    }
+
+    @media (max-width: 1080px) {
+      left: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      max-width: 24.5rem;
+    }
+
+    h4 {
+      font-size: 0.925rem;
+      font-weight: 400;
+
+      span {
+        color: var(--gray-300);
       }
+    }
 
-      .slider-wrapper.axis-horizontal {
-        transform: translateY(-10%);
-      }
+    div {
+      padding: 0;
+      position: unset;
+      max-width: unset;
+      display: inline-block;
+    }
 
-      ul {
-        margin: 1rem 0;
+    p {
+      margin: 1.2rem 0;
+      color: var(--gray-300);
+      line-height: 1.2rem;
+    }
 
-        &.control-dots li.dot {
-          width: 0.725rem;
-          height: 0.725rem;
-        }
+    button {
+      height: 3rem;
+      width: 10rem;
+      background: var(--white);
+      color: var(--green-300);
+      border: none;
+      border-radius: 16px;
+      font-weight: 700;
+
+      transition: filter 0.2s;
+
+      &:hover {
+        filter: brightness(0.9);
       }
     }
   }
+`;
 
-  div {
-    img {
-      width: 100%;
-      height: 100%;
+interface AnimeTitleProps {
+  color: string;
+}
 
-      object-fit: cover;
-      object-position: center;
-      filter: brightness(0.7) grayscale(70%);
-      -webkit-filter: brightness(0.7) grayscale(70%);
-    }
+export const AnimeTitle = styled.h1<AnimeTitleProps>`
+  font-size: 2.8rem;
+  font-weight: 900;
+  line-height: 4rem;
+  background: -webkit-linear-gradient(
+    var(--white),
+    ${(props) => props.color || 'white'}
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+`;
 
-    article {
-      position: absolute;
-      top: 25%;
-      margin-left: 6rem;
-      text-align: left;
-      width: 26rem;
+export const CarouselButtonContainer = styled.ul`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 
-      h4 {
-        font-size: 0.925rem;
-        font-weight: 400;
+  padding: 1.25rem 0;
 
-        span {
-          color: var(--gray-300);
-        }
-      }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+`;
 
-      h1 {
-        font-size: 2.8rem;
-        font-weight: 900;
-        line-height: 4rem;
-        /* color: linear-gradient(to bottom, var(--white), #5c2121); */
-        background: -webkit-linear-gradient(var(--white), #5c2121);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
+interface ButtonProps {
+  isActive: boolean;
+}
 
-      svg {
-        color: var(--yellow-500);
-        & + svg {
-          margin-left: 0.2rem;
-        }
-      }
+export const Button = styled.li<ButtonProps>`
+  height: 0.725rem;
+  width: 0.725rem;
+  border-radius: 50%;
+  background: var(--white);
+  text-align: center;
+  cursor: pointer;
 
-      p {
-        margin: 1.2rem 0;
-        color: var(--gray-300);
-        line-height: 1.2rem;
-      }
+  transition: opacity 0.25s ease;
+  opacity: ${(props) => (props.isActive ? '1' : '0.3')};
 
-      button {
-        height: 3rem;
-        width: 10rem;
-        background: var(--white);
-        color: var(--green-300);
-        border: none;
-        border-radius: 16px;
-        font-weight: 700;
+  & + li {
+    margin-left: 1rem;
+  }
 
-        transition: filter 0.2s;
-
-        &:hover {
-          filter: brightness(0.9);
-        }
-      }
-    }
+  &:hover {
+    opacity: 1;
   }
 `;
