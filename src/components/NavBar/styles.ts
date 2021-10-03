@@ -3,8 +3,12 @@ import styled from 'styled-components';
 export const NavbarContainer = styled.aside`
   padding: 3.5rem 0;
   width: 100%;
-  max-width: 16rem;
+  max-width: 15rem;
   border-right: 2px solid var(--gray-100);
+
+  @media (max-width: 1024px) {
+    max-width: 14rem;
+  }
 
   h1 {
     color: var(--green-500);

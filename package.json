@@ -20,6 +20,7 @@
     "react-icons": "^4.2.0",
     "react-player": "^2.9.0",
     "react-toastify": "^8.0.2",
+    "react-touch": "^0.4.4",
     "styled-components": "^5.3.0",
     "uuid": "^8.3.2"
   },
@@ -28,6 +29,7 @@
     "@types/cookie": "^0.4.1",
     "@types/node": "^16.6.0",
     "@types/react": "^17.0.17",
+    "@types/react-touch": "^1.8.4",
     "@types/styled-components": "^5.1.12",
     "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "^4.29.1",

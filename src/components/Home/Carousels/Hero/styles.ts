@@ -5,20 +5,29 @@ export const Container = styled.section`
   width: 100%;
   height: 32rem;
   position: relative;
+
+  @media (max-width: 1024px) {
+    height: 28rem;
+  }
 `;
 
 export const Carousel = styled.div`
   display: flex;
 
   height: 32rem;
-  max-width: 77.5rem;
+  /* max-width: 77.5rem; */
   width: 100%;
+  margin: 0 auto;
 
   border-radius: 2rem;
   overflow: hidden;
   position: relative;
 
   box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.4);
+
+  @media (max-width: 1024px) {
+    height: 28rem;
+  }
 `;
 
 interface CarouselProps {
@@ -32,7 +41,7 @@ export const CarouselContent = styled.article<CarouselProps>`
 
   // background image
   img {
-    max-width: 77.5rem;
+    /* max-width: 77.5rem; */
     width: 100%;
     height: 32rem;
 
@@ -40,6 +49,10 @@ export const CarouselContent = styled.article<CarouselProps>`
     object-position: center center;
     filter: brightness(0.7) grayscale(70%);
     -webkit-filter: brightness(0.7) grayscale(70%);
+
+    @media (max-width: 1024px) {
+      height: 28rem;
+    }
   }
 
   // anime infos
@@ -55,8 +68,10 @@ export const CarouselContent = styled.article<CarouselProps>`
       left: 4rem;
     }
 
-    @media (max-width: 1080px) {
+    @media (max-width: 1024px) {
+      bottom: 5rem;
       left: 2rem;
+      max-width: 26rem;
     }
 
     @media (max-width: 768px) {
