@@ -132,7 +132,7 @@ export function TrendingProvider({ children }: TrendingProvider) {
     try {
       let query = `
         query ($page: Int, $perPage: Int) {
-          AnimePage: Page (page: 1, perPage: 16) {
+          AnimePage: Page (page: 1, perPage: 20) {
             pageInfo {
               total
               perPage
@@ -164,7 +164,7 @@ export function TrendingProvider({ children }: TrendingProvider) {
               }
             }
           }
-          MangaPage: Page (page: 1, perPage: 16) {
+          MangaPage: Page (page: 1, perPage: 20) {
             pageInfo {
               total
               perPage
