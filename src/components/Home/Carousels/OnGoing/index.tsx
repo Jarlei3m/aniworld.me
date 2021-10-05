@@ -10,15 +10,25 @@ export function OnGoing() {
   const [isPlaying, setIsPlaying] = useState(0);
   const [onGoing, setOnGoing] = useState(onGoingData);
 
-  const {
-    slideWidth,
-    slideLimit,
-    playerWidth,
-    playerHeight,
-    handleCarouselButton,
-    slideCounter,
-    translateAction,
-  } = useContext(CarouselSlideContext);
+  const [slideCounter, setSlideCounter] = useState(0);
+  const [translateAction, setTranslateAction] = useState('');
+
+  const { slideWidth, slideLimit, playerWidth } =
+    useContext(CarouselSlideContext);
+
+  const handleCarouselButton = (action: string, length: number) => {
+    const lastIndex = length - 1;
+
+    if (action === 'next' && slideCounter < lastIndex) {
+      setTranslateAction(action);
+      setSlideCounter(slideCounter + 1);
+    }
+
+    if (action === 'previous' && slideCounter > 0) {
+      setTranslateAction(action);
+      setSlideCounter(slideCounter - 1);
+    }
+  };
 
   return (
     <Container>

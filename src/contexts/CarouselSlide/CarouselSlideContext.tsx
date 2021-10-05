@@ -5,10 +5,7 @@ interface CarouselSlideContextData {
   slideLimit: number;
   playerWidth: string;
   playerHeight: string;
-  slideCounter: number;
-  translateAction: string;
   handleWindowResize: (ref: number, arrayLength: number) => void;
-  handleCarouselButton: (action: string, length: number) => void;
 }
 
 interface CarouselSlideProviderProps {
@@ -24,9 +21,6 @@ export function CarouselSlideProvider({
 }: CarouselSlideProviderProps) {
   const [slideWidth, setSlideWidth] = useState(0);
   const [slideLimit, setSlideLimit] = useState(0);
-
-  const [slideCounter, setSlideCounter] = useState(0);
-  const [translateAction, setTranslateAction] = useState('');
 
   const [playerWidth, setPlayerWidth] = useState('280px');
   const [playerHeight, setPlayerHeight] = useState('352px');
@@ -72,20 +66,6 @@ export function CarouselSlideProvider({
     }
   };
 
-  const handleCarouselButton = (action: string, length: number) => {
-    const lastIndex = length - 1;
-
-    if (action === 'next' && slideCounter < lastIndex) {
-      setTranslateAction(action);
-      setSlideCounter(slideCounter + 1);
-    }
-
-    if (action === 'previous' && slideCounter > 0) {
-      setTranslateAction(action);
-      setSlideCounter(slideCounter - 1);
-    }
-  };
-
   return (
     <CarouselSlideContext.Provider
       value={{
@@ -93,10 +73,7 @@ export function CarouselSlideProvider({
         slideLimit,
         playerWidth,
         playerHeight,
-        slideCounter,
-        translateAction,
         handleWindowResize,
-        handleCarouselButton,
       }}
     >
       {children}
