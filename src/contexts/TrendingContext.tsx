@@ -112,10 +112,6 @@ export function TrendingProvider({ children }: TrendingProvider) {
     //   fetchTrendingAnimes();
     // }
 
-    console.log('ANIME MEDIA:', data.data.AnimePage.media);
-    console.log('MANGA MEDIA:', data.data.MangaPage.media);
-    console.log('ALL MEDIA:', data.data.AllMediasPage.media);
-
     setTrendingAnimes(data.data.AnimePage.media);
     setTrendingMangas(data.data.MangaPage.media);
     setTrendingAnimesAndMangas(data.data.AllMediasPage.media);
