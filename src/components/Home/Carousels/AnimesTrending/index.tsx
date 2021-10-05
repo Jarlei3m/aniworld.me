@@ -9,27 +9,17 @@ import { Carousel, CarouselContent, Container } from './styles';
 
 export function AnimesTrending() {
   const [isPlaying, setIsPlaying] = useState(0);
-
-  const [slideCounter, setSlideCounter] = useState(0);
-  const [translateAction, setTranslateAction] = useState('');
-
   const { trendingAnimes } = useContext(TrendingContext);
-  const { slideWidth, slideLimit, playerWidth, playerHeight } =
-    useContext(CarouselSlideContext);
 
-  function handleCarouselButton(action: string) {
-    const lastIndex = trendingAnimes.length - 1;
-
-    if (action === 'next' && slideCounter < lastIndex) {
-      setTranslateAction(action);
-      setSlideCounter(slideCounter + 1);
-    }
-
-    if (action === 'previous' && slideCounter > 0) {
-      setTranslateAction(action);
-      setSlideCounter(slideCounter - 1);
-    }
-  }
+  const {
+    slideWidth,
+    slideLimit,
+    playerWidth,
+    playerHeight,
+    handleCarouselButton,
+    slideCounter,
+    translateAction,
+  } = useContext(CarouselSlideContext);
 
   return (
     <Container>
@@ -43,7 +33,12 @@ export function AnimesTrending() {
       </h2>
 
       {slideCounter > 0 && (
-        <button onClick={() => handleCarouselButton('previous')} type="button">
+        <button
+          onClick={() =>
+            handleCarouselButton('previous', trendingAnimes.length)
+          }
+          type="button"
+        >
           <MdKeyboardArrowLeft />
         </button>
       )}
@@ -96,7 +91,10 @@ export function AnimesTrending() {
       </Carousel>
 
       {slideCounter < slideLimit && (
-        <button onClick={() => handleCarouselButton('next')} type="button">
+        <button
+          onClick={() => handleCarouselButton('next', trendingAnimes.length)}
+          type="button"
+        >
           <MdKeyboardArrowRight />
         </button>
       )}
