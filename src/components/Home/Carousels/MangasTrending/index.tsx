@@ -1,28 +1,33 @@
 import Link from 'next/link';
 import { useContext, useState } from 'react';
+import { BsFillPlayFill } from 'react-icons/bs';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
+import ReactPlayer from 'react-player';
+import { CarouselSlideContext } from '../../../../contexts/CarouselSlide/CarouselSlideContext';
 import { TrendingContext } from '../../../../contexts/TrendingContext';
-import { Container } from './styles';
+import { Carousel, CarouselContent, Container } from './styles';
 
 export function MangasTrending() {
-  const [translateAction, setTranslateAction] = useState('');
+  const [isPlaying, setIsPlaying] = useState(0);
+
   const [slideCounter, setSlideCounter] = useState(0);
+  const [translateAction, setTranslateAction] = useState('');
 
   const { trendingMangas } = useContext(TrendingContext);
+  const { slideWidth, slideLimit, playerWidth, playerHeight } =
+    useContext(CarouselSlideContext);
 
   function handleCarouselButton(action: string) {
-    if (action === 'next' && slideCounter < 4) {
+    const lastIndex = trendingMangas.length - 1;
+
+    if (action === 'next' && slideCounter < lastIndex) {
       setTranslateAction(action);
-      setSlideCounter((oldSlideCounter) => {
-        return oldSlideCounter + 1;
-      });
+      setSlideCounter(slideCounter + 1);
     }
 
     if (action === 'previous' && slideCounter > 0) {
       setTranslateAction(action);
-      setSlideCounter((oldSlideCounter) => {
-        return oldSlideCounter - 1;
-      });
+      setSlideCounter(slideCounter - 1);
     }
   }
 
@@ -37,52 +42,64 @@ export function MangasTrending() {
         </span>
       </h2>
 
-      <div>
-        {slideCounter > 0 && (
-          <button
-            onClick={() => handleCarouselButton('previous')}
-            type="button"
-          >
-            <MdKeyboardArrowLeft />
-          </button>
-        )}
+      {slideCounter > 0 && (
+        <button onClick={() => handleCarouselButton('previous')} type="button">
+          <MdKeyboardArrowLeft />
+        </button>
+      )}
 
-        <ul
-          style={{
-            transform: `${
-              translateAction === 'next'
-                ? `translateX(${slideCounter * -74.8}rem)`
-                : translateAction === 'previous'
-                ? `translateX(${slideCounter * -74.8}rem)`
-                : 'translateX(0%)'
-            }`,
-          }}
-        >
-          {trendingMangas.map((manga) => {
-            const { id, title, description, coverImage } = manga;
-            return (
-              <li key={id}>
+      <Carousel>
+        {trendingMangas.map((manga) => {
+          const { id, title, trailer, description, coverImage } = manga;
+
+          return (
+            <CarouselContent
+              key={id}
+              style={{
+                transform: `${
+                  translateAction === 'next'
+                    ? `translateX(${-slideCounter * slideWidth}rem)`
+                    : translateAction === 'previous'
+                    ? `translateX(${-slideCounter * slideWidth}rem)`
+                    : 'translateX(0%)'
+                }`,
+              }}
+            >
+              {trailer ? (
+                <ReactPlayer
+                  controls={true}
+                  width={playerWidth}
+                  height={playerHeight}
+                  onClickPreview={() => setIsPlaying(id)}
+                  light={isPlaying !== id && `${coverImage.extraLarge}`}
+                  playIcon={<BsFillPlayFill />}
+                  playing={isPlaying === id ? true : false}
+                  url={`https://www.youtube.com/watch?v=${trailer?.id}`}
+                />
+              ) : (
                 <div>
                   <img
+                    width={playerWidth}
+                    height={playerHeight}
                     src={coverImage.extraLarge}
                     alt={title.english || title.romanji || title.native}
                   />
                 </div>
+              )}
 
-                <Link href="/">
-                  <a>{title.english || title.romanji || title.native}</a>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+              <Link href="/">
+                <a>{title.english || title.romanji || title.native}</a>
+              </Link>
+            </CarouselContent>
+          );
+        })}
+      </Carousel>
 
-        {slideCounter < 3 && (
-          <button onClick={() => handleCarouselButton('next')} type="button">
-            <MdKeyboardArrowRight />
-          </button>
-        )}
-      </div>
+      {slideCounter < slideLimit && (
+        <button onClick={() => handleCarouselButton('next')} type="button">
+          <MdKeyboardArrowRight />
+        </button>
+      )}
     </Container>
   );
 }

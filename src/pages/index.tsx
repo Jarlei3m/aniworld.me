@@ -2,8 +2,10 @@ import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/client';
 import Head from 'next/head';
 import { parseCookies } from 'nookies';
+import React from 'react';
 import { Carousels } from '../components/Home/Carousels';
 import { Search } from '../components/Home/Search';
+import { CarouselSlideProvider } from '../contexts/CarouselSlide/CarouselSlideContext';
 import { MostPopularProvider } from '../contexts/MostPopularContext';
 import { SearchProvider } from '../contexts/SearchContext';
 import { HomeContainer } from './styles';
@@ -16,7 +18,9 @@ export default function Home() {
       </Head>
 
       <HomeContainer>
-        <Carousels />
+        <CarouselSlideProvider>
+          <Carousels />
+        </CarouselSlideProvider>
 
         <MostPopularProvider>
           <SearchProvider>

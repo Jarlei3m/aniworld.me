@@ -3,9 +3,9 @@ import styled from 'styled-components';
 export const Container = styled.section`
   max-width: 100vw;
   width: 100%;
-  height: 27rem;
+  height: 28rem;
   margin-top: 1.5rem;
-  padding-bottom: 1.6rem;
+  /* padding-bottom: 1.6rem; */
   position: relative;
 
   @media (max-width: 1024px) {
@@ -74,7 +74,7 @@ export const Carousel = styled.ul`
   display: flex;
 
   width: 100%;
-  height: 100%;
+  height: 26rem;
 
   overflow: hidden;
 `;

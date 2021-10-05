@@ -32,7 +32,7 @@ interface AnimesProps {
   };
 }
 
-type MangasProps = Omit<AnimesProps, 'trailer'>;
+type MangasProps = AnimesProps;
 
 interface TrendingContextData {
   pageInfo: PageInfoProps;
@@ -179,6 +179,11 @@ export function TrendingProvider({ children }: TrendingProvider) {
                 english
                 romaji
                 native
+              }
+              trailer {
+                id
+                site
+                thumbnail
               }
               averageScore
               description
