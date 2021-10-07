@@ -82,7 +82,7 @@ export const CarouselContent = styled.article<CarouselProps>`
       font-size: 0.925rem;
       font-weight: 400;
 
-      span {
+      time {
         color: var(--gray-300);
       }
     }

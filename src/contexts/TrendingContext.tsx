@@ -10,6 +10,7 @@ interface PageInfoProps {
 
 interface AnimesProps {
   id: number;
+  slug: string;
   type: string;
   title: {
     english: string;
@@ -32,7 +33,35 @@ interface AnimesProps {
   };
 }
 
-type MangasProps = AnimesProps;
+interface MangasProps {
+  id: number;
+  slug: string;
+  type: string;
+  title: {
+    english: string;
+    romanji: string;
+    native: string;
+  };
+  externalLinks?: {
+    id: number;
+    url: string;
+    site: string;
+  };
+  trailer: {
+    id: number;
+    site: string;
+    thumbnail: string;
+  };
+  averageScore: number;
+  coverImage: {
+    extraLarge: string;
+  };
+  description: string;
+  genres: Array<string>;
+  startDate: {
+    year: number;
+  };
+}
 
 interface TrendingContextData {
   pageInfo: PageInfoProps;
@@ -91,36 +120,79 @@ export function TrendingProvider({ children }: TrendingProvider) {
     });
   }
 
-  function handleData(data) {
-    // const filteredTrendingAnimes = data.data.Page.media.filter(
-    //   (anime) => anime.type === 'ANIME',
-    // );
+  function handleData({ data }) {
+    // formatting data
 
-    // const filteredTrendingMangas = data.data.Page.media.filter(
-    //   (anime) => anime.type === 'MANGA',
-    // );
+    const animeData = data.AnimePage.media.map((anime) => {
+      return {
+        ...anime,
+        slug: anime.title?.english
+          ? anime.title?.english
+              .replace(/[^\w\s]/gi, '')
+              .split(' ')
+              .join('-')
+              .toLowerCase()
+          : anime.title?.romanji
+          ? anime.title?.romanji
+              .replace(/[^\w\s]/gi, '')
+              .split(' ')
+              .join('-')
+              .toLowerCase()
+          : null,
+      };
+    });
 
-    // if (filteredTrendingAnimes.length < 20) {
-    //   const acc = 20 - filteredTrendingAnimes.length;
-    //   setPerPage(perPage + acc);
-    //   fetchTrendingAnimes();
-    // }
+    const allMediasData = data.AllMediasPage.media.map((allMedias) => {
+      return {
+        ...allMedias,
+        slug: allMedias.title?.english
+          ? allMedias.title?.english
+              .replace(/[^\w\s]/gi, '')
+              .split(' ')
+              .join('-')
+              .toLowerCase()
+          : allMedias.title?.romanji
+          ? allMedias.title?.romanji
+              .replace(/[^\w\s]/gi, '')
+              .split(' ')
+              .join('-')
+              .toLowerCase()
+          : null,
+      };
+    });
 
-    // if (filteredTrendingMangas.length < 20) {
-    //   const acc = 20 - filteredTrendingMangas.length;
-    //   setPerPage(perPage + acc);
-    //   fetchTrendingAnimes();
-    // }
+    const mangaData = data.MangaPage.media.map((manga) => {
+      return {
+        ...manga,
+        slug: manga.title?.english
+          ? manga.title?.english
+              .replace(/[^\w\s]/gi, '')
+              .split(' ')
+              .join('-')
+              .toLowerCase()
+          : manga.title?.romanji
+          ? manga.title?.romanji
+              .replace(/[^\w\s]/gi, '')
+              .split(' ')
+              .join('-')
+              .toLowerCase()
+          : null,
+      };
+    });
 
-    setTrendingAnimes(data.data.AnimePage.media);
-    setTrendingMangas(data.data.MangaPage.media);
-    setTrendingAnimesAndMangas(data.data.AllMediasPage.media);
-    setPageInfo(data.data.Page.pageInfo);
+    console.log('FORMATED ANIMES:', animeData);
+    console.log('FORMATED MANGAS:', mangaData);
+    console.log('FORMATED ALL MEDIAS:', allMediasData);
+
+    setTrendingAnimes(animeData);
+    setTrendingMangas(mangaData);
+    setTrendingAnimesAndMangas(allMediasData);
+    // setPageInfo(data.Page.pageInfo);
     setIsTrendingLoading(false);
   }
 
   function handleError(data) {
-    console.error(Error);
+    console.error('Error:', data);
     setIsTrendingLoading(false);
   }
 
@@ -175,6 +247,11 @@ export function TrendingProvider({ children }: TrendingProvider) {
                 english
                 romaji
                 native
+              }
+              externalLinks {
+                id
+                url
+                site
               }
               trailer {
                 id

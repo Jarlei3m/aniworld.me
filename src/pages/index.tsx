@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title> Home | Stream.me</title>
+        <title> Home | Aniworld.me</title>
       </Head>
 
       <HomeContainer>

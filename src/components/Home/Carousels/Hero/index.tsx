@@ -71,7 +71,7 @@ export function Hero() {
                 <img src={image_src} alt={title} />
                 <div>
                   <h4>
-                    {season} • <span>{year}</span>
+                    {season} • <time>{year}</time>
                   </h4>
                   <AnimeTitle color={color}>{title}</AnimeTitle>
                   <Stars averageScore={score} />

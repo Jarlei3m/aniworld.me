@@ -25,6 +25,7 @@ export function TrendingList() {
             coverImage,
             id,
             title,
+            slug,
             trailer,
           } = anime;
 
@@ -45,7 +46,11 @@ export function TrendingList() {
               )}
 
               <Info>
-                <Link href="/">
+                <Link
+                  href={
+                    type === 'anime' ? `/anime-list/${slug}` : `/manga/${slug}`
+                  }
+                >
                   <a>{english || romanji || native}</a>
                 </Link>
 
@@ -54,7 +59,7 @@ export function TrendingList() {
                     <BsStarFill /> {(averageScore / 10).toFixed(1)}
                   </span>
                   <span>Season 1</span>
-                  <span>{startDate.year}</span>
+                  <time>{startDate.year}</time>
                 </article>
               </Info>
 

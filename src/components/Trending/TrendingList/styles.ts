@@ -147,6 +147,11 @@ export const Info = styled.div`
     font-size: 0.9rem;
     margin-top: 0.4rem;
 
+    time {
+      color: var(--gray-300);
+      margin-left: 0.5rem;
+    }
+
     span {
       color: var(--gray-300);
 
@@ -161,7 +166,7 @@ export const Info = styled.div`
         }
       }
 
-      &:not(:first-child) {
+      & + span {
         margin-left: 0.5rem;
       }
     }

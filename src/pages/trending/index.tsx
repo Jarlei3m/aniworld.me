@@ -12,7 +12,7 @@ export default function Trending() {
   return (
     <TrendingContainer>
       <Head>
-        <title> Trending | Stream.me</title>
+        <title> Trending | Aniworld.me</title>
       </Head>
 
       <Header />
@@ -23,9 +23,9 @@ export default function Trending() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await getSession(ctx);
-  const { ['aniworld.token']: token } = parseCookies(ctx);
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const session = await getSession({ req });
+  const { ['aniworld.token']: token } = parseCookies({ req });
 
   if (!token && !session) {
     return {

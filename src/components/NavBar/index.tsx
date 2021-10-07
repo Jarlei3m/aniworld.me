@@ -16,7 +16,7 @@ import { AuthContext } from '../../contexts/AuthPages/AuthContext';
 import { NavbarContainer, NavMenuItem } from './styles';
 
 export function NavBar() {
-  const currentMenu = useRouter();
+  const { asPath, query } = useRouter();
 
   const { handleCredentialsLogout } = useContext(AuthContext);
   const [session] = useSession();
@@ -38,21 +38,21 @@ export function NavBar() {
       <nav>
         <ul>
           <Link href="/">
-            <NavMenuItem isActive={currentMenu.route === '/'}>
+            <NavMenuItem isActive={asPath === '/'}>
               <AiFillHome />
               <a>Home</a>
             </NavMenuItem>
           </Link>
 
           <Link href="/trending">
-            <NavMenuItem isActive={currentMenu.route === '/trending'}>
+            <NavMenuItem isActive={asPath === '/trending'}>
               <BiTrendingUp />
               <a>Trending</a>
             </NavMenuItem>
           </Link>
 
           <Link href="#">
-            <NavMenuItem isActive={currentMenu.route === '/discover'}>
+            <NavMenuItem isActive={asPath === '/discover'}>
               <RiCompassDiscoverFill />
               <a>Discover</a>
             </NavMenuItem>
@@ -61,44 +61,61 @@ export function NavBar() {
 
         <ul>
           <Link href="#">
-            <NavMenuItem isActive={currentMenu.route === '/recent'}>
+            <NavMenuItem isActive={asPath === '/recent'}>
               <AiFillHome />
               <a>Recent</a>
             </NavMenuItem>
           </Link>
 
-          <Link href="#">
-            <NavMenuItem isActive={currentMenu.route === '/anime-list'}>
+          <Link href="/anime-list">
+            <NavMenuItem
+              isActive={
+                asPath === '/anime-list' ||
+                asPath === `/anime-list/${query.slug}`
+              }
+            >
               <AiOutlineUnorderedList />
               <a>Anime List</a>
+            </NavMenuItem>
+          </Link>
+
+          <Link href="/manga-list">
+            <NavMenuItem
+              isActive={
+                asPath === '/manga-list' ||
+                asPath === `/manga-list/${query.slug}`
+              }
+            >
+              <AiOutlineUnorderedList />
+              <a>Manga List</a>
             </NavMenuItem>
           </Link>
         </ul>
 
         <ul>
           <Link href="#">
-            <NavMenuItem isActive={currentMenu.route === '/on-going'}>
+            <NavMenuItem isActive={asPath === '/on-going'}>
               <TiArrowRepeat />
               <a>On Going</a>
             </NavMenuItem>
           </Link>
 
           <Link href="#">
-            <NavMenuItem isActive={currentMenu.route === '/completed'}>
+            <NavMenuItem isActive={asPath === '/completed'}>
               <AiFillCheckCircle />
               <a>Completed</a>
             </NavMenuItem>
           </Link>
 
           <Link href="#">
-            <NavMenuItem isActive={currentMenu.route === '/movies'}>
+            <NavMenuItem isActive={asPath === '/movies'}>
               <MdLocalMovies />
               <a>Movies</a>
             </NavMenuItem>
           </Link>
 
           <Link href="#">
-            <NavMenuItem isActive={currentMenu.route === '/live-action'}>
+            <NavMenuItem isActive={asPath === '/live-action'}>
               <GiNinjaHeroicStance />
               <a>Live Action</a>
             </NavMenuItem>
@@ -107,16 +124,16 @@ export function NavBar() {
 
         <ul>
           <Link href="#">
-            <NavMenuItem isActive={currentMenu.route === '/settings'}>
+            <NavMenuItem isActive={asPath === '/settings'}>
               <MdSettings />
               <a>Settings</a>
             </NavMenuItem>
           </Link>
 
-          <Link href="#">
+          <Link href="/">
             <NavMenuItem
               onClick={() => handleLogOut()}
-              isActive={currentMenu.route === '/log-out'}
+              isActive={asPath === '/log-out'}
             >
               <GiExitDoor />
               <a>Log Out</a>

@@ -12,7 +12,7 @@ export default function Login() {
   return (
     <Container>
       <Head>
-        <title> Login | Stream.me</title>
+        <title> Login | Aniworld.me</title>
       </Head>
 
       <ToastContainer icon={false} limit={3} />
@@ -22,9 +22,9 @@ export default function Login() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await getSession(ctx);
-  const { ['aniworld.token']: token } = parseCookies(ctx);
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const session = await getSession({ req });
+  const { ['aniworld.token']: token } = parseCookies({ req });
 
   if (token || session) {
     return {

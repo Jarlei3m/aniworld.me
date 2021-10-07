@@ -55,7 +55,7 @@ export function AnimesTrending() {
 
       <Carousel>
         {trendingAnimes.map((anime) => {
-          const { id, title, trailer, description, coverImage } = anime;
+          const { id, title, trailer, coverImage, slug } = anime;
 
           return (
             <CarouselContent
@@ -92,9 +92,13 @@ export function AnimesTrending() {
                 </div>
               )}
 
-              <Link href="/">
-                <a>{title.english || title.romanji || title.native}</a>
-              </Link>
+              {slug ? (
+                <Link href={`/anime-list/${slug}`}>
+                  <a>{title.english || title.romanji || title.native}</a>
+                </Link>
+              ) : (
+                <p>{title.english || title.romanji || title.native}</p>
+              )}
             </CarouselContent>
           );
         })}
