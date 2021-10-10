@@ -10,6 +10,8 @@ export function TrendingList() {
   const { trendingAnimesAndMangas, isTrendingLoading } =
     useContext(TrendingContext);
 
+  console.log('loading???', isTrendingLoading);
+
   if (isTrendingLoading) {
     return <h1>Loading....</h1>;
   }
@@ -48,7 +50,9 @@ export function TrendingList() {
               <Info>
                 <Link
                   href={
-                    type === 'anime' ? `/anime-list/${slug}` : `/manga/${slug}`
+                    type === 'anime'
+                      ? `/${type.toLowerCase()}-list/${slug}`
+                      : `/${type.toLowerCase()}-list/${slug}`
                   }
                 >
                   <a>{english || romanji || native}</a>

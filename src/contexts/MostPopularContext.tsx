@@ -10,9 +10,11 @@ interface PageInfoProps {
 
 interface AnimesProps {
   id: number;
+  slug: string;
   title: {
     english: string;
     romanji: string;
+    native: string;
   };
   trailer: {
     id: number;
@@ -25,6 +27,7 @@ interface AnimesProps {
   };
   description: string;
   genres: Array<string>;
+  seasonYear: string;
 }
 
 interface MostPopularContextData {
@@ -44,7 +47,7 @@ export const MostPopularContext = createContext<MostPopularContextData>(
 
 export function MostPopularProvider({ children }: MostPopularProviderProps) {
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(6);
+  const [perPage, setPerPage] = useState(10);
   const [pageInfo, setPageInfo] = useState<PageInfoProps>();
   const [isMostPopularLoading, setIsMostPopularLoading] = useState(false);
   const [mostPouplarAnimes, setMostPopularAnimes] = useState<AnimesProps[]>([]);
@@ -71,9 +74,29 @@ export function MostPopularProvider({ children }: MostPopularProviderProps) {
     });
   }
 
-  function handleData(data) {
-    setMostPopularAnimes(data.data.Page.media);
-    setPageInfo(data.data.Page.pageInfo);
+  function handleData({ data }) {
+    //formatting data
+    const popularAnimeData = data.Page.media.map((anime) => {
+      return {
+        ...anime,
+        slug: anime.title?.english
+          ? anime.title?.english
+              .replace(/[^\w\s]/gi, '')
+              .split(' ')
+              .join('-')
+              .toLowerCase()
+          : anime.title?.romanji
+          ? anime.title?.romanji
+              .replace(/[^\w\s]/gi, '')
+              .split(' ')
+              .join('-')
+              .toLowerCase()
+          : null,
+      };
+    });
+
+    setMostPopularAnimes(popularAnimeData);
+    // setPageInfo(data.Page.pageInfo);
     setIsMostPopularLoading(false);
     console.log('most popular:', page);
   }
@@ -102,15 +125,12 @@ export function MostPopularProvider({ children }: MostPopularProviderProps) {
               title {
                 english
                 romaji
-              }
-              trailer {
-                id
-                site
-                thumbnail
+                native
               }
               averageScore
-              description
               genres
+              seasonYear
+              description
               coverImage {
                 large
               }

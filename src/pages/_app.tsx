@@ -3,6 +3,8 @@ import { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { NavBar } from '../components/NavBar';
 import { AuthProvider } from '../contexts/AuthPages/AuthContext';
+import { MostPopularProvider } from '../contexts/MostPopularContext';
+import { SearchProvider } from '../contexts/SearchContext';
 import { GlobalStyle } from '../styles/global';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -11,9 +13,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <NextAuthProvider session={pageProps.session}>
       <AuthProvider>
-        <NavBar />
-        <GlobalStyle />
-        <Component {...pageProps} />
+        <MostPopularProvider>
+          <SearchProvider>
+            <NavBar />
+            <GlobalStyle />
+            <Component {...pageProps} />
+          </SearchProvider>
+        </MostPopularProvider>
       </AuthProvider>
     </NextAuthProvider>
   );

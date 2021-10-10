@@ -1,6 +1,7 @@
 [
   {
     "id": 1,
+    "slug": "elfen-lied",
     "image_src": "https://c.wallhere.com/photos/4e/05/Elfen_Lied_Nyu-1351501.jpg!d",
     "season": "Season 1",
     "year": "2004",
@@ -13,6 +14,7 @@
 
   {
     "id": 2,
+    "slug": "demon-slayer-kimetsu-no-yaiba",
     "image_src": "https://wallpaperaccess.com/full/2412896.jpg",
     "season": "Season 1",
     "year": "2016",
@@ -24,6 +26,7 @@
   },
   {
     "id": 3,
+    "slug": "one-punch",
     "image_src": "https://i.pinimg.com/originals/68/2b/13/682b1326d5d1b2c2e05ff2b63e22b3f6.jpg",
     "season": "Season 1",
     "year": "2015",
@@ -35,6 +38,7 @@
   },
   {
     "id": 4,
+    "slug": "berserk",
     "image_src": "https://preview.redd.it/lmfry5ppb2bx.png?width=960&crop=smart&auto=webp&s=19dd437cd9002a202c9711ff80702e67171ec56a",
     "season": "Season 1",
     "year": "1997",

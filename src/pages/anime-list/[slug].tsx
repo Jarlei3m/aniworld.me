@@ -16,7 +16,6 @@ import {
 } from './slugStyles';
 
 interface Episodes {
-  site: string;
   title: string;
   thumbnail: string;
   url: string;
@@ -49,29 +48,27 @@ interface AnimeProps {
     };
     id: number;
     title: {
-      english: string;
-      romanji: string;
+      english?: string;
+      romanji?: string;
     };
     streamingEpisodes: Episodes[];
-    trailer: {
+    trailer?: {
       id: number;
-      site: string;
-      thumbnail: string;
+      thumbnail?: string;
     };
-    bannerImage: string;
+    bannerImage?: string;
     seasonInt: number;
     seasonYear: number;
     averageScore: number;
     description: string;
     genres: Array<string>;
-    coverImage: {
-      extraLarge: string;
-      color: string;
+    coverImage?: {
+      extraLarge?: string;
+      color?: string;
     };
     externalLinks?: {
       id: number;
       url: string;
-      site: string;
     };
   };
 }
@@ -79,34 +76,41 @@ interface AnimeProps {
 export default function Anime({ anime }: AnimeProps) {
   const [isPlaying, setIsPlaying] = useState(0);
 
-  console.log('Episodes:', anime.streamingEpisodes);
-
+  console.log('SCORE:', anime.averageScore);
   return (
     <>
       <Head>
-        <title> {anime.title?.english} | Aniworld.me </title>
+        <title>
+          {anime.title?.english || anime.title?.romanji} | Aniworld.me
+        </title>
       </Head>
 
       <AnimeContainer>
         <BannerImage
-          src={anime.bannerImage || anime.coverImage.extraLarge}
-          alt={anime.title.english}
+          src={anime?.bannerImage || anime.coverImage?.extraLarge}
+          alt={anime.title?.english || anime.title?.romanji}
         />
         <article>
           <div>
-            <Title color={anime.coverImage.color}>{anime.title?.english}</Title>
+            <Title color={anime.coverImage?.color}>
+              {anime.title?.english}
+            </Title>
             <p>
               <time>{anime.seasonYear}</time>
               <span>|</span>
               <span>
                 <BsStarFill /> {(anime.averageScore / 10).toFixed(1)}
               </span>
-              <span>|</span>
-              <span>{anime.seasonInt} total episodes</span>
+              {anime.streamingEpisodes.length !== 0 && (
+                <>
+                  <span>|</span>
+                  <span>{anime.streamingEpisodes.length} total episodes</span>
+                </>
+              )}
             </p>
           </div>
 
-          {anime.trailer && (
+          {anime?.trailer && (
             <TrailerContent>
               <ReactPlayer
                 controls={true}
@@ -115,7 +119,7 @@ export default function Anime({ anime }: AnimeProps) {
                 onClickPreview={() => setIsPlaying(anime.id)}
                 light={
                   isPlaying !== anime.id &&
-                  `${anime.trailer.thumbnail || anime.coverImage.extraLarge}`
+                  `${anime.trailer?.thumbnail || anime.coverImage?.extraLarge}`
                 }
                 onEnded={() => setIsPlaying(0)}
                 playIcon={<BsFillPlayFill />}
@@ -214,13 +218,12 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 
   function handleError(data) {
-    console.error('Error handleError:', data);
-    // setIsSearchLoading(false);
+    console.error('Error:', data);
   }
 
   function handleData({ data }) {
-    const anime = data.Media;
-    return anime;
+    const response = data.Media;
+    return response;
   }
 
   // fetching data
@@ -255,14 +258,12 @@ export const getServerSideProps: GetServerSideProps = async ({
           romaji
         }
         streamingEpisodes {
-          site
           title
           thumbnail
           url
         }
         trailer {
           id
-          site
           thumbnail
         }
         bannerImage
@@ -278,7 +279,6 @@ export const getServerSideProps: GetServerSideProps = async ({
         externalLinks {
           id
           url
-          site
         }
       }
     }

@@ -10,20 +10,15 @@ interface PageInfoProps {
 
 interface AnimesProps {
   id: number;
+  slug: string;
   title: {
     english: string;
     romanji: string;
-  };
-  trailer: {
-    id: number;
-    site: string;
-    thumbnail: string;
   };
   averageScore: number;
   coverImage: {
     large: string;
   };
-  description: string;
   genres: Array<string>;
 }
 
@@ -69,9 +64,29 @@ export function SearchProvider({ children }: SearchProviderProps) {
     });
   }
 
-  function handleData(data) {
-    setSearchedAnime(data.data.Page.media);
-    setPageInfo(data.data.Page.pageInfo);
+  function handleData({ data }) {
+    //formatting data
+    const searchedAnimeData = data.Page.media.map((anime) => {
+      return {
+        ...anime,
+        slug: anime.title?.english
+          ? anime.title?.english
+              .replace(/[^\w\s]/gi, '')
+              .split(' ')
+              .join('-')
+              .toLowerCase()
+          : anime.title?.romanji
+          ? anime.title?.romanji
+              .replace(/[^\w\s]/gi, '')
+              .split(' ')
+              .join('-')
+              .toLowerCase()
+          : null,
+      };
+    });
+
+    setSearchedAnime(searchedAnimeData);
+    setPageInfo(data.Page.pageInfo);
     setIsSearchLoading(false);
   }
 
@@ -102,13 +117,7 @@ export function SearchProvider({ children }: SearchProviderProps) {
                   english
                   romaji
                 }
-                trailer {
-                  id
-                  site
-                  thumbnail
-                }
                 averageScore
-                description
                 genres
                 coverImage {
                   large

@@ -9,7 +9,6 @@ export const Container = styled.section`
     li {
       display: flex;
       align-items: center;
-      cursor: pointer;
 
       & + li {
         margin-top: 2rem;
@@ -38,13 +37,20 @@ export const Container = styled.section`
         justify-content: space-between;
 
         div {
-          h4 {
+          a {
+            transition: color 0.2s;
+            cursor: pointer;
+
             font-size: 0.875rem;
             color: var(--white);
+
+            &:hover {
+              color: var(--green-500);
+            }
           }
 
           p {
-            font-size: 0.8rem;
+            font-size: 0.8125rem;
             color: var(--gray-300);
             line-height: 1.125rem;
           }

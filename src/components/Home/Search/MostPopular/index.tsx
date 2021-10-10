@@ -4,6 +4,7 @@ import { SearchContext } from '../../../../contexts/SearchContext';
 import { Loading } from '../../../Loading';
 import { Stars } from '../../../Stars';
 import { Container } from './styles';
+import Link from 'next/link';
 
 export function MostPopular() {
   // SEARCH CONTEXT
@@ -29,20 +30,16 @@ export function MostPopular() {
 
           <ul>
             {searchedAnime.map((anime) => {
-              const {
-                id,
-                title,
-                description,
-                averageScore,
-                genres,
-                coverImage,
-              } = anime;
+              const { id, title, averageScore, slug, genres, coverImage } =
+                anime;
               return (
                 <li key={id}>
                   <img src={coverImage.large} alt={title.english} />
                   <article>
                     <div>
-                      <h4>{title.english ? title.english : title.romanji}</h4>
+                      <Link href={`/anime-list/${slug}`}>
+                        <a>{title.english ? title.english : title.romanji}</a>
+                      </Link>
                       <p>{genres.toString().replaceAll(',', ', ') + '.'}</p>
                     </div>
                     <Stars averageScore={averageScore} />
@@ -59,20 +56,16 @@ export function MostPopular() {
 
           <ul>
             {mostPouplarAnimes.map((anime) => {
-              const {
-                id,
-                title,
-                description,
-                averageScore,
-                genres,
-                coverImage,
-              } = anime;
+              const { id, title, slug, averageScore, genres, coverImage } =
+                anime;
               return (
                 <li key={id}>
                   <img src={coverImage.large} alt={title.english} />
                   <article>
                     <div>
-                      <h4>{title.english ? title.english : title.romanji}</h4>
+                      <Link href={`/anime-list/${slug}`}>
+                        <a>{title.english ? title.english : title.romanji}</a>
+                      </Link>
                       <p>{genres.toString().replaceAll(',', ', ') + '.'}</p>
                     </div>
                     <Stars averageScore={averageScore} />

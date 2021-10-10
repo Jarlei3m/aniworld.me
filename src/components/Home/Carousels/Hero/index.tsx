@@ -8,8 +8,9 @@ import {
   AnimeTitle,
 } from './styles';
 import heroData from '../../../../../hero.json';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Stars } from '../../../Stars';
+import Link from 'next/link';
 
 export function Hero() {
   const [heros, setHeros] = useState(heroData);
@@ -52,6 +53,7 @@ export function Hero() {
             description,
             score,
             trailer_src,
+            slug,
             color,
           } = hero;
 
@@ -76,7 +78,11 @@ export function Hero() {
                   <AnimeTitle color={color}>{title}</AnimeTitle>
                   <Stars averageScore={score} />
                   <p>{description}</p>
-                  <button type="button">Watch</button>
+                  <Link href={`/anime-list/${slug}`}>
+                    <a>
+                      <button>Watch</button>
+                    </a>
+                  </Link>
                 </div>
               </>
             </CarouselContent>

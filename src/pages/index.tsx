@@ -6,8 +6,6 @@ import React from 'react';
 import { Carousels } from '../components/Home/Carousels';
 import { Search } from '../components/Home/Search';
 import { CarouselSlideProvider } from '../contexts/CarouselSlide/CarouselSlideContext';
-import { MostPopularProvider } from '../contexts/MostPopularContext';
-import { SearchProvider } from '../contexts/SearchContext';
 import { HomeContainer } from './styles';
 
 export default function Home() {
@@ -22,11 +20,7 @@ export default function Home() {
           <Carousels />
         </CarouselSlideProvider>
 
-        <MostPopularProvider>
-          <SearchProvider>
-            <Search />
-          </SearchProvider>
-        </MostPopularProvider>
+        <Search />
       </HomeContainer>
     </>
   );

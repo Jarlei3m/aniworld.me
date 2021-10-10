@@ -180,10 +180,6 @@ export function TrendingProvider({ children }: TrendingProvider) {
       };
     });
 
-    console.log('FORMATED ANIMES:', animeData);
-    console.log('FORMATED MANGAS:', mangaData);
-    console.log('FORMATED ALL MEDIAS:', allMediasData);
-
     setTrendingAnimes(animeData);
     setTrendingMangas(mangaData);
     setTrendingAnimesAndMangas(allMediasData);
@@ -197,6 +193,7 @@ export function TrendingProvider({ children }: TrendingProvider) {
   }
 
   const fetchTrendingAnimes = () => {
+    setIsTrendingLoading(true);
     try {
       let query = `
         query ($page: Int, $perPage: Int) {
