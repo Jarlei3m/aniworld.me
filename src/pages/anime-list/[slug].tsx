@@ -8,8 +8,11 @@ import ReactPlayer from 'react-player';
 import {
   AnimeContainer,
   BannerImage,
+  CharContainer,
   Description,
   EpisodesContainer,
+  ExtraInfos,
+  StaffContainer,
   Title,
   TrailerContent,
   VoiceActorsContainer,
@@ -21,12 +24,15 @@ interface Episodes {
   url: string;
 }
 
-interface EdgeProps {
+interface CharEdgeProps {
   node: {
     id: number;
     name: {
       first: string;
       last?: string;
+    };
+    image: {
+      large: string;
     };
   };
   voiceActors: {
@@ -41,10 +47,28 @@ interface EdgeProps {
   };
 }
 
+interface StaffEdgeProps {
+  node: {
+    id: number;
+    name: {
+      first: string;
+      last?: string;
+    };
+    age: number;
+    homeTown: string;
+    image: {
+      large: string;
+    };
+  };
+}
+
 interface AnimeProps {
   anime: {
     characters: {
-      edges: EdgeProps[];
+      edges: CharEdgeProps[];
+    };
+    staff: {
+      edges: StaffEdgeProps[];
     };
     id: number;
     title: {
@@ -108,6 +132,11 @@ export default function Anime({ anime }: AnimeProps) {
                 </>
               )}
             </p>
+            <u>
+              {anime.genres.map((genre) => {
+                return <span>{genre}</span>;
+              })}
+            </u>
           </div>
 
           {anime?.trailer && (
@@ -134,7 +163,37 @@ export default function Anime({ anime }: AnimeProps) {
           <Description
             dangerouslySetInnerHTML={{ __html: anime.description }}
           />
-          <div>
+          <ExtraInfos>
+            <StaffContainer>
+              {anime.staff.edges.map((char) => {
+                return (
+                  <li key={char.node.id}>
+                    <img src={char.node.image.large} alt="" />
+                    <div>
+                      <p>
+                        Author:
+                        <span>
+                          {char.node.name.first} {char.node.name?.last}
+                        </span>
+                      </p>
+                      {char.node.age && (
+                        <p>
+                          Age:
+                          <span>{char.node.age}</span>
+                        </p>
+                      )}
+                      {char.node.homeTown && (
+                        <p>
+                          Home town:
+                          <span>{char.node.homeTown}</span>
+                        </p>
+                      )}
+                    </div>
+                  </li>
+                );
+              })}
+            </StaffContainer>
+
             <VoiceActorsContainer>
               {anime.characters.edges.map((role) => {
                 return (
@@ -142,16 +201,17 @@ export default function Anime({ anime }: AnimeProps) {
                     <img src={role.voiceActors[0].image.large} alt="" />
                     <div>
                       <p>
-                        Character:
+                        Voice actor
+                        <span
+                          title={`${role.voiceActors[0].name.first} ${role.voiceActors[0].name.last}`}
+                        >
+                          {role.voiceActors[0].name.first}
+                          <br />
+                          {role.voiceActors[0].name?.last}
+                        </span>{' '}
+                        as
                         <span>
                           {role.node.name.first} {role.node.name?.last}
-                        </span>
-                      </p>
-                      <p>
-                        Voice actor:
-                        <span>
-                          {role.voiceActors[0].name.first}{' '}
-                          {role.voiceActors[0].name?.last}
                         </span>
                       </p>
                     </div>
@@ -159,32 +219,50 @@ export default function Anime({ anime }: AnimeProps) {
                 );
               })}
             </VoiceActorsContainer>
-          </div>
+
+            <CharContainer>
+              {anime.characters.edges.map((char) => {
+                return (
+                  <li key={char.node.id}>
+                    <img
+                      src={char.node.image?.large}
+                      alt={char.node.name.first}
+                    />
+                    <p>
+                      {char.node.name.first} {char.node.name?.last}
+                    </p>
+                  </li>
+                );
+              })}
+            </CharContainer>
+          </ExtraInfos>
         </article>
 
-        <EpisodesContainer>
-          <h2>Episodes</h2>
-          <ul>
-            {anime.streamingEpisodes.map((ep, index) => {
-              return (
-                <li key={ep.title}>
-                  <ReactPlayer
-                    controls={true}
-                    width="352px"
-                    height="280px"
-                    onClickPreview={() => setIsPlaying(index + 1)}
-                    light={isPlaying !== index + 1 && `${ep?.thumbnail}`}
-                    onEnded={() => setIsPlaying(0)}
-                    playIcon={<BsFillPlayFill />}
-                    playing={isPlaying === index + 1 ? true : false}
-                    url={ep.url}
-                  />
-                  <p>{ep.title}</p>
-                </li>
-              );
-            })}
-          </ul>
-        </EpisodesContainer>
+        {anime.streamingEpisodes && (
+          <EpisodesContainer>
+            <h2>Episodes</h2>
+            <ul>
+              {anime.streamingEpisodes.map((ep, index) => {
+                return (
+                  <li key={ep.title}>
+                    <ReactPlayer
+                      controls={true}
+                      width="352px"
+                      height="280px"
+                      onClickPreview={() => setIsPlaying(index + 1)}
+                      light={isPlaying !== index + 1 && `${ep?.thumbnail}`}
+                      onEnded={() => setIsPlaying(0)}
+                      playIcon={<BsFillPlayFill />}
+                      playing={isPlaying === index + 1 ? true : false}
+                      url={ep.url}
+                    />
+                    <p>{ep.title}</p>
+                  </li>
+                );
+              })}
+            </ul>
+          </EpisodesContainer>
+        )}
       </AnimeContainer>
     </>
   );
@@ -239,6 +317,9 @@ export const getServerSideProps: GetServerSideProps = async ({
                 first
                 last
               }      
+              image {
+                large
+              }   
             }
             voiceActors {
               id
@@ -250,6 +331,22 @@ export const getServerSideProps: GetServerSideProps = async ({
                 last
               }
             }
+          }
+        }
+        staff(page: 1, perPage: 1, sort: RELEVANCE) {
+          edges {
+            node {
+              id
+              name {
+                first
+                last
+              }      
+              age
+              homeTown
+              image {
+                large
+              }
+            }            
           }
         }
         id
