@@ -35,15 +35,19 @@ export function MostPopular() {
               return (
                 <li key={id}>
                   <img src={coverImage.large} alt={title.english} />
-                  <article>
-                    <div>
-                      <Link href={`/anime-list/${slug}`}>
-                        <a>{title.english ? title.english : title.romanji}</a>
-                      </Link>
-                      <p>{genres.toString().replaceAll(',', ', ') + '.'}</p>
-                    </div>
-                    <Stars averageScore={averageScore} />
-                  </article>
+                  <Link href={`/anime-list/${slug}`}>
+                    <a>
+                      <article>
+                        <div>
+                          <strong>
+                            {title.english ? title.english : title.romanji}
+                          </strong>
+                          <p>{genres.toString().replaceAll(',', ', ') + '.'}</p>
+                        </div>
+                        <Stars averageScore={averageScore} />
+                      </article>
+                    </a>
+                  </Link>
                 </li>
               );
             })}
@@ -61,15 +65,19 @@ export function MostPopular() {
               return (
                 <li key={id}>
                   <img src={coverImage.large} alt={title.english} />
-                  <article>
-                    <div>
-                      <Link href={`/anime-list/${slug}`}>
-                        <a>{title.english ? title.english : title.romanji}</a>
-                      </Link>
-                      <p>{genres.toString().replaceAll(',', ', ') + '.'}</p>
-                    </div>
-                    <Stars averageScore={averageScore} />
-                  </article>
+                  <Link href={`/anime-list/${slug}`}>
+                    <a>
+                      <article>
+                        <div>
+                          <strong>
+                            {title.english ? title.english : title.romanji}
+                          </strong>
+                          <p>{genres.toString().replaceAll(',', ', ') + '.'}</p>
+                        </div>
+                        <Stars averageScore={averageScore} />
+                      </article>
+                    </a>
+                  </Link>
                 </li>
               );
             })}

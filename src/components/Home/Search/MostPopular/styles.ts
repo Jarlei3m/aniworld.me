@@ -9,9 +9,16 @@ export const Container = styled.section`
     li {
       display: flex;
       align-items: center;
+      cursor: pointer;
 
       & + li {
         margin-top: 2rem;
+      }
+
+      &:hover {
+        strong {
+          color: var(--green-500);
+        }
       }
 
       img {
@@ -37,7 +44,7 @@ export const Container = styled.section`
         justify-content: space-between;
 
         div {
-          a {
+          strong {
             transition: color 0.2s;
             cursor: pointer;
 
