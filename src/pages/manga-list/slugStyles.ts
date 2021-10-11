@@ -41,6 +41,23 @@ export const MangaContainer = styled.main`
         }
       }
     }
+
+    u {
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.6875rem;
+
+      span {
+        padding: 0.375rem 0.5rem;
+        /* background-color: var(--gray-500); */
+        border: 1px solid var(--white);
+
+        & + span {
+          margin-left: 0.5rem;
+        }
+      }
+    }
   }
 `;
 

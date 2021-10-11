@@ -116,6 +116,11 @@ export default function Anime({ manga }: MangaProps) {
                 </>
               )}
             </p>
+            <u>
+              {manga.genres.map((genre) => {
+                return <span>{genre}</span>;
+              })}
+            </u>
           </div>
 
           {manga?.trailer && (
