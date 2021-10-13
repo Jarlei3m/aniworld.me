@@ -6,8 +6,12 @@ export const Container = styled.section`
   height: 32rem;
   position: relative;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1440px) {
     height: 28rem;
+  }
+
+  @media (max-width: 1024px) {
+    height: 26rem;
   }
 `;
 
@@ -25,8 +29,12 @@ export const Carousel = styled.div`
 
   box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.4);
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1440px) {
     height: 28rem;
+  }
+
+  @media (max-width: 1024px) {
+    height: 26rem;
   }
 `;
 
@@ -50,8 +58,12 @@ export const CarouselContent = styled.article<CarouselProps>`
     filter: brightness(0.7) grayscale(70%);
     -webkit-filter: brightness(0.7) grayscale(70%);
 
-    @media (max-width: 1024px) {
+    @media (max-width: 1440px) {
       height: 28rem;
+    }
+
+    @media (max-width: 1024px) {
+      height: 26rem;
     }
   }
 
@@ -66,12 +78,13 @@ export const CarouselContent = styled.article<CarouselProps>`
 
     @media (max-width: 1440px) {
       left: 4rem;
+      bottom: 5rem;
     }
 
     @media (max-width: 1024px) {
-      bottom: 5rem;
       left: 2rem;
-      max-width: 26rem;
+      bottom: 3.5rem;
+      max-width: 25rem;
     }
 
     @media (max-width: 768px) {
@@ -161,6 +174,21 @@ export const Button = styled.li<ButtonProps>`
 
   transition: opacity 0.25s ease;
   opacity: ${(props) => (props.isActive ? '1' : '0.3')};
+
+  @media (max-width: 1440px) {
+    height: 0.6875rem;
+    width: 0.6875rem;
+  }
+
+  /* @media (max-width: 1024px) {
+    height: 0.725rem;
+    width: 0.725rem;
+  }
+
+  @media (max-width: 768px) {
+    height: 0.725rem;
+    width: 0.725rem;
+  } */
 
   & + li {
     margin-left: 1rem;

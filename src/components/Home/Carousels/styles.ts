@@ -10,15 +10,15 @@ export const Container = styled.section`
   }
 
   @media (max-width: 1440px) {
-    max-width: calc(100vw - 11rem - 11rem - 2.4rem);
+    max-width: calc(100vw - 14rem - 19rem - 2.4rem);
   }
 
   @media (max-width: 1024px) {
-    max-width: calc(100vw - 8rem - 7rem - 2.4rem);
+    max-width: calc(100vw - 12rem - 16rem - 2.4rem);
   }
 
   @media (max-width: 768px) {
-    max-width: calc(100vw - 0.31rem);
+    max-width: calc(100vw - 10rem - 14rem - 2.4rem);
   }
 `;
 

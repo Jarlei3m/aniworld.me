@@ -84,7 +84,6 @@ interface MangaProps {
 export default function Anime({ manga }: MangaProps) {
   const [isPlaying, setIsPlaying] = useState(0);
 
-  console.log('SCORE:', manga.averageScore);
   return (
     <>
       <Head>
@@ -117,8 +116,8 @@ export default function Anime({ manga }: MangaProps) {
               )}
             </p>
             <u>
-              {manga.genres.map((genre) => {
-                return <span>{genre}</span>;
+              {manga.genres.map((genre, index) => {
+                return <span key={index}>{genre}</span>;
               })}
             </u>
           </div>

@@ -10,8 +10,6 @@ export function TrendingList() {
   const { trendingAnimesAndMangas, isTrendingLoading } =
     useContext(TrendingContext);
 
-  console.log('loading???', isTrendingLoading);
-
   if (isTrendingLoading) {
     return <h1>Loading....</h1>;
   }

@@ -100,7 +100,6 @@ interface AnimeProps {
 export default function Anime({ anime }: AnimeProps) {
   const [isPlaying, setIsPlaying] = useState(0);
 
-  console.log('SCORE:', anime.averageScore);
   return (
     <>
       <Head>
@@ -133,8 +132,8 @@ export default function Anime({ anime }: AnimeProps) {
               )}
             </p>
             <u>
-              {anime.genres.map((genre) => {
-                return <span>{genre}</span>;
+              {anime.genres.map((genre, index) => {
+                return <span key={index}>{genre}</span>;
               })}
             </u>
           </div>
@@ -238,7 +237,7 @@ export default function Anime({ anime }: AnimeProps) {
           </ExtraInfos>
         </article>
 
-        {anime.streamingEpisodes && (
+        {anime.streamingEpisodes.length !== 0 && (
           <EpisodesContainer>
             <h2>Episodes</h2>
             <ul>

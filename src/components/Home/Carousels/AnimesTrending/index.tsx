@@ -5,7 +5,12 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import ReactPlayer from 'react-player';
 import { CarouselSlideContext } from '../../../../contexts/CarouselSlide/CarouselSlideContext';
 import { TrendingContext } from '../../../../contexts/TrendingContext';
-import { Carousel, CarouselContent, Container } from './styles';
+import {
+  Carousel,
+  CarouselContent,
+  Container,
+  SlideCarouselButton,
+} from './styles';
 
 export function AnimesTrending() {
   const [isPlaying, setIsPlaying] = useState(0);
@@ -43,14 +48,15 @@ export function AnimesTrending() {
       </h2>
 
       {slideCounter > 0 && (
-        <button
+        <SlideCarouselButton
           onClick={() =>
             handleCarouselButton('previous', trendingAnimes.length)
           }
           type="button"
+          buttonHeight={playerHeight}
         >
           <MdKeyboardArrowLeft />
-        </button>
+        </SlideCarouselButton>
       )}
 
       <Carousel>
@@ -105,12 +111,13 @@ export function AnimesTrending() {
       </Carousel>
 
       {slideCounter < slideLimit && (
-        <button
+        <SlideCarouselButton
           onClick={() => handleCarouselButton('next', trendingAnimes.length)}
           type="button"
+          buttonHeight={playerHeight}
         >
           <MdKeyboardArrowRight />
-        </button>
+        </SlideCarouselButton>
       )}
     </Container>
   );

@@ -4,7 +4,12 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import ReactPlayer from 'react-player';
 import onGoingData from '../../../../../onGoing.json';
 import { CarouselSlideContext } from '../../../../contexts/CarouselSlide/CarouselSlideContext';
-import { Carousel, CarouselContent, Container } from './styles';
+import {
+  Carousel,
+  CarouselContent,
+  Container,
+  SlideCarouselButton,
+} from './styles';
 
 export function OnGoing() {
   const [isPlaying, setIsPlaying] = useState(0);
@@ -13,7 +18,7 @@ export function OnGoing() {
   const [slideCounter, setSlideCounter] = useState(0);
   const [translateAction, setTranslateAction] = useState('');
 
-  const { slideWidth, slideLimit, playerWidth } =
+  const { slideWidth, slideLimit, playerWidth, onGoingPlayerHeight } =
     useContext(CarouselSlideContext);
 
   const handleCarouselButton = (action: string, length: number) => {
@@ -35,16 +40,17 @@ export function OnGoing() {
       <h2>On Going</h2>
 
       {slideCounter > 0 && (
-        <button
+        <SlideCarouselButton
           onClick={() => handleCarouselButton('previous', onGoing.length)}
           type="button"
+          buttonHeight={onGoingPlayerHeight}
         >
           <MdKeyboardArrowLeft />
-        </button>
+        </SlideCarouselButton>
       )}
 
       <Carousel>
-        {onGoing.map((anime, index) => {
+        {onGoing.map((anime) => {
           const { id, image_src, title, episode_src, last_seen } = anime;
 
           return (
@@ -63,7 +69,7 @@ export function OnGoing() {
               <ReactPlayer
                 controls={true}
                 width={playerWidth}
-                height="160px"
+                height={onGoingPlayerHeight}
                 onClickPreview={() => setIsPlaying(id)}
                 light={isPlaying !== id && image_src}
                 playIcon={<BsFillPlayFill />}
@@ -79,12 +85,13 @@ export function OnGoing() {
       </Carousel>
 
       {slideCounter < slideLimit && (
-        <button
+        <SlideCarouselButton
           onClick={() => handleCarouselButton('next', onGoing.length)}
           type="button"
+          buttonHeight={onGoingPlayerHeight}
         >
           <MdKeyboardArrowRight />
-        </button>
+        </SlideCarouselButton>
       )}
     </Container>
   );

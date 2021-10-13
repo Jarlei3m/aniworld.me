@@ -5,6 +5,7 @@ interface CarouselSlideContextData {
   slideLimit: number;
   playerWidth: string;
   playerHeight: string;
+  onGoingPlayerHeight: string;
   handleWindowResize: (ref: number, arrayLength: number) => void;
 }
 
@@ -24,12 +25,15 @@ export function CarouselSlideProvider({
 
   const [playerWidth, setPlayerWidth] = useState('280px');
   const [playerHeight, setPlayerHeight] = useState('352px');
+  const [onGoingPlayerHeight, setOnGoingPlayerHeight] = useState('160px');
 
   const handleWindowResize = (ref: number, arrayLength: number) => {
     // section size received in px, divide by 16 to get the value in rem
     let sectionWidth = ref / 16;
 
-    if (sectionWidth > 120) {
+    console.log('section width:', sectionWidth);
+
+    if (sectionWidth > 110) {
       // 4K - 2560PX
       setSlideWidth(sectionWidth - 2);
       setPlayerWidth('304.6px');
@@ -39,32 +43,56 @@ export function CarouselSlideProvider({
         (arrayLength || 20) / Math.round(sectionWidth / videoSize) - 1;
       setSlideLimit(limit);
     } else if (sectionWidth > 70) {
-      // 1440px
+      //
       setSlideWidth(sectionWidth - 2);
       setPlayerWidth('280.6px');
+      setPlayerHeight('352px');
+      setOnGoingPlayerHeight('160px');
 
-      const videoSize = 280 / 16;
+      const videoSize = 280.6 / 16;
       const limit =
         (arrayLength || 20) / Math.round(sectionWidth / videoSize) - 1;
       setSlideLimit(limit);
-    } else if (sectionWidth > 60) {
+    } else if (sectionWidth > 50) {
+      // 1440px
+      console.log('1440px');
       setSlideWidth(sectionWidth - 2);
-      setPlayerWidth('240px');
+      setPlayerWidth('196.2px');
+      setPlayerHeight('247px');
+      setOnGoingPlayerHeight('112px');
 
-      const videoSize = 240 / 16;
+      const videoSize = 196.2 / 16;
       const limit =
         (arrayLength || 20) / Math.round(sectionWidth / videoSize) - 1;
       setSlideLimit(limit);
-    } else if (sectionWidth > 47) {
-      setSlideWidth(sectionWidth + 1);
-      setPlayerWidth('230px');
+    } else if (sectionWidth > 30) {
+      //1024
+      console.log('1024px');
+      setSlideWidth(sectionWidth + 0.375);
+      setPlayerWidth('165.9px');
+      setPlayerHeight('208px');
+      setOnGoingPlayerHeight('94.3px');
 
-      const videoSize = 230 / 16;
+      const videoSize = 165.9 / 16;
+      const limit =
+        (arrayLength || 20) / Math.round(sectionWidth / videoSize) - 1;
+      setSlideLimit(limit);
+    } else if (sectionWidth > 20) {
+      // 768px
+      console.log('768px');
+      setSlideWidth(sectionWidth - 0.47);
+      setPlayerWidth('157.3px');
+      setPlayerHeight('196px');
+      setOnGoingPlayerHeight('89px');
+
+      const videoSize = 157.3 / 16;
       const limit =
         (arrayLength || 20) / Math.round(sectionWidth / videoSize) - 1;
       setSlideLimit(limit);
     }
   };
+
+  console.log('button Height:', onGoingPlayerHeight);
 
   return (
     <CarouselSlideContext.Provider
@@ -73,6 +101,7 @@ export function CarouselSlideProvider({
         slideLimit,
         playerWidth,
         playerHeight,
+        onGoingPlayerHeight,
         handleWindowResize,
       }}
     >

@@ -29,7 +29,7 @@ export const Container = styled.section`
     }
   }
 
-  button {
+  /* button {
     position: absolute;
     height: 22rem;
     width: 2rem;
@@ -67,7 +67,7 @@ export const Container = styled.section`
       z-index: 3;
       color: var(--white);
     }
-  }
+  } */
 `;
 
 export const Carousel = styled.ul`
@@ -88,19 +88,17 @@ export const CarouselContent = styled.li`
   }
 
   div {
-    border-radius: 12px;
+    border-radius: 0.75rem;
     overflow: hidden;
 
     img {
       object-fit: cover;
       object-position: center center;
-      border-radius: 12px;
+      border-radius: 0.75rem;
     }
 
     iframe,
     video {
-      /* height: 22rem !important; */
-      /* width: 22rem !important; */
       cursor: pointer;
     }
 
@@ -121,5 +119,44 @@ export const CarouselContent = styled.li`
     &:hover {
       color: var(--green-500);
     }
+  }
+`;
+
+interface ButtonProps {
+  buttonHeight: string;
+}
+
+export const SlideCarouselButton = styled.button<ButtonProps>`
+  position: absolute;
+  height: ${(props) => props.buttonHeight};
+  width: 2rem;
+  z-index: 3;
+  border: none;
+  border-radius: 12px 0 0 12px;
+  background: rgba(0, 0, 0, 0.3);
+  transition: background 0.2s;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  &:nth-child(2) {
+    top: 2.3rem;
+    left: 0;
+  }
+
+  &:last-child {
+    top: 2.3rem;
+    right: 0;
+  }
+
+  svg {
+    font-size: 2.5rem;
+    z-index: 3;
+    color: var(--white);
   }
 `;
