@@ -8,7 +8,7 @@ import {
   AiOutlineUnorderedList,
 } from 'react-icons/ai';
 import { BiTrendingUp } from 'react-icons/bi';
-import { GiExitDoor, GiNinjaHeroicStance } from 'react-icons/gi';
+import { GiExitDoor, GiNinjaHeroicStance, GiRank3 } from 'react-icons/gi';
 import { MdLocalMovies, MdSettings } from 'react-icons/md';
 import { RiCompassDiscoverFill } from 'react-icons/ri';
 import { TiArrowRepeat } from 'react-icons/ti';
@@ -48,6 +48,13 @@ export function NavBar() {
             <NavMenuItem isActive={asPath === '/trending'}>
               <BiTrendingUp />
               <a>Trending</a>
+            </NavMenuItem>
+          </Link>
+
+          <Link href="/top-rated">
+            <NavMenuItem isActive={asPath === '/top-rated'}>
+              <GiRank3 />
+              <a>Top Rated</a>
             </NavMenuItem>
           </Link>
 
