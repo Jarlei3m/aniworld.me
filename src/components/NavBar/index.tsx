@@ -67,7 +67,7 @@ export function NavBar() {
         </ul>
 
         <ul>
-          <Link href="#">
+          <Link href="/recent">
             <NavMenuItem isActive={asPath === '/recent'}>
               <AiFillHome />
               <a>Recent</a>
