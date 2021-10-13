@@ -30,8 +30,8 @@ interface AnimesProps {
   genres: Array<string>;
   startDate: {
     year: number;
-    day: number;
     month: number;
+    day: number;
   };
   seasonYear: number;
   duration: number;

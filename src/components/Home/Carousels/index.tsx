@@ -8,6 +8,9 @@ import { OnGoing } from './OnGoing';
 import { Container, Content } from './styles';
 import { TopRatedProvider } from '../../../contexts/TopRatedContext';
 import { TopRatedMangas } from './TopRatedMangas';
+import { RecentAnimes } from './RecentAnimes';
+import React from 'react';
+import { RecentProvider } from '../../../contexts/RecentContext';
 
 export function Carousels() {
   const [sizeRef] = useSize();
@@ -15,17 +18,21 @@ export function Carousels() {
   return (
     <Container>
       <Content ref={sizeRef}>
-        <Hero />
-        <OnGoing />
+        <RecentProvider>
+          <TopRatedProvider>
+            <TrendingProvider>
+              <Hero />
+              <OnGoing />
 
-        <TopRatedProvider>
-          <TopRatedAnimes />
-          <TopRatedMangas />
-        </TopRatedProvider>
-        <TrendingProvider>
-          <AnimesTrending />
-          <MangasTrending />
-        </TrendingProvider>
+              <RecentAnimes />
+              <MangasTrending />
+
+              <TopRatedAnimes />
+              <AnimesTrending />
+              <TopRatedMangas />
+            </TrendingProvider>
+          </TopRatedProvider>
+        </RecentProvider>
       </Content>
     </Container>
   );

@@ -58,12 +58,12 @@ export function NavBar() {
             </NavMenuItem>
           </Link>
 
-          <Link href="#">
+          {/* <Link href="#">
             <NavMenuItem isActive={asPath === '/discover'}>
               <RiCompassDiscoverFill />
               <a>Discover</a>
             </NavMenuItem>
-          </Link>
+          </Link> */}
         </ul>
 
         <ul>
