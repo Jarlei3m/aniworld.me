@@ -57,16 +57,21 @@ export function MostPopularProvider({ children }: MostPopularProviderProps) {
   }, []);
 
   useEffect(() => {
-    const event = window.addEventListener('scroll', () => {
+    const handleScroll = () => {
       if (
         !isMostPopularLoading &&
         window.innerHeight + window.scrollY >= document.body.scrollHeight - 10
       ) {
         handleLoadMoreMostPopularData();
       }
-    });
-    return () => window.removeEventListener('scroll', event);
-  }, []);
+    };
+  
+    window.addEventListener('scroll', handleScroll);
+  
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isMostPopularLoading, handleLoadMoreMostPopularData]);
 
   function handleResponse(response) {
     return response.json().then(function (json) {

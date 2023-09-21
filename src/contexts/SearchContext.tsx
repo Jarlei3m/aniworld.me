@@ -47,16 +47,21 @@ export function SearchProvider({ children }: SearchProviderProps) {
   const [isSearchLoading, setIsSearchLoading] = useState(false);
 
   useEffect(() => {
-    const event = window.addEventListener('scroll', () => {
+    const handleScroll = () => {
       if (
         !isSearchLoading &&
         window.innerHeight + window.scrollY >= document.body.scrollHeight - 10
       ) {
         handleLoadMoreSearchedAnimeData();
       }
-    });
-    return () => window.removeEventListener('scroll', event);
-  }, []);
+    };
+  
+    window.addEventListener('scroll', handleScroll);
+  
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isSearchLoading, handleLoadMoreSearchedAnimeData]);
 
   function handleResponse(response) {
     return response.json().then(function (json) {
