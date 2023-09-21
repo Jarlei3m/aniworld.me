@@ -62,7 +62,6 @@ export function SubscribeProvider({ children }: SubscribeProvider) {
         ...newUser,
         [name]: value,
       });
-      console.log('on change:', newUser);
     },
     [newUser],
   );

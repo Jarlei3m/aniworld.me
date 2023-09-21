@@ -96,9 +96,7 @@ export function MostPopularProvider({ children }: MostPopularProviderProps) {
     });
 
     setMostPopularAnimes(popularAnimeData);
-    // setPageInfo(data.Page.pageInfo);
     setIsMostPopularLoading(false);
-    console.log('most popular:', page);
   }
 
   function handleError(data) {

@@ -12,7 +12,6 @@ export function SearchBar() {
   const [animeTitle, setAnimeTitle] = useState('');
 
   useEffect(() => {
-    console.log('feching by searchBar component');
     fetchAnimeOnSearch(animeTitle);
   }, [animeTitle]);
 

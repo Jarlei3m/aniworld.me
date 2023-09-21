@@ -84,7 +84,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         ...userInputs,
         [name]: value,
       });
-      console.log('user login inputs:', userInputs);
     },
     [userInputs],
   );

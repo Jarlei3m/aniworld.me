@@ -31,8 +31,6 @@ export function CarouselSlideProvider({
     // section size received in px, divide by 16 to get the value in rem
     let sectionWidth = ref / 16;
 
-    console.log('section width:', sectionWidth);
-
     if (sectionWidth > 110) {
       // 4K - 2560PX
       setSlideWidth(sectionWidth - 2);
@@ -54,8 +52,6 @@ export function CarouselSlideProvider({
         (arrayLength || 20) / Math.round(sectionWidth / videoSize) - 1;
       setSlideLimit(limit);
     } else if (sectionWidth > 50) {
-      // 1440px
-      console.log('1440px');
       setSlideWidth(sectionWidth - 2);
       setPlayerWidth('196.2px');
       setPlayerHeight('247px');
@@ -66,8 +62,6 @@ export function CarouselSlideProvider({
         (arrayLength || 20) / Math.round(sectionWidth / videoSize) - 1;
       setSlideLimit(limit);
     } else if (sectionWidth > 30) {
-      //1024
-      console.log('1024px');
       setSlideWidth(sectionWidth + 0.375);
       setPlayerWidth('165.9px');
       setPlayerHeight('208px');
@@ -78,8 +72,6 @@ export function CarouselSlideProvider({
         (arrayLength || 20) / Math.round(sectionWidth / videoSize) - 1;
       setSlideLimit(limit);
     } else if (sectionWidth > 20) {
-      // 768px
-      console.log('768px');
       setSlideWidth(sectionWidth - 0.47);
       setPlayerWidth('157.3px');
       setPlayerHeight('196px');
@@ -91,8 +83,6 @@ export function CarouselSlideProvider({
       setSlideLimit(limit);
     }
   };
-
-  console.log('button Height:', onGoingPlayerHeight);
 
   return (
     <CarouselSlideContext.Provider
